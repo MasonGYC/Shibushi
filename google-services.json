@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "712202040093",
+    "project_id": "shibushi",
+    "storage_bucket": "shibushi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712202040093:android:809ad8c4573360493e27f4",
+        "android_client_info": {
+          "package_name": "com.example.shibushi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712202040093-4uthldkgbc5c87ksuipfdd7deha6rdas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXp9bHC_JCihKXK8kj2eyLJISROBb6rq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712202040093-4uthldkgbc5c87ksuipfdd7deha6rdas.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
