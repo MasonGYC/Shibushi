@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_main);
         bLogout = findViewById(R.id.bLogout);
         bChangePassword = findViewById(R.id.bChangePassword);
         bLogout.setOnClickListener(this);
