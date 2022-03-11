@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Shibushi</string>
+
+    <!-- camera -->
+    <string name="take_photo">Take Photo</string>
+
 </resources>
