@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
     Button bRegister;
@@ -38,11 +39,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         etUsername = findViewById(R.id.etUsername);
         progressBar = findViewById(R.id.progress_circular);
 
-        //Firebase authentication
+        //Firebase authentication object
         mAuth = FirebaseAuth.getInstance();
-
-        //bRegister.setOnClickListener(view -> startActivity(new Intent(this, Login.class)));
-
 
     }
 
@@ -63,8 +61,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         String email = etEmailAddress.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String username = etUsername.getText().toString().trim();
-
-        //Todo Check for repeated email and username - DONE via firebase code
 
         //Email validation
         if(email.isEmpty()){
@@ -93,25 +89,45 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             etPassword.setError("Min password length is 6 characters!");
         }
         //Todo check Password strength
+
+        progressBar.setVisibility(View.VISIBLE);
         //Todo Add username to user profile during registration.
+
+        // Add the user to Firebase Auth
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(Register.this, Login.class));;
+
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(username)
+                                    .build();
+
+                            user.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+                                            }
+                                        }
+                                    });
+
+                            //Redirect to Login activity
+                            startActivity(new Intent(Register.this, Login.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(Register.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
+        progressBar.setVisibility(View.GONE);
     }
 
 }
@@ -119,3 +135,5 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 * If they provide invalid details, they will stay on this page.
 * If details are valid they will be registered and sent back to the Login page instantly.
 * */
+
+//Todo May change toasts to snackbar

@@ -50,6 +50,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             startActivity(new Intent(this, MainActivity.class));
+            //Should use FirebaseUser.reload method instead?
         }
     }
 
@@ -58,7 +59,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         switch(v.getId()){
             case R.id.bLogin:
                 loginUser();
-                startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.tvRegisterLink:
                 startActivity(new Intent(this, Register.class));
@@ -69,11 +69,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void loginUser() {
-        //Probably don't need any email or password validation?
-
         String email = etEmailAddress.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
-
+        //Email validation
+        if(email.isEmpty()){
+            etEmailAddress.setError("Email address is required!");
+            etEmailAddress.requestFocus();
+            return;
+        }
+        //Password validation
+        if (password.isEmpty()){
+            etPassword.setError("Password is required!");
+            etPassword.requestFocus();
+            return;
+        }
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -88,14 +97,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(Login.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
     }
 
 }
-/*This is the first page a logged out user will see. The user can navigate to Register or
+/* This is the first page a logged out user will see. The user can navigate to Register or
  * attempt to log in.
+ * If there is a previous user logged in, they will directly be sent to the Main Activity page.
  *
  * If they are unsuccessful in logging in, they will stay on the log in page.
  * If they are successful they will go to the Main Activity page. */

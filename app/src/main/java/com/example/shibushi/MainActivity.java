@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button bLogout, bChangePassword;
+    TextView tvWelcome;
     private FirebaseAuth mAuth;
 
     @Override
@@ -23,9 +25,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bChangePassword = findViewById(R.id.bChangePassword);
         bLogout.setOnClickListener(this);
         bChangePassword.setOnClickListener(this);
+
         //Firebase authentication
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        //Welcome message
+        //Obviously we don't have to include this but its an option to display the username somewhere
+        //somehow
+        String welcome = "Welcome, " + currentUser.getDisplayName();
+        tvWelcome = findViewById(R.id.tvWelcome);
+        tvWelcome.setText(welcome);
     }
     @Override
     public void onClick(View v){
@@ -33,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bLogout:
                 logOut();
                 break;
+            // Not high priority, may remove
             case R.id.bChangePassword:
                 break;
             default:
