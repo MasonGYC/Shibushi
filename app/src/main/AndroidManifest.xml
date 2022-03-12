@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
         <activity
+            android:name=".ViewWardrobe"
+            android:exported="false" />
+        <activity
             android:name=".ImportClothing"
             android:exported="false" />
         <activity

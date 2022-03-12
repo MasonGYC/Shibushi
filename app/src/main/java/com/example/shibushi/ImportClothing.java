@@ -202,6 +202,10 @@ public class ImportClothing extends AppCompatActivity implements View.OnClickLis
 
 }
 /*Gallery image chooser
-* User sees all the photos from the DCIMChoose from gallery using recycler view
-*
+* User sees all the photos from the DCIM
+* picks one image
+* Uploads to cloud
+* able to key in different metadata tags
+* taken from https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
 * */
+// TODO: 3/12/2022 able to key in different metadata tags
