@@ -1,5 +1,6 @@
 package com.example.shibushi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -92,7 +93,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             etPassword.setError("Min password length is 6 characters!");
         }
         //Todo check Password strength
-
+        //Todo Add username to user profile during registration.
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -101,7 +102,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            startActivity(new Intent(Register.this, Login.class));;
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -114,3 +115,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
 
 }
+/*This is the Register page where new users can sign up.
+* If they provide invalid details, they will stay on this page.
+* If details are valid they will be registered and sent back to the Login page instantly.
+* */

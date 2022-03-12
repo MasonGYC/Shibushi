@@ -44,6 +44,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     }
     @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+    @Override
     public void onClick(View v){
         switch(v.getId()){
             case R.id.bLogin:
@@ -82,4 +92,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     }
                 });
     }
+
 }
+/*This is the first page a logged out user will see. The user can navigate to Register or
+ * attempt to log in.
+ *
+ * If they are unsuccessful in logging in, they will stay on the log in page.
+ * If they are successful they will go to the Main Activity page. */
