@@ -2,4 +2,12 @@
     <string name="app_name">Shibushi</string>
     <string name="change_password">Change Password</string>
     <string name="logout">Logout</string>
+    <string name="choose">Choose</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="shibushi">shibushi</string>
+    <string name="shibushi_logo">shibushi logo</string>
+    <string name="email_address">Email Address</string>
+    <string name="upload">Upload</string>
 </resources>

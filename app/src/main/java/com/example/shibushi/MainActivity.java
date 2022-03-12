@@ -13,8 +13,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    Button bLogout, bChangePassword;
+    Button bLogout, bChangePassword, bImportClothing;
     TextView tvWelcome;
+    String welcome;
     private FirebaseAuth mAuth;
 
     @Override
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bChangePassword = findViewById(R.id.bChangePassword);
         bLogout.setOnClickListener(this);
         bChangePassword.setOnClickListener(this);
+        bImportClothing = findViewById(R.id.bImportClothing);
+        bImportClothing.setOnClickListener(this);
 
         //Firebase authentication
         mAuth = FirebaseAuth.getInstance();
@@ -33,7 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Welcome message
         //Obviously we don't have to include this but its an option to display the username somewhere
         //somehow
-        String welcome = "Welcome, " + currentUser.getDisplayName();
+        String username = currentUser.getDisplayName();
+        if (username != null){
+            welcome = "Welcome, " + currentUser.getDisplayName();
+        }
+        else {
+            welcome = ""; //not sure if it's possible to have a blank string
+        }
         tvWelcome = findViewById(R.id.tvWelcome);
         tvWelcome.setText(welcome);
     }
@@ -45,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             // Not high priority, may remove
             case R.id.bChangePassword:
+                break;
+            case R.id.bImportClothing:
+                startActivity(new Intent(this, ImportClothing.class));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());

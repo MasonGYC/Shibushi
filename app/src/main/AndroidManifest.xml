@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shibushi">
-
     <!-- To get pictures from camera for new posts -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -13,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
         <activity
+            android:name=".ImportClothing"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="true">
             <intent-filter>
@@ -21,12 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".Register"
             android:exported="false" />
