@@ -64,6 +64,7 @@ public class ImportClothing extends AppCompatActivity implements View.OnClickLis
         switch(view.getId()){
             case R.id.bChoose:
                 SelectImage();
+                // TODO: 3/15/2022 add chips here 
                 break;
             case R.id.bUpload:
                 uploadImage();
@@ -209,3 +210,4 @@ public class ImportClothing extends AppCompatActivity implements View.OnClickLis
 * taken from https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
 * */
 // TODO: 3/12/2022 able to key in different metadata tags
+// TODO: 3/15/2022 async upload, download and query (Android lesson 3(

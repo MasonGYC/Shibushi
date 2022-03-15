@@ -68,6 +68,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    // TODO: 3/15/2022 refactor into a new java file 
     private void loginUser() {
         String email = etEmailAddress.getText().toString().trim();
         String password = etPassword.getText().toString().trim();

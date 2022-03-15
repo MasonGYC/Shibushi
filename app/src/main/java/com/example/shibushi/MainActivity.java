@@ -22,11 +22,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         bLogout = findViewById(R.id.bLogout);
         bChangePassword = findViewById(R.id.bChangePassword);
+        bImportClothing = findViewById(R.id.bImportClothing);
+
         bLogout.setOnClickListener(this);
         bChangePassword.setOnClickListener(this);
-        bImportClothing = findViewById(R.id.bImportClothing);
         bImportClothing.setOnClickListener(this);
 
         //Firebase authentication
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // TODO: 3/15/2022 refactor into a new java file 
     private void logOut() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null){
