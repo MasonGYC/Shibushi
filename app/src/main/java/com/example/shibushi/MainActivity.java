@@ -2,6 +2,7 @@ package com.example.shibushi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,10 +10,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "MainActivity";
     Button bLogout, bChangePassword, bImportClothing;
     TextView tvWelcome;
     String welcome;
@@ -22,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set up bottom navigation bar
+        setupBottomNavigationView();
 
         bLogout = findViewById(R.id.bLogout);
         bChangePassword = findViewById(R.id.bChangePassword);
@@ -71,10 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user != null){
             mAuth.signOut();
             Toast.makeText(this, user.getEmail()+ "is logged out!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Login.class));;
+            startActivity(new Intent(this, Login.class));
         }else{
             Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // BottomNavigationView setup
+    private void setupBottomNavigationView() {
+        Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
+        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);
     }
 
 }
