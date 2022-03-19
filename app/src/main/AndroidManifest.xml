@@ -14,13 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
         <activity
-            android:name=".Wardrobe.ViewWardrobe"
+            android:name=".ViewWardrobe"
             android:exported="false" />
         <activity
-            android:name=".Home.ImportClothing"
+            android:name=".ImportClothing"
             android:exported="false" />
         <activity
-            android:name=".Home.Login"
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,15 +29,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home.MainActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Home.Register"
+            android:name=".Register"
             android:exported="false" />
         <activity
-            android:name=".Community.Feed"/>
+            android:name=".Feed"/>
         <activity
-            android:name=".Outfits.ViewOutfits"/>
+            android:name=".ViewOutfits"/>
     </application>
 
 </manifest>

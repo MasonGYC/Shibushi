@@ -1,4 +1,4 @@
-package com.example.shibushi.Home;
+package com.example.shibushi;
 
 public class User {
     public String username, email;

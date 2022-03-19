@@ -1,4 +1,4 @@
-package com.example.shibushi.Wardrobe;
+package com.example.shibushi;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

@@ -7,11 +7,11 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
-import com.example.shibushi.Community.Feed;
-import com.example.shibushi.Home.MainActivity;
+import com.example.shibushi.Feed;
+import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
-import com.example.shibushi.Outfits.ViewOutfits;
-import com.example.shibushi.Wardrobe.ViewWardrobe;
+import com.example.shibushi.ViewOutfits;
+import com.example.shibushi.ViewWardrobe;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 // A Helper class to organise implementation of Bottom Navigation Bar which applies to all screens

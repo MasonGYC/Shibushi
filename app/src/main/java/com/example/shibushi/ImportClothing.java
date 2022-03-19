@@ -1,4 +1,4 @@
-package com.example.shibushi.Home;
+package com.example.shibushi;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.shibushi.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
