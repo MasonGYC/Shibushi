@@ -1,4 +1,4 @@
-package com.example.shibushi;
+package com.example.shibushi.Outfits;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,21 +8,19 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class Feed extends AppCompatActivity {
-
-    private static final String TAG = "CommunityFeed";
-    private Context mContext = Feed.this;
-    private static final int b_menu_ACTIVTY_NUM = 1;
+public class ViewOutfits extends AppCompatActivity {
+    private static final String TAG = "ViewOutfits";
+    private Context mContext = ViewOutfits.this;
+    private static final int b_menu_ACTIVTY_NUM = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_feed);
-        Log.d(TAG, "onCreate: starting");
+        setContentView(R.layout.activity_view_outfits);
 
         // Set up bottom navigation bar
         setupBottomNavigationView();
