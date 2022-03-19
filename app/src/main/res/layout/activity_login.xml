@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="50dp"
-    tools:context=".Login">
+    tools:context=".LoginActivity">
 
 
     <ImageView
@@ -61,18 +61,25 @@
         android:text="Login"
         android:backgroundTint="#d89fd1"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"/>
-    <TextView
-        android:id= "@+id/tvRegisterLink"
-        android:layout_width="wrap_content"
+
+    <Button
+        android:id="@+id/bRegister"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register Here"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="#d89fd1"
+        android:text="Register"
         app:layout_constraintTop_toBottomOf="@+id/bLogin"/>
+<!--        android:id= "@+id/tvRegisterLink"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Register Here"-->
+<!--        android:textSize="16dp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/bLogin"/>-->
 
     <ProgressBar
         android:id="@+id/progress_circular"

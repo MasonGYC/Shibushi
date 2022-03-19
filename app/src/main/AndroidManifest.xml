@@ -12,14 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
         <activity
-            android:name=".ViewWardrobe"
-            android:exported="false" />
-        <activity
-            android:name=".ImportClothing"
-            android:exported="false" />
-        <activity
-            android:name=".Login"
-            android:exported="true">
+            android:name=".StartActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,11 +21,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ViewWardrobe"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".ImportClothing"
             android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

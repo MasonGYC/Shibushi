@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user != null){
             mAuth.signOut();
             Toast.makeText(this, user.getEmail()+ "is logged out!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Login.class));;
+            startActivity(new Intent(this, LoginActivity.class));
         }else{
             Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
         }
