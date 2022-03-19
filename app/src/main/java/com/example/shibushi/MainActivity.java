@@ -1,5 +1,6 @@
 package com.example.shibushi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
+    private Context mContext = MainActivity.this;
     Button bLogout, bChangePassword, bImportClothing;
     TextView tvWelcome;
     String welcome;
@@ -55,6 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvWelcome = findViewById(R.id.tvWelcome);
         tvWelcome.setText(welcome);
     }
+
+    // BottomNavigationView setup
+    private void setupBottomNavigationView() {
+        Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
+        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottom_navbar_view);
+    }
+
     @Override
     public void onClick(View v){
         switch(v.getId()){
@@ -82,13 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    // BottomNavigationView setup
-    private void setupBottomNavigationView() {
-        Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
-        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);
     }
 
 }
