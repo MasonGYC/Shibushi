@@ -1,32 +1,57 @@
 package com.example.shibushi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.annotations.Nullable;
 
 public class Feed extends AppCompatActivity {
 
     private static final String TAG = "CommunityFeed";
     private Context mContext = Feed.this;
+    // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_feed);
-        Log.d(TAG, "onCreate: starting");
+        Log.d(TAG, "onCreate: started");
 
-        // Set up bottom navigation bar
+        // Setup top toolbar
+        setupToolBar();
+
+        // Setup bottom navigation bar
         setupBottomNavigationView();
     }
 
+    // Top toolbar setup
+    private void setupToolBar() {
+        Log.d(TAG, "setupBottomNavigationView: Setting up top Toolbar");
+        Toolbar toolbar = findViewById(R.id.community_feed_top_toolbar);
+        setSupportActionBar(toolbar);
+
+        ImageView myprofile = findViewById(R.id.community_feed_top_toolbar_profile);
+        myprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Navigating to my profile");
+                Intent intent = new Intent(mContext, Profile.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     // BottomNavigationView setup
     private void setupBottomNavigationView() {
@@ -40,4 +65,5 @@ public class Feed extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
     }
+
 }

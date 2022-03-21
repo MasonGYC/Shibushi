@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/community_account_settings_relLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Top toolbar -->
+        <RelativeLayout
+            android:id="@+id/community_account_settings_relLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey">
+
+            <include layout="@layout/snippet_account_settings_toolbar" />
+
+        </RelativeLayout>
+
+        <!-- Centre -->
+        <RelativeLayout
+            android:id="@+id/community_account_settings_relLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/community_account_settings_relLayout2"
+            android:layout_marginBottom="50dp">
+
+            <include layout="@layout/layout_account_settings_center"/>
+
+        </RelativeLayout>
+
+        <!-- Bottom navigation bar -->
+        <include layout="@layout/layout_navbar_bottom"/>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

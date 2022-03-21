@@ -10,17 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- top toolbar -->
+        <!-- TODO: Middle section (body) -->
         <RelativeLayout
             android:id="@+id/community_feed_relLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/community_feed_top_navbar"></include>
+            <!-- top toolbar -->
+            <include layout="@layout/snippet_feed_top_toolbar"></include>
 
         </RelativeLayout>
 
-        <!-- TODO: Middle section (body) -->
         <RelativeLayout
             android:id="@+id/community_feed_relLayout2"
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         </RelativeLayout>
 
         <!-- bottom navigation -->
-        <include layout="@layout/layout_bottom_navbar"></include>
+        <include layout="@layout/layout_navbar_bottom"></include>
 
     </RelativeLayout>
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/layout_account_settings_center_text_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grey_border_bottom"
+            android:text="Account Settings"
+            android:textColor="@color/black"
+            android:textSize="35dp" />
+
+        <ListView
+            android:id="@+id/layout_account_settings_center_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/layout_account_settings_center_text_settings">
+
+        </ListView>
+
+    </RelativeLayout>
+
+</merge>

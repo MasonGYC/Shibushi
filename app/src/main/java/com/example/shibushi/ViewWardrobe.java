@@ -15,6 +15,7 @@ public class ViewWardrobe extends AppCompatActivity {
 
     private static final String TAG = "ViewWardrobe";
     private Context mContext = ViewWardrobe.this;
+    // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 3;
 
     @Override

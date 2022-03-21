@@ -35,9 +35,13 @@
             android:name=".Register"
             android:exported="false" />
         <activity
+            android:name=".ViewOutfits"/>
+        <activity
             android:name=".Feed"/>
         <activity
-            android:name=".ViewOutfits"/>
+            android:name=".Profile"/>
+        <activity
+            android:name=".AccountSettings"/>
     </application>
 
 </manifest>

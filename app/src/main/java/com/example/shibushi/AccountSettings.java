@@ -9,24 +9,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class Profile extends AppCompatActivity {
+public class AccountSettings extends AppCompatActivity {
 
-    private static final String TAG = "Profile";
-    private Context mContext = Profile.this;
+    private static final String TAG = "AccountSettings";
+    private Context mContext = AccountSettings.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        setContentView(R.layout.community_profile);
+        setContentView(R.layout.community_account_settings);
         Log.d(TAG, "onCreate: started");
 
         // Setup top toolbar
@@ -38,26 +37,16 @@ public class Profile extends AppCompatActivity {
 
     // Top toolbar setup
     private void setupToolBar() {
-        Toolbar toolbar = findViewById(R.id.snippet_profile_toolbar);
+        Toolbar toolbar = findViewById(R.id.community_account_settings_toolbar);
         setSupportActionBar(toolbar);
 
-        ImageView mysettings = findViewById(R.id.snippet_profile_top_toolbar_settings);
-        ImageView back = findViewById(R.id.snippet_profile_top_toolbar_back);
-
-        mysettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Navigating to account settings");
-                Intent intent = new Intent(mContext, AccountSettings.class);
-                startActivity(intent);
-            }
-        });
+        ImageView back = findViewById(R.id.snippet_account_settings_toolbar_back);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: Navigating back to feed");
-                Intent intent = new Intent(mContext, Feed.class);
+                Log.d(TAG, "onClick: Navigating back to profile");
+                Intent intent = new Intent(mContext, Profile.class);
                 startActivity(intent);
             }
         });
@@ -75,4 +64,5 @@ public class Profile extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
     }
+
 }

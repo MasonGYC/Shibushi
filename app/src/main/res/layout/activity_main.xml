@@ -42,7 +42,7 @@
 
 
         <include
-            layout="@layout/layout_bottom_navbar"
+            layout="@layout/layout_navbar_bottom"
             android:layout_height="@dimen/bottom_navbar_height"
             android:layout_width="match_parent"
             android:layout_gravity="bottom">

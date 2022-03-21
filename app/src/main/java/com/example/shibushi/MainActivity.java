@@ -21,7 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
     private Context mContext = MainActivity.this;
+    // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 0;
+
     Button bLogout, bChangePassword, bImportClothing;
     TextView tvWelcome;
     String welcome;

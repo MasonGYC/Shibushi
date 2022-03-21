@@ -15,7 +15,7 @@
         <!-- TODO: Middle section (body) -->
 
         <!-- bottom navigation -->
-        <include layout="@layout/layout_bottom_navbar"></include>
+        <include layout="@layout/layout_navbar_bottom"></include>
 
     </RelativeLayout>
 
