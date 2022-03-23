@@ -19,12 +19,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
     Button bRegister;
     EditText etEmailAddress, etPassword, etUsername;
     ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private DatabaseReference dReference;
     private static final String TAG = "EmailPassword";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
         //Firebase authentication object
         mAuth = FirebaseAuth.getInstance();
+        dReference = FirebaseDatabase.getInstance("https://shibushi-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
     }
 
@@ -117,7 +121,21 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                                             }
                                         }
                                     });
+                            //update RTDB
+                            dReference.child("users").child("idToken").setValue(username);
+                            /*user.getIdToken(true)
+                                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                            if (task.isSuccessful()) {
 
+                                                String idToken = task.getResult().getToken();
+                                                dReference.child("users").child(idToken).setValue(username);
+                                                Log.v("Logcat", "id: "+ idToken);
+                                            } else {
+                                                // Handle error -> task.getException();
+                                            }
+                                        }
+                                    });*/
                             //Redirect to Login activity
                             startActivity(new Intent(Register.this, Login.class));
                         } else {

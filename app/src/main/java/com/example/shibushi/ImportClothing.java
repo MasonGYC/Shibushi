@@ -7,8 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,12 +28,11 @@ import java.io.IOException;
 import java.util.UUID;
 
 
-public class ImportClothing extends AppCompatActivity implements View.OnClickListener{
+public class ImportClothing extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    // views for button
+    //drop down menu
+    private Spinner color_spinner, size_spinner;
     private Button bSelect, bUpload;
-
-    // view for image view
     private ImageView imageView;
 
     // Uri indicates, where the image will be picked from
@@ -52,13 +54,44 @@ public class ImportClothing extends AppCompatActivity implements View.OnClickLis
         bSelect.setOnClickListener(this);
         bUpload = findViewById(R.id.bUpload);
         bUpload.setOnClickListener(this);
+        size_spinner = findViewById(R.id.size_spinner);
+        color_spinner = findViewById(R.id.color_spinner);
 
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> size_adapter = ArrayAdapter.createFromResource(this,
+                R.array.size_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        size_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        size_spinner.setAdapter(size_adapter);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> color_adapter = ArrayAdapter.createFromResource(this,
+                R.array.color_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        color_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        color_spinner.setAdapter(color_adapter);
+        color_spinner.setOnItemClickListener(this);
+        // TODO: 3/23/2022 adapter
+        // TODO: 3/23/2022 dynamic layout with java
+        //todo refactor methods to utils java
         imageView = findViewById(R.id.imgView);
 
         // get the Firebase  storage reference
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
     }
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+    // TODO: 3/16/2022 change this to options menu 
     @Override
     public void onClick(View view) {
         switch(view.getId()){
@@ -68,9 +101,17 @@ public class ImportClothing extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.bUpload:
                 uploadImage();
+                updateFirestore();
                 break;
+            case R.id.color_spinner:
+
         }
     }
+
+    private void updateFirestore() {
+
+    }
+
     // Select Image method
     private void SelectImage() {
         // Defining Implicit Intent to mobile gallery
