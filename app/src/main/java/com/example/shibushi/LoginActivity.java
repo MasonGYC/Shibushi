@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     Button bRegister;
 
     FirebaseAuth mAuth;
-
+    DatabaseReference dReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         etEmailAddress = findViewById(R.id.etEmailAddress);
         etPassword = findViewById(R.id.etPassword);
         bRegister = findViewById(R.id.bRegister);
+
+        dReference = FirebaseDatabase.getInstance("https://shibushi-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-                                reference.addValueEventListener(new ValueEventListener() {
+                                DatabaseReference get_ref = dReference.child("Users").child(mAuth.getCurrentUser().getUid());
+                                get_ref.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         pd.dismiss();

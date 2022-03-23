@@ -16,14 +16,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.core.FirestoreClient;
+import com.google.firestore.v1.WriteResult;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -35,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference dReference;
     ProgressDialog pd;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         //
         mAuth = FirebaseAuth.getInstance();
+        dReference = FirebaseDatabase.getInstance("https://shibushi-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         txt_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 pd = new ProgressDialog(RegisterActivity.this);
-                pd.setMessage("Register");
+                pd.setMessage("Registering");
                 pd.show();
 
                 String email = etEmailAddress.getText().toString().trim();
@@ -100,9 +114,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 //Todo check Password strength
                 else {
-                    progressBar.setVisibility(View.VISIBLE);
+                    //progressBar.setVisibility(View.VISIBLE);
                     register(username, email, password);
-                    progressBar.setVisibility(View.GONE);
+                   // progressBar.setVisibility(View.GONE);
                 }
 
 
@@ -118,8 +132,19 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                     String userid = firebaseUser.getUid();
+                    Log.i("Logcat", userid);
 
-                    dReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
+//                    Map<String, Object> city = new HashMap<>();
+//                    city.put("name", "Los Angeles");
+//                    city.put("state", "CA");
+//                    city.put("country", "USA");
+//
+//                    db.collection("cities").document("LA")
+//                            .set(city);
+
+
+// RealTime Database
+                    DatabaseReference add_reference = dReference.child("users").child(userid);
 
                     HashMap<String,Object> hashMap = new HashMap<>();
                     hashMap.put("id", userid);
@@ -127,18 +152,13 @@ public class RegisterActivity extends AppCompatActivity {
                     hashMap.put("bio", "");
                     hashMap.put("imageurl","https://firebasestorage.googleapis.com/v0/b/shibushi.appspot.com/o/images%2Fayayaka.png?alt=media&token=56948b63-37c1-432a-83d6-53793e79e1ee" );
 
-                    dReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                pd.dismiss();
-                                progressBar.setVisibility(View.GONE);
-                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
-                        }
-                    });
+                    add_reference.setValue(hashMap);
+                    // can check with addOnSuccessListener(...
+                    pd.dismiss();
+                    //progressBar.setVisibility(View.GONE);
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
                 else{
                     pd.dismiss();
