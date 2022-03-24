@@ -33,6 +33,7 @@ public class BottomNavigationViewHelper {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
 
+                    // TODO: Remove and change home to feed
                     case R.id.ic_home: // b_menu_ACTIVTY_NUM = 0
                         Intent intent_activity_home = new Intent(context, MainActivity.class);
                         context.startActivity(intent_activity_home);
@@ -43,15 +44,12 @@ public class BottomNavigationViewHelper {
                         context.startActivity(intent_community_feed);
                         break;
 
-                    case R.id.ic_add: // b_menu_ACTIVTY_NUM = 2
-                        break;
-
-                    case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 3
+                    case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 2
                         Intent intent_wardrobe = new Intent(context, ViewWardrobe.class);
                         context.startActivity(intent_wardrobe);
                         break;
 
-                    case R.id.ic_outfits: // b_menu_ACTIVTY_NUM = 4
+                    case R.id.ic_outfits: // b_menu_ACTIVTY_NUM = 3
                         Intent intent_outfits = new Intent(context, ViewOutfits.class);
                         context.startActivity(intent_outfits);
                         break;

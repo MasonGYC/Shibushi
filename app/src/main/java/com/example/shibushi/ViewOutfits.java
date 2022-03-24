@@ -15,7 +15,7 @@ public class ViewOutfits extends AppCompatActivity {
     private static final String TAG = "ViewOutfits";
     private Context mContext = ViewOutfits.this;
     // Bottom navbar activity number
-    private static final int b_menu_ACTIVTY_NUM = 4;
+    private static final int b_menu_ACTIVTY_NUM = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
