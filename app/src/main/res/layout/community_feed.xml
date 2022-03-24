@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Feed">
 
     <RelativeLayout
@@ -27,7 +27,53 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/community_feed_relLayout1">
 
+            <!-- Middle Section: Posts scroll -->
             <include layout="@layout/community_feed_center_viewpager"></include>
+
+            <!-- Floating Action button -->
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="60dp"
+                app:fab_addButtonColorNormal="@color/purple_200"
+                app:fab_addButtonColorPressed="@color/purple_300"
+                app:fab_addButtonPlusIconColor="@color/white"
+                app:fab_labelStyle="@style/customFab">
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/community_feed_fab_hanger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/white"
+                    app:fab_colorPressed="@color/grey"
+                    app:fab_icon="@drawable/ic_hanger"
+                    app:fab_size="mini"
+                    app:fab_title="New Clothing" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/community_feed_fab_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/white"
+                    app:fab_colorPressed="@color/grey"
+                    app:fab_icon="@drawable/ic_baseline_edit_24"
+                    app:fab_size="mini"
+                    app:fab_title="New Post" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/community_feed_fab_outfit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/white"
+                    app:fab_colorPressed="@color/grey"
+                    app:fab_icon="@drawable/ic_outfit"
+                    app:fab_size="mini"
+                    app:fab_title="New Outfit" />
+
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
         </RelativeLayout>
 

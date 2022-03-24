@@ -8,11 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.annotations.Nullable;
 
@@ -34,6 +36,42 @@ public class Feed extends AppCompatActivity {
 
         // Setup bottom navigation bar
         setupBottomNavigationView();
+
+        // Setup floating action button
+        setup_FAB();
+    }
+
+    // Floating action button
+    private void setup_FAB() {
+        Log.d(TAG, "setupFloatingActionButton: Setting up FAB menu");
+
+        FloatingActionButton fab_outfit = findViewById(R.id.community_feed_fab_outfit);
+        FloatingActionButton fab_hanger = findViewById(R.id.community_feed_fab_hanger);
+        FloatingActionButton fab_edit = findViewById(R.id.community_feed_fab_edit);
+
+        fab_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Add new post page
+                Toast.makeText(mContext, "Creating new post...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fab_hanger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Add new clothing page
+                Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fab_outfit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Add new outfit page
+                Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Top toolbar setup

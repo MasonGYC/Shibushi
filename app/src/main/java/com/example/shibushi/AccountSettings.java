@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,10 +17,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class AccountSettings extends AppCompatActivity {
 
     private static final String TAG = "AccountSettings";
-    private Context mContext = AccountSettings.this;
+    private final Context mContext = AccountSettings.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
 
@@ -33,6 +37,9 @@ public class AccountSettings extends AppCompatActivity {
 
         // Setup bottom navigation bar
         setupBottomNavigationView();
+
+        // setup Setting list
+        setupSettingsList();
     }
 
     // Top toolbar setup
@@ -50,6 +57,17 @@ public class AccountSettings extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setupSettingsList() {
+        Log.d(TAG, "setupSettingsList: initialising 'Account Setting List");
+        ListView listView = findViewById(R.id.layout_account_settings_center_listView);
+
+        ArrayList<String> options = new ArrayList<>();
+        options.add("Edit Profile");
+        options.add("Log out");
+        ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
+        listView.setAdapter(adapter);
     }
 
     // BottomNavigationView setup

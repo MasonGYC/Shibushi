@@ -13,19 +13,22 @@ import com.example.shibushi.R;
 import com.example.shibushi.ViewOutfits;
 import com.example.shibushi.ViewWardrobe;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarMenuView;
+import com.google.android.material.navigation.NavigationBarView;
 
 // A Helper class to organise implementation of Bottom Navigation Bar which applies to all screens
 public class BottomNavigationViewHelper {
 
     private static final String TAG = "BottomNavViewHelper";
 
-    public static void setupBottomNavigationView(BottomNavigationView bottomNavigationView) {
+    public static void setupBottomNavigationView(NavigationBarView bottomNavigationView) {
         Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
     }
 
     // setup navigation between activities
-    public static void enableNavigation(final Context context, BottomNavigationView view) {
-        view.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+    public static void enableNavigation(final Context context, NavigationBarView view) {
+
+        view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {

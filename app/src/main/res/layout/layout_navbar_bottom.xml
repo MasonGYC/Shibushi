@@ -11,8 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey"
-            app:menu="@menu/bottom_navbar"
-            app:labelVisibilityMode="labeled">
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navbar">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
