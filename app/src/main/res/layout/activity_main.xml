@@ -30,5 +30,10 @@
         android:id="@+id/bImportClothing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Import Clothing"/>
+        android:text="@string/import_clothing"/>
+    <Button
+        android:id="@+id/bTakePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/take_photo"/>
 </LinearLayout>

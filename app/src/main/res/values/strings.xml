@@ -10,6 +10,8 @@
     <string name="shibushi_logo">shibushi logo</string>
     <string name="email_address">Email Address</string>
     <string name="upload">Upload</string>
+    <string name="import_clothing">Import Clothing</string>
+    <string name="take_photo">TAKE PHOTO</string>
     <string-array name="size_array">
         <item>XS</item>
         <item>S</item>
