@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +29,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     Button bRegister;
     EditText etEmailAddress, etPassword, etUsername;
     ProgressBar progressBar;
+    TextView pwStrength;
+    View pwStrengthIndicator;
     private FirebaseAuth mAuth;
     private DatabaseReference dReference;
     private static final String TAG = "EmailPassword";
@@ -46,6 +51,28 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         mAuth = FirebaseAuth.getInstance();
         dReference = FirebaseDatabase.getInstance("https://shibushi-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
+        //Password strength observer
+        pwStrengthIndicator = findViewById(R.id.pwStrengthIndicator);
+        pwStrength = findViewById(R.id.pwStrength);
+        final PasswordStrengthCalculator[] passwordStrengthCalculator = {new PasswordStrengthCalculator()};
+        etPassword.addTextChangedListener(passwordStrengthCalculator[0]);
+
+        //Strength color
+        passwordStrengthCalculator[0].strengthColor.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                Log.d(TAG, "Password change detected.");
+                pwStrengthIndicator.setBackgroundColor(ContextCompat.getColor(Register.this, passwordStrengthCalculator[0].strengthColor.getValue()));
+                pwStrength.setTextColor(ContextCompat.getColor(Register.this, passwordStrengthCalculator[0].strengthColor.getValue()));
+            }
+        });
+        //Strength text
+        passwordStrengthCalculator[0].strengthLevel.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                pwStrength.setText(passwordStrengthCalculator[0].strengthLevel.getValue());
+            }
+        });
     }
 
     @Override
@@ -93,7 +120,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         if (password.length()<6){
             etPassword.setError("Min password length is 6 characters!");
         }
-        //Todo check Password strength
 
         progressBar.setVisibility(View.VISIBLE);
         //Todo Add username to user profile during registration.

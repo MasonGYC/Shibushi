@@ -72,7 +72,7 @@ public class ImportClothing extends AppCompatActivity implements View.OnClickLis
         color_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         color_spinner.setAdapter(color_adapter);
-        color_spinner.setOnItemClickListener(this);
+        //color_spinner.setOnItemClickListener(this);
         // TODO: 3/23/2022 adapter
         // TODO: 3/23/2022 dynamic layout with java
         //todo refactor methods to utils java
