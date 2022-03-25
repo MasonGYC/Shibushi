@@ -28,7 +28,7 @@
             android:layout_below="@+id/community_feed_relLayout1">
 
             <!-- Middle Section: Posts scroll -->
-            <include layout="@layout/community_feed_center_viewpager"></include>
+            <include layout="@layout/layout_center_viewpager"></include>
 
             <!-- Floating Action button -->
             <com.getbase.floatingactionbutton.FloatingActionsMenu

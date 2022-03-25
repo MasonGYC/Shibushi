@@ -7,14 +7,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.example.shibushi.Utils.SectionsStatePagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -23,14 +28,19 @@ public class AccountSettings extends AppCompatActivity {
 
     private static final String TAG = "AccountSettings";
     private final Context mContext = AccountSettings.this;
-    // Bottom navbar activity number
-    private static final int b_menu_ACTIVTY_NUM = 1;
+    private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
+    public SectionsStatePagerAdapter pagerAdapter;
+    private ViewPager2 mViewPager;
+    private RelativeLayout mRelativeLayout;
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.community_account_settings);
         Log.d(TAG, "onCreate: started");
+
+        mViewPager = findViewById(R.id.layout_centre_viewPager); // This is a general container; can be reused
+        mRelativeLayout = findViewById(R.id.community_account_settings_relLayout1); // RelativeLayout that holds the entire account setting page
 
         // Setup top toolbar
         setupToolBar();
@@ -40,6 +50,48 @@ public class AccountSettings extends AppCompatActivity {
 
         // setup Setting list
         setupSettingsList();
+
+        // setup Fragments
+        setupFragments();
+    }
+
+    // Fragment setup
+    private void setupFragments() {
+        pagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager(), getLifecycle());
+        pagerAdapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile)); //fragment #0
+        pagerAdapter.addFragment(new ChangePwFragment(), getString(R.string.change_password)); //fragment #1
+        pagerAdapter.addFragment(new SignOutFragment(), getString(R.string.logout)); //fragment #2
+    }
+
+    // ViewPager setup: Responsible for nav to fragments
+    private void setViewPager(int fragmentNumber) {
+        mRelativeLayout.setVisibility(View.GONE); //RelativeLayout1 (Account setting list page) will be gone when proceeding to a fragment
+        Log.d(TAG, "setViewPager: Navigating to fragment #" + fragmentNumber);
+        mViewPager.setAdapter(pagerAdapter); //Sets of fragments
+        mViewPager.setCurrentItem(fragmentNumber); //Depends on what list item is clicked
+    }
+
+    // Setting List setup
+    private void setupSettingsList() {
+        Log.d(TAG, "setupSettingsList: initialising 'Account Setting List");
+        ListView listView = findViewById(R.id.layout_account_settings_center_listView);
+
+        ArrayList<String> options = new ArrayList<>();
+        options.add(getString(R.string.edit_profile)); //fragment #0
+        options.add(getString(R.string.change_password)); //fragment #1
+        options.add(getString(R.string.logout)); //fragment #2
+
+        ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
+        listView.setAdapter(adapter);
+
+        // When fragment #i is clicked: setViewPager will set the page to the respective fragment #i
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int fragmentNumber, long id) {
+                Log.d(TAG, "onItemClick: Navigating to fragment #" + fragmentNumber  );
+                setViewPager(fragmentNumber); //
+            }
+        });
     }
 
     // Top toolbar setup
@@ -54,20 +106,9 @@ public class AccountSettings extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Navigating back to profile");
                 Intent intent = new Intent(mContext, Profile.class);
-                startActivity(intent);
+                finish();
             }
         });
-    }
-
-    private void setupSettingsList() {
-        Log.d(TAG, "setupSettingsList: initialising 'Account Setting List");
-        ListView listView = findViewById(R.id.layout_account_settings_center_listView);
-
-        ArrayList<String> options = new ArrayList<>();
-        options.add("Edit Profile");
-        options.add("Log out");
-        ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
-        listView.setAdapter(adapter);
     }
 
     // BottomNavigationView setup
@@ -82,5 +123,6 @@ public class AccountSettings extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
     }
+
 
 }

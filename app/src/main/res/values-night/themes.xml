@@ -11,6 +11,13 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="civ_border_color">@color/grey</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <!-- Same as Day-->
+    <style name="customFab">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

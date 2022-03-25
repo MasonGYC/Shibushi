@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.example.shibushi.Utils.UniversalImageLoader;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.annotations.Nullable;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class Feed extends AppCompatActivity {
 
@@ -31,14 +33,21 @@ public class Feed extends AppCompatActivity {
         setContentView(R.layout.community_feed);
         Log.d(TAG, "onCreate: started");
 
-        // Setup top toolbar
-        setupToolBar();
+        initImageLoader(); //Init Image Loader
+        setupToolBar(); //Setup top toolbar
+        setupBottomNavigationView(); //Setup bottom navigation bar
+        setup_FAB(); //Setup floating action button
 
-        // Setup bottom navigation bar
-        setupBottomNavigationView();
+    }
 
-        // Setup floating action button
-        setup_FAB();
+
+    /**
+     * Initialise ImageLoader
+     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
+     */
+    private void initImageLoader() {
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
     }
 
     // Floating action button
@@ -53,7 +62,10 @@ public class Feed extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Add new post page
+                // Intent intent_newPost = new Intent(mContext, NewPost.class);
+                // mContext.startActivity(intent_newPost)
                 Toast.makeText(mContext, "Creating new post...", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -61,6 +73,8 @@ public class Feed extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Add new clothing page
+                // Intent intent_newClothes = new Intent(mContext, NewClothes.class);
+                // mContext.startActivity(intent_newClothes)
                 Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
             }
         });
@@ -69,6 +83,8 @@ public class Feed extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Add new outfit page
+                // Intent intent_newOutfit = new Intent(mContext, NewOutfit.class);
+                // mContext.startActivity(intent_newOutfit)
                 Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
             }
         });
