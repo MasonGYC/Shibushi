@@ -1,0 +1,133 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Main section of edit profile -->
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <!-- Profile photo -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/snippet_edit_profile_center_pp"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_centerHorizontal="true"
+                app:civ_border_width="2dp" />
+
+            <!-- Change profile photo -->
+            <TextView
+                android:id="@+id/snippet_edit_profile_center_change_pp_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/snippet_edit_profile_center_pp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Change Profile Photo"
+                android:textColor="@color/link_blue"
+                android:textSize="15sp" />
+
+            <!-- Other profile details -->
+
+            <!-- Username Section -->
+            <RelativeLayout
+                android:id="@+id/snippet_edit_profile_center_relLayout_username"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/snippet_edit_profile_center_change_pp_txt"
+                android:layout_marginTop="60dp">
+
+                <!-- Icon -->
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_account_circle_24"/>
+
+                <!-- Edit username -->
+                <EditText
+                    android:id="@+id/snippet_edit_profile_center_etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:inputType="textNoSuggestions"
+                    android:hint="@string/username"/>
+
+            </RelativeLayout>
+
+            <!-- Description Section -->
+            <RelativeLayout
+                android:id="@+id/snippet_edit_profile_center_relLayout_descr"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/snippet_edit_profile_center_relLayout_username"
+                android:layout_marginTop="10dp">
+
+                <!-- Icon -->
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_table_rows_24"/>
+
+                <!-- Edit Description -->
+                <EditText
+                    android:id="@+id/snippet_edit_profile_center_etDescr"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:inputType="textNoSuggestions"
+                    android:hint="Profile Description"/>
+
+            </RelativeLayout>
+
+            <!-- PRIVATE INFORMATION -->
+            <TextView
+                android:id="@+id/snippet_edit_profile_center_PI_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/snippet_edit_profile_center_relLayout_descr"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:text="PRIVATE INFORMATION"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <!-- Email Address -->
+            <RelativeLayout
+                android:id="@+id/snippet_edit_profile_center_relLayout_email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/snippet_edit_profile_center_PI_txt"
+                android:layout_marginTop="10dp">
+
+                <!-- Icon -->
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_email_24"/>
+
+                <!-- Edit Description -->
+                <EditText
+                    android:id="@+id/snippet_edit_profile_center_etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:hint="@string/email_address"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</merge>

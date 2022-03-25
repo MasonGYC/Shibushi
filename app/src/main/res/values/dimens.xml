@@ -4,4 +4,7 @@
     <dimen name="fragment_vertical_margin">16dp</dimen>
     <dimen name="top_toolbar_height">50dp</dimen>
     <dimen name="bottom_navbar_height">50dp</dimen>
+    <dimen name="progress_bar_height">50dp</dimen>
+    <dimen name="progress_bar_width">50dp</dimen>
+
 </resources>

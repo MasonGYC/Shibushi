@@ -11,4 +11,6 @@
     <color name="dark_grey">#3A3B3C</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_semi_tranp">#80FFFFFF</color>
+    <color name="pastel_pink">#FFd89fd1</color>
+    <color name="link_blue">#4d94ff</color>
 </resources>

@@ -13,6 +13,14 @@
 
         <include layout="@layout/layout_navbar_bottom"/>
 
+        <ProgressBar
+            android:id="@+id/community_profile_progress_bar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp" />
+
+
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
