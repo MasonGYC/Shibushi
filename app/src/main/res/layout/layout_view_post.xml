@@ -14,9 +14,9 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/relLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/relLayout1">
+                android:layout_height="50dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/layout_centre_profile_image"
@@ -50,7 +50,7 @@
 
             </RelativeLayout>
 
-            <com.example.shibushi.SquareImage
+            <com.example.shibushi.Utils.SquareImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/post_image"

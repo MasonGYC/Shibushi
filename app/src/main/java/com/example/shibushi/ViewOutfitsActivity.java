@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ViewOutfits extends AppCompatActivity {
+public class ViewOutfitsActivity extends AppCompatActivity {
     private static final String TAG = "ViewOutfits";
-    private Context mContext = ViewOutfits.this;
+    private Context mContext = ViewOutfitsActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 3;
 

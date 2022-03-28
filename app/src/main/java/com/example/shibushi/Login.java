@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shibushi.Feed.FeedActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,7 +50,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            startActivity(new Intent(this, MainActivity.class));
+            // If user is already signed in, show Feed page on start
+            startActivity(new Intent(this, FeedActivity.class));
             //Should use FirebaseUser.reload method instead?
         }
     }

@@ -37,7 +37,7 @@ public class GridImageAdapter extends ArrayAdapter<String> {
     }
 
     private static class ViewHolder{
-        ImageView imageView;
+        SquareImageView imageView;
         ProgressBar progressBar;
     }
 
@@ -46,7 +46,7 @@ public class GridImageAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         final ViewHolder viewHolder;
 
-        // ViewHolder build pattern similar to recycler view
+        // ViewHolder build pattern; similar to recycler view
         if (convertView == null) {
             convertView = mInflater.inflate(layoutResource, parent, false);
             viewHolder = new ViewHolder();

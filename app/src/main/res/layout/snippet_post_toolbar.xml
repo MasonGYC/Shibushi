@@ -35,7 +35,7 @@
                 android:textSize="20sp"
                 android:layout_toRightOf="@+id/backArrow"
                 android:layout_marginLeft="30dp"
-                android:text="SIngle Photo"
+                android:text="Single Photo"
                 android:textColor="@color/black"
                 android:id="@+id/textviewBack"/>
 

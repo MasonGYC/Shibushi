@@ -1,4 +1,4 @@
-package com.example.shibushi;
+package com.example.shibushi.Feed;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.shibushi.Feed.Profile.Profile;
+import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -20,10 +22,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.annotations.Nullable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class Feed extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity {
 
     private static final String TAG = "CommunityFeed";
-    private Context mContext = Feed.this;
+    private Context mContext = FeedActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
 

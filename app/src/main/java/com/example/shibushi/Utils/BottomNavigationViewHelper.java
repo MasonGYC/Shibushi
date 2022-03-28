@@ -7,11 +7,11 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
-import com.example.shibushi.Feed;
+import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
-import com.example.shibushi.ViewOutfits;
-import com.example.shibushi.ViewWardrobe;
+import com.example.shibushi.ViewOutfitsActivity;
+import com.example.shibushi.ViewWardrobeActivity;
 import com.google.android.material.navigation.NavigationBarView;
 
 // A Helper class to organise implementation of Bottom Navigation Bar which applies to all screens
@@ -38,17 +38,17 @@ public class BottomNavigationViewHelper {
                         break;
 
                     case R.id.ic_community_feed: // b_menu_ACTIVTY_NUM = 1
-                        Intent intent_community_feed = new Intent(context, Feed.class);
+                        Intent intent_community_feed = new Intent(context, FeedActivity.class);
                         context.startActivity(intent_community_feed);
                         break;
 
                     case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 2
-                        Intent intent_wardrobe = new Intent(context, ViewWardrobe.class);
+                        Intent intent_wardrobe = new Intent(context, ViewWardrobeActivity.class);
                         context.startActivity(intent_wardrobe);
                         break;
 
                     case R.id.ic_outfits: // b_menu_ACTIVTY_NUM = 3
-                        Intent intent_outfits = new Intent(context, ViewOutfits.class);
+                        Intent intent_outfits = new Intent(context, ViewOutfitsActivity.class);
                         context.startActivity(intent_outfits);
                         break;
                 }

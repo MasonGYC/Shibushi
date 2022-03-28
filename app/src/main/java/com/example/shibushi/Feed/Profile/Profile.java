@@ -1,4 +1,4 @@
-package com.example.shibushi;
+package com.example.shibushi.Feed.Profile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,18 +7,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.shibushi.Feed.FeedActivity;
+import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.GridImageAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,7 @@ public class Profile extends AppCompatActivity {
     private static final String TAG = "Profile";
     private Context mContext = Profile.this;
     private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
+    private static final int NUM_GRID_PER_ROW = 2;
     private ProgressBar mProgressBar;
     private ImageView profilePhoto;
 
@@ -68,7 +73,7 @@ public class Profile extends AppCompatActivity {
         imgURLs.add("https://i.pinimg.com/originals/29/8c/bc/298cbc3b1419bfa5d85f91651a9345b2.jpg");
         imgURLs.add("https://i.pinimg.com/originals/92/97/69/92976925c6dbde908b1c8abc7c6aa5cd.jpg");
         imgURLs.add("https://i.pinimg.com/originals/f2/db/4d/f2db4d98e7545380407bdd7cdac97407.jpg");
-        imgURLs.add("https://s12.favim.com/orig/160309/adidas-aesthetic-alternative-bw-Favim.com-4064782.jpg");
+        imgURLs.add("https://i.pinimg.com/originals/46/7b/e7/467be7dcdfaa8a27222be53990a8e02e.jpg");
         imgURLs.add("https://i.pinimg.com/736x/0c/33/80/0c3380fd4133bed5ce50bd196b7732ce.jpg");
         imgURLs.add("https://i.pinimg.com/originals/fe/95/07/fe950798e4e0e7ca61cd229d834a0007.png");
         imgURLs.add("https://i.pinimg.com/originals/fb/77/d7/fb77d7c7bff424ca0067ded646df9fde.jpg");
@@ -83,6 +88,12 @@ public class Profile extends AppCompatActivity {
      */
     private void setupImageGrid(ArrayList<String> imgURLs) {
         GridView gridView = findViewById(R.id.layout_centre_profile_gridView);
+
+        // set the width of each image grid
+        int gridWidth = getResources().getDisplayMetrics().widthPixels;
+        int imageWidth = gridWidth/NUM_GRID_PER_ROW;
+        gridView.setColumnWidth(imageWidth);
+
         GridImageAdapter gridImageAdapter = new GridImageAdapter(mContext, R.layout.layout_profile_grid_imageview, "", imgURLs);
         gridView.setAdapter(gridImageAdapter);
     }
@@ -106,6 +117,16 @@ public class Profile extends AppCompatActivity {
 
         ImageView mysettings = findViewById(R.id.snippet_profile_top_toolbar_settings);
         ImageView back = findViewById(R.id.snippet_profile_top_toolbar_back);
+        TextView tvUsername = findViewById(R.id.snippet_profile_top_toolbar_username);
+
+        // Firebase authentication
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Set username on toolbar
+        String username = currentUser.getDisplayName();
+        if (username != null) {
+            tvUsername.setText(username);}
 
         mysettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +141,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Navigating back to feed");
-                Intent intent = new Intent(mContext, Feed.class);
+                Intent intent = new Intent(mContext, FeedActivity.class);
                 startActivity(intent);
             }
         });

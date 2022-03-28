@@ -1,4 +1,4 @@
-package com.example.shibushi;
+package com.example.shibushi.Feed.Profile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +12,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.SectionsStatePagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -100,6 +104,16 @@ public class AccountSettings extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ImageView back = findViewById(R.id.snippet_account_settings_toolbar_back);
+        TextView tvUsername = findViewById(R.id.snippet_account_settings_toolbar_username);
+
+        // Firebase authentication
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Set username on toolbar
+        String username = currentUser.getDisplayName();
+        if (username != null) {
+            tvUsername.setText(username);}
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

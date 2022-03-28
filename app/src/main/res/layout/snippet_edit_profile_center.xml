@@ -83,8 +83,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="40dp"
-                    android:inputType="textNoSuggestions"
-                    android:hint="Profile Description"/>
+                    android:hint="Bio"
+                    android:inputType="textNoSuggestions" />
 
             </RelativeLayout>
 

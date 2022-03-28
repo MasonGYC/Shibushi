@@ -72,7 +72,7 @@
                 android:background="@color/white">
 
                 <TextView
-                    android:id="@+id/layout_centre_profile_description"
+                    android:id="@+id/layout_centre_profile_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"

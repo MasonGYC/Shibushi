@@ -11,10 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ViewWardrobe extends AppCompatActivity {
+public class ViewWardrobeActivity extends AppCompatActivity {
 
     private static final String TAG = "ViewWardrobe";
-    private Context mContext = ViewWardrobe.this;
+    private Context mContext = ViewWardrobeActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 2;
 

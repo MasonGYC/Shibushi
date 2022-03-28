@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
         <activity
-            android:name=".ViewWardrobe"
+            android:name=".ViewWardrobeActivity"
             android:exported="false" />
         <activity
             android:name=".ImportClothing"
@@ -35,13 +35,13 @@
             android:name=".Register"
             android:exported="false" />
         <activity
-            android:name=".ViewOutfits"/>
+            android:name=".ViewOutfitsActivity"/>
         <activity
-            android:name=".Feed"/>
+            android:name=".Feed.FeedActivity"/>
         <activity
-            android:name=".Profile"/>
+            android:name=".Feed.Profile.Profile"/>
         <activity
-            android:name=".AccountSettings"/>
+            android:name=".Feed.Profile.AccountSettings"/>
     </application>
 
 </manifest>
