@@ -15,7 +15,4 @@ public abstract class Item {
    public int last_worn_days; //(x days ago)
    public int frequency;   //how many times have you worn it since added
 
-
-
-
 }

@@ -11,7 +11,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
+/*
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.mlkit.vision.common.InputImage;
@@ -19,6 +19,8 @@ import com.google.mlkit.vision.label.ImageLabel;
 import com.google.mlkit.vision.label.ImageLabeler;
 import com.google.mlkit.vision.label.ImageLabeling;
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
+
+ */
 
 import java.io.File;
 import java.io.IOException;
@@ -61,6 +63,7 @@ public class TakePhoto extends AppCompatActivity {
         Log.i("add","galleryAddPic");
     }
 
+    /*
     public void imageLabel(Bitmap bitmap){
         //todo:to check correct?
         int rotationDegree = 0; //?
@@ -84,6 +87,8 @@ public class TakePhoto extends AppCompatActivity {
 
 
     }
+
+     */
 
 
 

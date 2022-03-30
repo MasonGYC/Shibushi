@@ -4,6 +4,7 @@ package com.example.shibushi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String welcome;
     private FirebaseAuth mAuth;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final String KEY_PHOTO = "PHOTO";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,13 +98,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Ensure that there's a camera activity to handle the intent
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            Log.i("if2","resolveActivity");
             // Create the File where the photo should go
             File photoFile = null;
             try {
                 photoFile = takePhoto.createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
+                Log.i("TakePicture: ","Cannot create files for photos");
 
             }
             // Continue only if the File was successfully created
@@ -111,9 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                Log.i("dispatch","if (photoFile != null) ");
                 startActivity(takePictureIntent);
-                takePhoto.galleryAddPic();
+                takePhoto.galleryAddPic();// add to gallery
+                //TODO: tag it dont start
+                onActivityResult(REQUEST_IMAGE_CAPTURE, RESULT_OK, takePictureIntent);
             }
         }
     }
@@ -124,7 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bitmap thumbnail = data.getParcelableExtra("data");
             // Do other work with full size photo saved in locationForPhotos
-            //TODO: image label
+
+            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
+            tagItIntent.putExtra(KEY_PHOTO,thumbnail);
+            startActivity(tagItIntent);
 
         }
     }

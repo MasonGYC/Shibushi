@@ -12,6 +12,7 @@
     <string name="upload">Upload</string>
     <string name="import_clothing">Import Clothing</string>
     <string name="take_photo">TAKE PHOTO</string>
+    <string name="tag_it">Tag it!</string>
     <string-array name="size_array">
         <item>XS</item>
         <item>S</item>

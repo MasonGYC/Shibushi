@@ -3,14 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_import_clothing.xml" value="0.152" />
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_login.xml" value="0.20208333333333334" />
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_main.xml" value="0.2526041666666667" />
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_register.xml" value="0.2526041666666667" />
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_tagit.xml" value="0.20104166666666667" />
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_view_wardrobe.xml" value="0.2526041666666667" />
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/card_layout.xml" value="0.2526041666666667" />
-        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/xml/file_paths.xml" value="0.10833333333333334" />
+        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/drawable/ic_baseline_location_city_24.xml" value="0.116" />
+        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_import_clothing.xml" value="0.13333333333333333" />
+        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
+        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_tagit.xml" value="0.2" />
+        <entry key="..\:/OneDrive - Singapore University of Technology and Design/Documents/Term4/1D_Shibushi/app/src/main/res/layout/activity_view_wardrobe.xml" value="0.13333333333333333" />
+        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_import_clothing.xml" value="0.33515625" />
+        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_login.xml" value="0.18857142857142858" />
+        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_main.xml" value="0.1160081053698075" />
+        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_register.xml" value="0.2570621468926554" />
+        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_view_wardrobe.xml" value="0.33515625" />
+        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/card_layout.xml" value="0.33515625" />
         <entry key="..\:/Users/joshu/Documents/Github/50.001-info-sys/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2155" />
         <entry key="..\:/Users/joshu/Documents/Github/50.001-info-sys/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.2155" />
         <entry key="..\:/Users/joshu/Documents/Github/50.001-info-sys/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2155" />
