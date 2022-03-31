@@ -1,0 +1,63 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_toolbar_height"
+        android:layout_alignParentTop="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/snippet_change_pw_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/top_toolbar_height"
+                android:background="@color/grey">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- Back arrow -->
+                    <ImageView
+                        android:id="@+id/snippet_change_pw_toolbar_back"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_baseline_arrow_back_24" />
+
+                    <!-- Text Settings -->
+                    <TextView
+                        android:id="@+id/snippet_change_pw_toolbar_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/snippet_change_pw_toolbar_back"
+                        android:text="@string/change_password"
+                        android:textSize="20sp" />
+
+                    <!-- Check -->
+                    <ImageView
+                        android:id="@+id/snippet_change_pw_toolbar_check"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/ic_baseline_check_24" />
+
+
+                </RelativeLayout>
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </RelativeLayout>
+
+</merge>

@@ -1,0 +1,81 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_toolbar_height"
+        android:layout_alignParentTop="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/community_feed_top_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/top_toolbar_height"
+                android:background="@color/grey">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- following -->
+                    <ImageView
+                        android:id="@+id/community_feed_top_toolbar_following"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_people_24" />
+
+                    <!-- discover -->
+                    <ImageView
+                        android:id="@+id/community_feed_top_toolbar_discover"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/community_feed_top_toolbar_following"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_location_city_24"/>
+
+                    <!-- search -->
+                    <ImageView
+                        android:id="@+id/community_feed_top_toolbar_search"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@+id/community_feed_top_toolbar_bookmarks"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_search_24"/>
+
+                    <!-- bookmarks -->
+                    <ImageView
+                        android:id="@+id/community_feed_top_toolbar_bookmarks"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@id/community_feed_top_toolbar_profile"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_bookmarks_24" />
+
+                    <!-- my profile -->
+                    <ImageView
+                        android:id="@+id/community_feed_top_toolbar_profile"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_account_circle_24" />
+
+
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </RelativeLayout>
+
+</merge>

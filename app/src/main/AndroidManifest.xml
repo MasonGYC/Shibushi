@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
         <activity
-            android:name=".ViewWardrobe"
+            android:name=".ViewWardrobeActivity"
             android:exported="false" />
         <activity
             android:name=".TagIt"
@@ -51,6 +51,15 @@
             android:screenOrientation="portrait"            />
         <activity
             android:name=".Register"
+            android:exported="true" />
+        <activity
+            android:name=".ViewOutfitsActivity"/>
+        <activity
+            android:name=".Feed.FeedActivity"/>
+        <activity
+            android:name=".Feed.Profile.Profile"/>
+        <activity
+            android:name=".Feed.Profile.AccountSettings"/>
             android:exported="false" />
         <provider
             android:name="androidx.core.content.FileProvider"
