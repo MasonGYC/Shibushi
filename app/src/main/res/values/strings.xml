@@ -11,5 +11,21 @@
     <string name="shibushi_logo">shibushi logo</string>
     <string name="email_address">Email Address</string>
     <string name="upload">Upload</string>
+    <string-array name="size_array">
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+    </string-array>
+    <string-array name="color_array">
+        <item>Red</item>
+        <item>Orange</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Indigo</item>
+        <item>Violet</item>
+    </string-array>
 
 </resources>

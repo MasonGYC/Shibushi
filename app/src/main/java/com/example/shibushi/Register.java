@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,12 +22,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
     Button bRegister;
     EditText etEmailAddress, etPassword, etUsername;
     ProgressBar progressBar;
+    TextView pwStrength;
+    View pwStrengthIndicator;
     private FirebaseAuth mAuth;
+    private DatabaseReference dReference;
     private static final String TAG = "EmailPassword";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,30 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
         //Firebase authentication object
         mAuth = FirebaseAuth.getInstance();
+        dReference = FirebaseDatabase.getInstance("https://shibushi-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
+        //Password strength observer
+        pwStrengthIndicator = findViewById(R.id.pwStrengthIndicator);
+        pwStrength = findViewById(R.id.pwStrength);
+        final PasswordStrengthCalculator[] passwordStrengthCalculator = {new PasswordStrengthCalculator()};
+        etPassword.addTextChangedListener(passwordStrengthCalculator[0]);
+
+        //Strength color
+        passwordStrengthCalculator[0].strengthColor.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                Log.d(TAG, "Password change detected.");
+                pwStrengthIndicator.setBackgroundColor(ContextCompat.getColor(Register.this, passwordStrengthCalculator[0].strengthColor.getValue()));
+                pwStrength.setTextColor(ContextCompat.getColor(Register.this, passwordStrengthCalculator[0].strengthColor.getValue()));
+            }
+        });
+        //Strength text
+        passwordStrengthCalculator[0].strengthLevel.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                pwStrength.setText(passwordStrengthCalculator[0].strengthLevel.getValue());
+            }
+        });
     }
 
     @Override
@@ -89,7 +120,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         if (password.length()<6){
             etPassword.setError("Min password length is 6 characters!");
         }
-        //Todo check Password strength
 
         progressBar.setVisibility(View.VISIBLE);
         //Todo Add username to user profile during registration.
@@ -117,7 +147,21 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                                             }
                                         }
                                     });
+                            //update RTDB
+                            dReference.child("users").child("idToken").setValue(username);
+                            /*user.getIdToken(true)
+                                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                            if (task.isSuccessful()) {
 
+                                                String idToken = task.getResult().getToken();
+                                                dReference.child("users").child(idToken).setValue(username);
+                                                Log.v("Logcat", "id: "+ idToken);
+                                            } else {
+                                                // Handle error -> task.getException();
+                                            }
+                                        }
+                                    });*/
                             //Redirect to Login activity
                             startActivity(new Intent(Register.this, Login.class));
                         } else {
