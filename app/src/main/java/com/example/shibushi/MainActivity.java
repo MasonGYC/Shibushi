@@ -3,15 +3,18 @@ package com.example.shibushi;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final String KEY_PHOTO = "PHOTO";
+    Uri photoURI;
+    Bitmap bitmap;
+    String LOGCAT = "LOGCAT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //camera
     public void dispatchTakePictureIntent(TakePhoto takePhoto) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Log.i("takephoto:","dispatchTakePictureIntent");
         // Ensure that there's a camera activity to handle the intent
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -109,29 +118,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
+                photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivity(takePictureIntent);
-                takePhoto.galleryAddPic();// add to gallery
+                startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+
                 //TODO: tag it dont start
-                onActivityResult(REQUEST_IMAGE_CAPTURE, RESULT_OK, takePictureIntent);
+
             }
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap thumbnail = data.getParcelableExtra("data");
-            // Do other work with full size photo saved in locationForPhotos
-
+            Log.i("onActivityResult","tagItIntent");
             Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
-            tagItIntent.putExtra(KEY_PHOTO,thumbnail);
+            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());
             startActivity(tagItIntent);
-
         }
     }
 

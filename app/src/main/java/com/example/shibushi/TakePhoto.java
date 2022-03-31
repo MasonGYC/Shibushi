@@ -1,7 +1,6 @@
 package com.example.shibushi;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,11 +25,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class TakePhoto extends AppCompatActivity {
 
-    //TODO: 1. auto direct to add tag activity after taking photo 03/24(yc)
+    //TODO: 1. save tagit selected value
     //TODO: 2. implement ML to auto tag the item
 
     String currentPhotoPath;

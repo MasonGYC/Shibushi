@@ -29,6 +29,14 @@
             android:name=".ViewWardrobe"
             android:exported="false" />
         <activity
+            android:name=".TagIt"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TakePhoto"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ImportClothing"
             android:exported="false" />
         <activity
@@ -36,13 +44,14 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"            />
         <activity
             android:name=".Register"
             android:exported="false" />
