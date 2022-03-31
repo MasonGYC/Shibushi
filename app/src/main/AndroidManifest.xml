@@ -33,7 +33,7 @@
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".TakePhoto"
+            android:name=".ImportPhoto"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity

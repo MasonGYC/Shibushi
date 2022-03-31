@@ -2,35 +2,19 @@ package com.example.shibushi;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -38,11 +22,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvWelcome;
     String welcome;
     private FirebaseAuth mAuth;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int PICK_IMAGE_REQUEST = 2;
     static final String KEY_PHOTO = "PHOTO";
     Uri photoURI;
-    Bitmap bitmap;
-    String LOGCAT = "LOGCAT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,46 +72,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bChangePassword:
                 break;
             case R.id.bImportClothing:
-                startActivity(new Intent(this, ImportClothing.class));
+                ImportPhoto importPhoto1 = new ImportPhoto();
+                importPhoto1.SelectImage(PICK_IMAGE_REQUEST);
                 break;
             case R.id.bTakePhoto:
-                TakePhoto takePhoto = new TakePhoto();
-                dispatchTakePictureIntent(takePhoto);
+                ImportPhoto importPhoto = new ImportPhoto();
+                importPhoto.dispatchTakePictureIntent(photoURI,REQUEST_IMAGE_CAPTURE,MainActivity.this);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 
-    //camera
-    public void dispatchTakePictureIntent(TakePhoto takePhoto) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Log.i("takephoto:","dispatchTakePictureIntent");
-        // Ensure that there's a camera activity to handle the intent
 
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = takePhoto.createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.i("TakePicture: ","Cannot create files for photos");
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
-
-                //TODO: tag it dont start
-
-            }
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -137,6 +93,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("onActivityResult","tagItIntent");
             Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
             tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());
+            startActivity(tagItIntent);
+        }
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {
+            Uri filePath = intent.getData();
+            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);
+            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());
             startActivity(tagItIntent);
         }
     }
