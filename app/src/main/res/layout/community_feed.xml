@@ -43,16 +43,7 @@
                 app:fab_addButtonPlusIconColor="@color/white"
                 app:fab_labelStyle="@style/customFab">
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/community_feed_fab_hanger"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:fab_colorNormal="@color/white"
-                    app:fab_colorPressed="@color/grey"
-                    app:fab_icon="@drawable/ic_hanger"
-                    app:fab_size="mini"
-                    app:fab_title="New Clothing" />
-
+                <!-- New Post -->
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/community_feed_fab_edit"
                     android:layout_width="wrap_content"
@@ -63,6 +54,18 @@
                     app:fab_size="mini"
                     app:fab_title="New Post" />
 
+                <!-- New Clothing -->
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/community_feed_fab_hanger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/white"
+                    app:fab_colorPressed="@color/grey"
+                    app:fab_icon="@drawable/ic_hanger"
+                    app:fab_size="mini"
+                    app:fab_title="New Clothing" />
+
+                <!-- New Outfit -->
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/community_feed_fab_outfit"
                     android:layout_width="wrap_content"

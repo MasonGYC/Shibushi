@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:layout_height="match_parent"
-    tools:context=".Register">
+    tools:context=".Login.Register">
 
     <ImageView
         android:id="@+id/shibushiLogo"

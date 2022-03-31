@@ -5,17 +5,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
-
-        <!-- Top Toolbar -->
-        <RelativeLayout
-            android:id="@+id/layout_centre_profile_relLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <include layout="@layout/snippet_profile_toolbar" />
-
-        </RelativeLayout>
+        android:background="@color/white"
+        android:layout_marginTop="20dp">
 
         <!-- Middle Section -->
         <RelativeLayout

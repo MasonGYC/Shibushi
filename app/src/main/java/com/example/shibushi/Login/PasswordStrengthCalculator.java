@@ -1,8 +1,11 @@
-package com.example.shibushi;
+package com.example.shibushi.Login;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.shibushi.R;
+
 import java.util.regex.Pattern;
 
 public class PasswordStrengthCalculator implements TextWatcher {

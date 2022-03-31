@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bImportClothing"
-            android:text="@string/logout"/>
+            android:text="@string/logout_fragment"/>
 
         <Button
             android:id="@+id/bChangePassword"

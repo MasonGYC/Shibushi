@@ -52,13 +52,14 @@
                     android:src="@drawable/ic_baseline_account_circle_24"/>
 
                 <!-- Edit username -->
-                <EditText
-                    android:id="@+id/snippet_edit_profile_center_etUsername"
+                <TextView
+                    android:id="@+id/snippet_edit_profile_center_tvUsername"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="40dp"
-                    android:inputType="textNoSuggestions"
-                    android:hint="@string/username"/>
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="45dp"
+                    android:text="@string/username"
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 
@@ -84,7 +85,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="40dp"
                     android:hint="Bio"
-                    android:inputType="textNoSuggestions" />
+                    android:inputType="textNoSuggestions"
+                    android:textSize="20sp"/>
 
             </RelativeLayout>
 
@@ -113,16 +115,17 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_baseline_email_24"/>
+                    android:src="@drawable/ic_baseline_email_24" />
 
                 <!-- Edit Description -->
-                <EditText
-                    android:id="@+id/snippet_edit_profile_center_etEmail"
+                <TextView
+                    android:id="@+id/snippet_edit_profile_center_tvEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="40dp"
-                    android:hint="@string/email_address"
-                    android:inputType="textNoSuggestions" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="45dp"
+                    android:text="email@email.com"
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 
