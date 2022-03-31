@@ -92,11 +92,14 @@
                     android:id="@+id/layout_centre_profile_gridView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/bottom_navbar_height"
                     android:gravity="center"
                     android:horizontalSpacing="1dp"
                     android:numColumns="2"
                     android:stretchMode="columnWidth"
-                    android:verticalSpacing="1dp"></GridView>
+                    android:verticalSpacing="1dp">
+
+                </GridView>
 
 
             </RelativeLayout>

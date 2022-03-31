@@ -31,12 +31,20 @@
             android:layout_below="@+id/community_account_settings_relLayout2"
             android:layout_marginBottom="50dp">
 
-            <include layout="@layout/layout_account_settings_center" />
+            <include
+                android:id="@+id/community_account_settings_center"
+                layout="@layout/layout_account_settings_center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true" />
 
         </RelativeLayout>
 
         <!-- Bottom navigation bar -->
-        <include layout="@layout/layout_navbar_bottom"/>
+        <include layout="@layout/layout_navbar_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_height="@dimen/bottom_navbar_height"
+            android:layout_width="match_parent" />
 
     </RelativeLayout>
 

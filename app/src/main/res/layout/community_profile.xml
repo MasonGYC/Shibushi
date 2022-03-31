@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/layout_profile_center"/>
+        <include layout="@layout/layout_profile_center" />
 
-        <include layout="@layout/layout_navbar_bottom"/>
+        <include layout="@layout/layout_navbar_bottom" />
 
         <ProgressBar
             android:id="@+id/community_profile_progress_bar"
