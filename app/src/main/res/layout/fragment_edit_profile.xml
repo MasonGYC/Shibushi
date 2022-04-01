@@ -10,16 +10,18 @@
         android:layout_height="match_parent">
 
         <!-- Toolbar -->
+
+        <!-- Middle section -->
+
         <RelativeLayout
             android:id="@+id/fragment_edit_profile_relLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/snippet_edit_profile_toolbar"/>
+            <include layout="@layout/snippet_edit_profile_toolbar" />
 
         </RelativeLayout>
 
-        <!-- Middle section -->
         <RelativeLayout
             android:id="@+id/fragment_edit_profile_relLayout2"
             android:layout_width="match_parent"

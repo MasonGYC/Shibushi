@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Shibushi</string>
     <string name="change_password">Change Password</string>
-    <string name="logout">Logout</string>
-    <string name="edit_profile">Edit Profile</string>
     <string name="choose">Choose</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -30,5 +28,14 @@
         <item>Indigo</item>
         <item>Violet</item>
     </string-array>
+
+    <!-- fragment names -->
+    <string name="edit_profile_fragment">Edit Profile</string>
+    <string name="logout_fragment">Logout</string>
+    <string name="profile_fragment">Profile</string>
+
+    <!-- Intent extras -->
+    <string name="calling_activity">calling_activity</string>
+    <string name="profile">profile</string>
 
 </resources>

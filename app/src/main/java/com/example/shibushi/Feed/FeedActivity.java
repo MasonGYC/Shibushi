@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.shibushi.Feed.Profile.Profile;
+import com.example.shibushi.ImportClothing;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.UniversalImageLoader;
@@ -64,9 +65,9 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Add new post page
-                // Intent intent_newPost = new Intent(mContext, NewPost.class);
-                // mContext.startActivity(intent_newPost)
                 Toast.makeText(mContext, "Creating new post...", Toast.LENGTH_SHORT).show();
+                // Intent intent = new Intent(mContext, NewPost.class);
+                // startActivity(intent);
 
             }
         });
@@ -75,9 +76,9 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Add new clothing page
-                // Intent intent_newClothes = new Intent(mContext, NewClothes.class);
-                // mContext.startActivity(intent_newClothes)
-                Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, ImportClothing.class);
+                startActivity(intent);
             }
         });
 
@@ -85,9 +86,9 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Add new outfit page
-                // Intent intent_newOutfit = new Intent(mContext, NewOutfit.class);
-                // mContext.startActivity(intent_newOutfit)
                 Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
+                // Intent intent = new Intent(mContext, NewOutfit.class);
+                // startActivity(intent);
             }
         });
     }

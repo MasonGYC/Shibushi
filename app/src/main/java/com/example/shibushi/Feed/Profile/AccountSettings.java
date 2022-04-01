@@ -46,25 +46,31 @@ public class AccountSettings extends AppCompatActivity {
         mViewPager = findViewById(R.id.layout_centre_viewPager); // This is a general container; can be reused
         mRelativeLayout = findViewById(R.id.community_account_settings_relLayout1); // RelativeLayout that holds the entire account setting page
 
-        // Setup top toolbar
         setupToolBar();
-
-        // Setup bottom navigation bar
         setupBottomNavigationView();
-
-        // setup Setting list
         setupSettingsList();
-
-        // setup Fragments
         setupFragments();
+        getIncomingIntent();
+    }
+
+    /**
+     * If edit profile was pressed in profile, it will automatically navigate to here and then change to the edit profile fragment
+     */
+    private void getIncomingIntent() {
+        Intent intent = getIntent(); // retrieves incoming intent when we started this activity
+        if (intent.hasExtra(getString(R.string.calling_activity))) {
+            Log.d(TAG, "getIncomingIntent: received incoming intent from " + getString(R.string.profile));
+            setViewPager(pagerAdapter.getFragmentNumber(getString(R.string.edit_profile_fragment)));
+        }
+
     }
 
     // Fragment setup
     private void setupFragments() {
         pagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager(), getLifecycle());
-        pagerAdapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile)); //fragment #0
+        pagerAdapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile_fragment)); //fragment #0
         pagerAdapter.addFragment(new ChangePwFragment(), getString(R.string.change_password)); //fragment #1
-        pagerAdapter.addFragment(new SignOutFragment(), getString(R.string.logout)); //fragment #2
+        pagerAdapter.addFragment(new SignOutFragment(), getString(R.string.logout_fragment)); //fragment #2
     }
 
     // ViewPager setup: Responsible for nav to fragments
@@ -81,9 +87,9 @@ public class AccountSettings extends AppCompatActivity {
         ListView listView = findViewById(R.id.layout_account_settings_center_listView);
 
         ArrayList<String> options = new ArrayList<>();
-        options.add(getString(R.string.edit_profile)); //fragment #0
+        options.add(getString(R.string.edit_profile_fragment)); //fragment #0
         options.add(getString(R.string.change_password)); //fragment #1
-        options.add(getString(R.string.logout)); //fragment #2
+        options.add(getString(R.string.logout_fragment)); //fragment #2
 
         ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
         listView.setAdapter(adapter);

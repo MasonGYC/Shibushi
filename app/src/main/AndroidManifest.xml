@@ -37,7 +37,7 @@
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".Login.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,7 +50,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"            />
         <activity
-            android:name=".Register"
+            android:name=".Login.Register"
             android:exported="true" />
         <activity
             android:name=".ViewOutfitsActivity"/>
