@@ -37,5 +37,6 @@
     <!-- Intent extras -->
     <string name="calling_activity">calling_activity</string>
     <string name="profile">profile</string>
+    <string name="logout">LOGOUT</string>
 
 </resources>
