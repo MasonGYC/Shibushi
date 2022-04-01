@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
-    <RelativeLayout
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome, User"
+        android:textSize="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="top"/>
+
+    <Button
+        android:id="@+id/bImportClothing"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvWelcome"
+        android:text="Import Clothing"/>
 
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome, User"
-            android:textSize="40dp"
-            android:layout_gravity="top"/>
+    <Button
+        android:id="@+id/bTakePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bChangePassword"
+        android:text="@string/take_photo"/>
 
-        <Button
-            android:id="@+id/bImportClothing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvWelcome"
-            android:text="Import Clothing"/>
+    <Button
+        android:id="@+id/bLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bImportClothing"
+        android:text="@string/logout"/>
 
-        <Button
-            android:id="@+id/bTakePhoto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/take_photo"/>
-
-        <Button
-            android:id="@+id/bLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bImportClothing"
-            android:text="@string/logout"/>
-
-        <Button
-            android:id="@+id/bChangePassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bLogout"
-            android:text="@string/change_password"/>
+    <Button
+        android:id="@+id/bChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bLogout"
+        android:text="@string/change_password"/>
 
 
 
@@ -55,6 +53,4 @@
         </include>
 
     </RelativeLayout>
-
-
 
