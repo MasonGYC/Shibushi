@@ -14,12 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.shibushi.Feed.Profile.Profile;
-import com.example.shibushi.ImportClothing;
+import com.example.shibushi.ImportPhoto;
+import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.UniversalImageLoader;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.annotations.Nullable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -77,8 +78,8 @@ public class FeedActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO: Add new clothing page
                 // Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, ImportClothing.class);
-                startActivity(intent);
+                ImportPhoto importPhoto1 = new ImportPhoto();
+                importPhoto1.SelectImage(MainActivity.PICK_IMAGE_REQUEST);
             }
         });
 

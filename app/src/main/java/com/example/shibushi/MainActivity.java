@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvWelcome;
     String welcome;
     private FirebaseAuth mAuth;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int PICK_IMAGE_REQUEST = 2;
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int PICK_IMAGE_REQUEST = 2;
     static final String KEY_PHOTO = "PHOTO";
     Uri photoURI;
 
