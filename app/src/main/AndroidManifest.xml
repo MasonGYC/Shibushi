@@ -33,10 +33,6 @@
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ImportPhoto"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".Login.Login"
             android:exported="true">
             <intent-filter>

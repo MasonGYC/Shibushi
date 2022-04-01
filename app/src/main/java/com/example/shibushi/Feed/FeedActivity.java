@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.shibushi.Feed.Profile.Profile;
-import com.example.shibushi.ImportPhoto;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
@@ -76,10 +75,8 @@ public class FeedActivity extends AppCompatActivity {
         fab_hanger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Add new clothing page
-                // Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
-                ImportPhoto importPhoto1 = new ImportPhoto();
-                importPhoto1.SelectImage(MainActivity.PICK_IMAGE_REQUEST);
+                Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
+                SelectImage(MainActivity.PICK_IMAGE_REQUEST);
             }
         });
 
@@ -122,6 +119,15 @@ public class FeedActivity extends AppCompatActivity {
         Menu menu = bottom_navbar_view.getMenu();
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
+    }
+
+    // Select Image method
+    public void SelectImage(int PICK_IMAGE_REQUEST) {
+        // Defining Implicit Intent to mobile gallery
+        Intent selectIntent = new Intent();
+        selectIntent.setType("image/*");
+        selectIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
 
 }

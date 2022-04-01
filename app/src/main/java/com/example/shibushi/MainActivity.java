@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.example.shibushi.Login.Login;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
@@ -21,6 +24,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int PICK_IMAGE_REQUEST = 2;
     static final String KEY_PHOTO = "PHOTO";
     Uri photoURI;
+    String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +109,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bChangePassword:
                 break;
             case R.id.bImportClothing:
-                ImportPhoto importPhoto1 = new ImportPhoto();
-                importPhoto1.SelectImage(PICK_IMAGE_REQUEST);
+                SelectImage(PICK_IMAGE_REQUEST);
                 break;
             case R.id.bTakePhoto:
-                ImportPhoto importPhoto = new ImportPhoto();
-                importPhoto.dispatchTakePictureIntent(photoURI,REQUEST_IMAGE_CAPTURE,MainActivity.this);
+                dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
@@ -142,6 +148,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //Methods below better not put in a separate file, due to pass-by-reference i guess
+    //take picture
+    public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Toast.makeText(MainActivity.this,"Cannot create files for photos",Toast.LENGTH_SHORT).show();
+                //Log.i("TakePicture: ","Cannot create files for photos");
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+
+            }
+        }
+    }
+
+    //store in public Pictures directory
+    public File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "Shibushi_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    // Select Image method
+    public void SelectImage(int PICK_IMAGE_REQUEST) {
+        // Defining Implicit Intent to mobile gallery
+        Intent selectIntent = new Intent();
+        selectIntent.setType("image/*");
+        selectIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
 
 }
