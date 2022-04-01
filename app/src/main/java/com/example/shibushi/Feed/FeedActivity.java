@@ -19,8 +19,8 @@ import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.annotations.Nullable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
