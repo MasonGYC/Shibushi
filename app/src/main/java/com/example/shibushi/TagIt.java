@@ -1,5 +1,7 @@
 package com.example.shibushi;
 
+import static com.example.shibushi.Feed.FeedActivity.KEY_FEED_PHOTO;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -39,6 +41,7 @@ public class TagIt extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     public Uri filePath;
+    String photoURIString;
 
 
     @Override
@@ -59,7 +62,13 @@ public class TagIt extends AppCompatActivity {
 
         //get intent to set image
         Intent bitmapIntent = getIntent();
-        String photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);
+        if (bitmapIntent.getStringExtra(KEY_FEED_PHOTO) != null){
+            photoURIString= bitmapIntent.getStringExtra(KEY_FEED_PHOTO);
+        }
+        else if (bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO) != null){
+            photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);
+            }
+
         Uri photoURI = Uri.parse(photoURIString);
 
         try {

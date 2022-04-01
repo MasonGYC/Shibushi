@@ -2,6 +2,7 @@ package com.example.shibushi.Feed;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
+import com.example.shibushi.TagIt;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -29,6 +31,10 @@ public class FeedActivity extends AppCompatActivity {
     private Context mContext = FeedActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
+
+    public static final String KEY_FEED_PHOTO = "KEY_FEED_PHOTO";
+    Uri imageUri;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +82,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
-                SelectImage(MainActivity.PICK_IMAGE_REQUEST);
+                importClothing(MainActivity.PICK_IMAGE_REQUEST);
             }
         });
 
@@ -122,12 +128,28 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     // Select Image method
-    public void SelectImage(int PICK_IMAGE_REQUEST) {
+    public void importClothing(int PICK_IMAGE_REQUEST) {
         // Defining Implicit Intent to mobile gallery
         Intent selectIntent = new Intent();
         selectIntent.setType("image/*");
         selectIntent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == MainActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            if (intent.getData() != null) {
+                imageUri = intent.getData();
+                Intent tagItIntent = new Intent(mContext, TagIt.class);
+                tagItIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());
+                startActivity(tagItIntent);
+
+            }
+
+        }
+
+        }
 
 }
