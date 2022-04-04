@@ -5,15 +5,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
-    </queries>
-
-    <!-- To use device camera -->
+    </queries> <!-- To use device camera -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -26,37 +24,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
         <activity
+            android:name=".Login.ChangePassword"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewWardrobeActivity"
             android:exported="false" />
         <activity
             android:name=".TagIt"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Login.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"            />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Login.Register"
             android:exported="true" />
-        <activity
-            android:name=".ViewOutfitsActivity"/>
-        <activity
-            android:name=".Feed.FeedActivity"/>
-        <activity
-            android:name=".Feed.Profile.Profile"/>
-        <activity
-            android:name=".Feed.Profile.AccountSettings"/>
-            android:exported="false" />
+        <activity android:name=".ViewOutfitsActivity" />
+        <activity android:name=".Feed.FeedActivity" />
+        <activity android:name=".Feed.Profile.Profile" />
+        <activity android:name=".Feed.Profile.AccountSettings" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -64,9 +64,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

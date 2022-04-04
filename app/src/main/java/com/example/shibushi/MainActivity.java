@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.example.shibushi.Login.ChangePassword;
 import com.example.shibushi.Login.Login;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             // Not high priority, may remove
             case R.id.bChangePassword:
+                changePassword();
                 break;
             case R.id.bImportClothing:
                 SelectImage(PICK_IMAGE_REQUEST);
@@ -176,6 +178,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    public void changePassword() {
+        startActivity(new Intent(MainActivity.this, ChangePassword.class));
+    }
+
+
 
     //store in public Pictures directory
     public File createImageFile() throws IOException {
