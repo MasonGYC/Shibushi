@@ -21,12 +21,11 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/backArrow"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:id="@+id/backArrow"
-                android:src="@drawable/ic_baseline_arrow_back_24"
-                />
+                android:src="@drawable/ic_baseline_arrow_back_24" />
 
             <TextView
                 android:layout_width="wrap_content"

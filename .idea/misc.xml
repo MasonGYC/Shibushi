@@ -3,15 +3,48 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.1" />
-        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_change_password.xml" value="0.1" />
         <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_import_clothing.xml" value="0.33515625" />
-        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_login.xml" value="0.5142857142857143" />
+        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_login.xml" value="0.18857142857142858" />
         <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_main.xml" value="0.1160081053698075" />
         <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_register.xml" value="0.2570621468926554" />
         <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/activity_view_wardrobe.xml" value="0.33515625" />
         <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/card_layout.xml" value="0.33515625" />
-        <entry key="..\:/Term 4/50.001  Information Systems and Programming/1D Project/50.001-info-sys/app/src/main/res/layout/layout_navbar_bottom.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/activity_search.xml" value="0.21041666666666667" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/activity_search_rv.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/community_feed.xml" value="0.11094224924012158" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/community_profile.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/fragment_edit_profile.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/fragment_profile.xml" value="0.20244565217391305" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/fragment_view_post.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/layout_account_settings_center.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/layout_user_list_item.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/snippet_edit_profile_center.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/snippet_feed_top_toolbar.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/snippet_post_toolbar.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Wang Zhao/GitHub/50.001-info-sys/app/src/main/res/layout/snippet_searchbar.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/drawable/button_round.xml" value="0.237" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/drawable/fab_label_background.xml" value="0.237" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/activity_import_clothing.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/activity_main.xml" value="0.39666357738646896" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/activity_search.xml" value="0.25" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/activity_view_outfits.xml" value="0.264" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/activity_view_wardrobe.xml" value="0.14375" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/card_layout.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/community_account_settings.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/community_feed.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/community_profile.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/fragment_change_pw.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/fragment_edit_profile.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/fragment_feed.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/fragment_signout.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/layout_account_settings_center.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/layout_center_viewpager.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/layout_profile_center.xml" value="0.2" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/snippet_edit_profile_center.xml" value="0.3625" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/snippet_edit_profile_toolbar.xml" value="0.2682291666666667" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/snippet_profile_user_details.xml" value="0.2682291666666667" />
+        <entry key="..\:/Users/Wang Zhao/Github/50.001-info-sys/app/src/main/res/layout/snippet_searchbar.xml" value="0.25" />
         <entry key="..\:/Users/joshu/Documents/Github/50.001-info-sys/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2155" />
         <entry key="..\:/Users/joshu/Documents/Github/50.001-info-sys/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.2155" />
         <entry key="..\:/Users/joshu/Documents/Github/50.001-info-sys/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2155" />
@@ -27,6 +60,9 @@
         <entry key="..\:/Users/joshu/Documents/Github/50.001-info-sys/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2415" />
       </map>
     </option>
+  </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

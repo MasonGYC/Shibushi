@@ -59,7 +59,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="45dp"
                     android:text="@string/username"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
@@ -86,7 +86,7 @@
                     android:layout_marginStart="40dp"
                     android:hint="Bio"
                     android:inputType="textNoSuggestions"
-                    android:textSize="20sp"/>
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
@@ -125,7 +125,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="45dp"
                     android:text="email@email.com"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 

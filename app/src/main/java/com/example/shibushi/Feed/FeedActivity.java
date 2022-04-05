@@ -104,11 +104,22 @@ public class FeedActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ImageView myprofile = findViewById(R.id.community_feed_top_toolbar_profile);
+        ImageView searchBar = findViewById(R.id.community_feed_top_toolbar_search);
+
         myprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Navigating to my profile");
                 Intent intent = new Intent(mContext, Profile.class);
+                startActivity(intent);
+            }
+        });
+
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Navigating to search");
+                Intent intent = new Intent(mContext, SearchActivity.class);
                 startActivity(intent);
             }
         });

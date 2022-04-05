@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- View post toolbar -->
+    <!-- View outfit toolbar -->
     <RelativeLayout
         android:id="@+id/relLayout1"
         android:layout_width="wrap_content"

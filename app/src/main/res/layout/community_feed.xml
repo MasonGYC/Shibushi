@@ -43,7 +43,7 @@
                 app:fab_addButtonPlusIconColor="@color/white"
                 app:fab_labelStyle="@style/customFab">
 
-                <!-- New Post -->
+                <!-- Share new outfit -->
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/community_feed_fab_edit"
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     app:fab_colorPressed="@color/grey"
                     app:fab_icon="@drawable/ic_baseline_edit_24"
                     app:fab_size="mini"
-                    app:fab_title="New Post" />
+                    app:fab_title="Share New Outfit" />
 
                 <!-- New Clothing -->
                 <com.getbase.floatingactionbutton.FloatingActionButton
