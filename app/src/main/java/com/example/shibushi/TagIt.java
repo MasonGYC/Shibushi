@@ -17,7 +17,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,16 +34,14 @@ import java.util.UUID;
 
 public class TagIt extends AppCompatActivity {
 
-    ImageView imageViewBitmap;
     Button buttonTagIt;
     Spinner spinnerColor;
     Spinner spinnerCategory;
     Spinner spinnerOccasion;
-    final float scale = 0.7f; //scale factor for bitmap display
     FirebaseStorage storage;
     StorageReference storageReference;
     public Uri filePath;
-    String photoURIString;
+
 
 
     @Override
@@ -54,35 +54,12 @@ public class TagIt extends AppCompatActivity {
         storageReference = storage.getReference();
 
         //get widgets
-        imageViewBitmap = findViewById(R.id.tagPhoto);
         buttonTagIt = findViewById(R.id.buttonTagIt);
         spinnerColor = findViewById(R.id.spinnerColor);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         spinnerOccasion = findViewById(R.id.spinnerOccasion);
 
-        //get intent to set image
-        Intent bitmapIntent = getIntent();
-        if (bitmapIntent.getStringExtra(KEY_FEED_PHOTO) != null){
-            photoURIString= bitmapIntent.getStringExtra(KEY_FEED_PHOTO);
-        }
-        else if (bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO) != null){
-            photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);
-            }
 
-        Uri photoURI = Uri.parse(photoURIString);
-
-        try {
-            Bitmap bitmapfull = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
-            Bitmap bitmap = Bitmap.createScaledBitmap(bitmapfull,
-                    (int)(bitmapfull.getWidth()*scale),
-                    (int)(bitmapfull.getHeight()*scale),
-                    true); //bilinear filtering
-            imageViewBitmap.setImageBitmap(bitmap);
-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getWidth()*scale));
-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getHeight()*scale));
-        } catch (IOException e) {
-            Log.i("tagit","NO imgUri");
-        }
 
         buttonTagIt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +70,8 @@ public class TagIt extends AppCompatActivity {
         });
 
     }
+
+
 
     public void uploadImage() {
         if (filePath != null) {

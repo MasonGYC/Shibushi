@@ -128,15 +128,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Log.i("onActivityResult","tagItIntent");
-            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
-            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());
-            startActivity(tagItIntent);
+            Intent cropIntent = new Intent(MainActivity.this,Crop.class);
+            cropIntent.putExtra(KEY_PHOTO, photoURI.toString());
+            startActivity(cropIntent);
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {
             Uri filePath = intent.getData();
-            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);
-            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());
-            startActivity(tagItIntent);
+            Intent cropIntent = new Intent(MainActivity.this, Crop.class);
+            cropIntent.putExtra(KEY_PHOTO, filePath.toString());
+            startActivity(cropIntent);
         }
     }
 
