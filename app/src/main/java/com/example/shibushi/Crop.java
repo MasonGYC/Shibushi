@@ -53,6 +53,7 @@ public class Crop extends AppCompatActivity {
     private void cropPhoto(Uri uri) throws IOException {
         Log.i("CROP", "launch cropPhoto");
         Intent intent = new Intent("com.android.camera.action.CROP");
+
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("scale", true);
 
@@ -65,7 +66,13 @@ public class Crop extends AppCompatActivity {
         intent.putExtra("return-data", true);
         Log.i("CROP", "cropPhoto start activity for result");
         if( intent.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(intent, CROP_PHOTO);
+            Log.i("CROP", "Able to initialize");
+            try {
+                startActivityForResult(intent, CROP_PHOTO);
+            }catch (Exception e){
+                Log.i("EXCEPTION","catch exception");
+            }
+            Log.i("CROP", "Able to initialize ends");
         }
         else{
             Log.i("CROP", "Fail to initialize");
@@ -92,7 +99,7 @@ public class Crop extends AppCompatActivity {
 //    }
 //}
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("CROP", "launch onActivityResult");
         Log.i("HAHAHA", String.valueOf(requestCode+resultCode));
         super.onActivityResult(requestCode, resultCode, data);
