@@ -104,7 +104,7 @@ public class AccountSettings extends AppCompatActivity {
         });
     }
 
-    // Top toolbar setup
+    // Top toolbar setupVF
     private void setupToolBar() {
         Toolbar toolbar = findViewById(R.id.community_account_settings_toolbar);
         setSupportActionBar(toolbar);
@@ -143,6 +143,4 @@ public class AccountSettings extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
     }
-
-
 }

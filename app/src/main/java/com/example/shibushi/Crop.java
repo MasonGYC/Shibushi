@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,11 +21,12 @@ public class Crop extends AppCompatActivity {
     String photoURIString;
     Uri photoURI;
 
-    ImageView imageViewBitmap = findViewById(R.id.tagPhoto);
+    ImageView imageViewBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageViewBitmap = findViewById(R.id.tagPhoto);
 
         //get intent to set image
         Intent bitmapIntent = getIntent();
@@ -49,6 +51,7 @@ public class Crop extends AppCompatActivity {
     }
 
     private void cropPhoto(Uri uri) throws IOException {
+        Log.i("CROP", "launch cropPhoto");
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("scale", true);
@@ -60,21 +63,47 @@ public class Crop extends AppCompatActivity {
         intent.putExtra("outputX", R.dimen.tagItImage);
         intent.putExtra("outputY", R.dimen.tagItImage);
         intent.putExtra("return-data", true);
+        Log.i("CROP", "cropPhoto start activity for result");
+        if( intent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(intent, CROP_PHOTO);
+        }
+        else{
+            Log.i("CROP", "Fail to initialize");
+        }
 
-        startActivityForResult(intent, CROP_PHOTO);
+
+        //startActivityForResult(intent, CROP_PHOTO);
+        Log.i("CROP", "cropPhoto start activity for result ends");
 
     }
-
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        try {
+//            if (requestCode == CROP_PHOTO && resultCode == RESULT_OK) {
+//                Bitmap bitmap = data.getExtras().getParcelable("data");
+//                imageViewBitmap.setImageBitmap(bitmap);
+//                Toast.makeText(Crop.this, "setbitmap", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//        catch (Exception e){
+//            Log.i("oncropresult", String.valueOf(e));
+//        }
+//    }
+//}
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.i("CROP", "launch onActivityResult");
+        Log.i("HAHAHA", String.valueOf(requestCode+resultCode));
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == CROP_PHOTO && resultCode == RESULT_OK) {
             Bitmap bitmap = data.getExtras().getParcelable("data");
+            Log.i("CROP", bitmap.toString());
             imageViewBitmap.setImageBitmap(bitmap);
             Toast.makeText(Crop.this,"setbitmap",Toast.LENGTH_SHORT).show();
-            Intent tagItIntent = new Intent(Crop.this, TagIt.class);
-            startActivity(tagItIntent);
+//            Intent tagItIntent = new Intent(Crop.this, TagIt.class);
+//            startActivity(tagItIntent);
         }
     }
 }
