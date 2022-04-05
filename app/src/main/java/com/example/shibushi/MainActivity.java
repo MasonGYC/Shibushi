@@ -118,16 +118,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
-                Log.d("hello", "firestore");
                 goFirestore();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -142,18 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);
             tagItIntent.putExtra(KEY_PHOTO, filePath.toString());
             startActivity(tagItIntent);
-        }
-    }
-
-    // TODO: 3/15/2022 refactor into a new java file
-    private void logOut() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null){
-            mAuth.signOut();
-            Toast.makeText(this, user.getEmail()+ "is logged out!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Login.class));
-        }else{
-            Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -183,15 +167,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
-    public void changePassword() {
-        startActivity(new Intent(MainActivity.this, ChangePassword.class));
-    }
-    public void goFirestore() {
-        startActivity(new Intent(MainActivity.this, firestoreUpload.class));
-    }
-
-
     //store in public Pictures directory
     public File createImageFile() throws IOException {
         // Create an image file name
@@ -217,6 +192,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         selectIntent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
+
+    // TODO: remove
+    private void logOut() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null){
+            mAuth.signOut();
+            Toast.makeText(this, user.getEmail()+ "is logged out!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, Login.class));
+        }else{
+            Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void changePassword() {
+        startActivity(new Intent(MainActivity.this, ChangePassword.class));
+    }
+    public void goFirestore() {
+        startActivity(new Intent(MainActivity.this, firestoreUpload.class));
+    }
+
+
 
 }
 

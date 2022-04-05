@@ -2,13 +2,14 @@ package com.example.shibushi.Utils;
 
 import android.content.Context;
 
-import com.example.shibushi.Login.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+/*
+* Helper methods for use with Cloud Storage and Cloud Firestore
+* */
 
 public class FirebaseMethods {
 
@@ -37,5 +38,6 @@ public class FirebaseMethods {
 
     public void addNewUser(String email, String username, String bio, String profile_photo) {
     }
+
 
 }
