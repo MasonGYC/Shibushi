@@ -50,6 +50,9 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".firestoreUpload"
+            />
+        <activity
             android:name=".Login.Register"
             android:exported="true" />
         <activity android:name=".ViewOutfitsActivity" />

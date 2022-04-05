@@ -12,6 +12,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 
+/*
+* Helper methods for use with Cloud Storage and Cloud Firestore
+* */
 
 public class FirebaseMethods {
 
