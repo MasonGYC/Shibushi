@@ -29,27 +29,36 @@ public class BottomNavigationViewHelper {
         view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch (item.getItemId()) {
 
                     // TODO: Remove and change home to feed
                     case R.id.ic_home: // b_menu_ACTIVTY_NUM = 0
-                        Intent intent_activity_home = new Intent(context, MainActivity.class);
-                        context.startActivity(intent_activity_home);
+                        if (view.getSelectedItemId()!=R.id.ic_home) {
+                            Intent intent_activity_home = new Intent(context, MainActivity.class);
+                            context.startActivity(intent_activity_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        }
                         break;
 
                     case R.id.ic_community_feed: // b_menu_ACTIVTY_NUM = 1
-                        Intent intent_community_feed = new Intent(context, FeedActivity.class);
-                        context.startActivity(intent_community_feed);
+                        if (view.getSelectedItemId()!=R.id.ic_community_feed) {
+                            Intent intent_community_feed = new Intent(context, FeedActivity.class);
+                            context.startActivity(intent_community_feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        }
                         break;
 
                     case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 2
-                        Intent intent_wardrobe = new Intent(context, ViewWardrobeActivity.class);
-                        context.startActivity(intent_wardrobe);
+                        if (view.getSelectedItemId()!=R.id.ic_wardrobe) {
+                            Intent intent_wardrobe = new Intent(context, ViewWardrobeActivity.class);
+                            context.startActivity(intent_wardrobe.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        }
                         break;
 
                     case R.id.ic_outfits: // b_menu_ACTIVTY_NUM = 3
-                        Intent intent_outfits = new Intent(context, ViewOutfitsActivity.class);
-                        context.startActivity(intent_outfits);
+                        if (view.getSelectedItemId()!=R.id.ic_outfits) {
+                            Intent intent_outfits = new Intent(context, ViewOutfitsActivity.class);
+                            context.startActivity(intent_outfits.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        }
                         break;
                 }
 
