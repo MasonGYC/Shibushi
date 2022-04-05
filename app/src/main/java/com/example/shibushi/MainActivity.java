@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Context mContext = MainActivity.this;
     private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number
 
-    Button bLogout, bChangePassword, bImportClothing, bTakePhoto;
+    Button bLogout, bChangePassword, bImportClothing, bTakePhoto, bFirestore;
     TextView tvWelcome;
     String welcome;
     private FirebaseAuth mAuth;
@@ -55,11 +54,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bLogout = findViewById(R.id.bLogout);
         bChangePassword = findViewById(R.id.bChangePassword);
         bImportClothing = findViewById(R.id.bImportClothing);
+        bFirestore = findViewById(R.id.bFirestore);
 
         // Button OnClickListener
         bLogout.setOnClickListener(this);
         bChangePassword.setOnClickListener(this);
         bImportClothing.setOnClickListener(this);
+        bFirestore.setOnClickListener(this);
 
         // Set up bottom navigation bar
         setupBottomNavigationView();
@@ -115,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bTakePhoto:
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
+                break;
+            case R.id.bFirestore:
+                Log.d("hello", "firestore");
+                goFirestore();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
@@ -182,7 +187,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void changePassword() {
         startActivity(new Intent(MainActivity.this, ChangePassword.class));
     }
-
+    public void goFirestore() {
+        startActivity(new Intent(MainActivity.this, firestoreUpload.class));
+    }
 
 
     //store in public Pictures directory

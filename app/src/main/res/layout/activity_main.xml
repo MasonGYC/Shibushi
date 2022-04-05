@@ -26,14 +26,14 @@
         android:id="@+id/bTakePhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bChangePassword"
+        android:layout_below="@+id/bImportClothing"
         android:text="@string/take_photo"/>
 
     <Button
         android:id="@+id/bLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bImportClothing"
+        android:layout_below="@+id/bTakePhoto"
         android:text="@string/logout"/>
 
     <Button
@@ -42,6 +42,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bLogout"
         android:text="@string/change_password"/>
+    <Button
+        android:id="@+id/bFirestore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bChangePassword"
+        android:text="Firestore"/>
 
 
 
