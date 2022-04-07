@@ -23,6 +23,7 @@ import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.example.shibushi.PhotoProcess.CropActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -119,28 +120,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bFirestore:
                 goFirestore();
+                Intent cropIntent = new Intent(MainActivity.this, CropActivity.class);
+                startActivity(cropIntent);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Log.i("onActivityResult","tagItIntent");
-            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
-            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());
-            startActivity(tagItIntent);
-        }
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {
-            Uri filePath = intent.getData();
-            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);
-            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());
-            startActivity(tagItIntent);
-        }
-    }
-
     //Methods below better not put in a separate file, due to pass-by-reference i guess
     //take picture
     public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {

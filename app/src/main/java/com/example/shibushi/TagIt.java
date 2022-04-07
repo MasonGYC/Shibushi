@@ -2,7 +2,9 @@ package com.example.shibushi;
 
 import static com.example.shibushi.Feed.FeedActivity.KEY_FEED_PHOTO;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,13 +14,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shibushi.PhotoProcess.ResultActivity;
+import com.example.shibushi.Utils.FirebaseMethods;
 import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -60,24 +69,13 @@ public class TagIt extends AppCompatActivity {
 
         //get intent to set image
         Intent bitmapIntent = getIntent();
-        if (bitmapIntent.getStringExtra(KEY_FEED_PHOTO) != null){
-            photoURIString= bitmapIntent.getStringExtra(KEY_FEED_PHOTO);
-        }
-        else if (bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO) != null){
-            photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);
-            }
 
-        Uri photoURI = Uri.parse(photoURIString);
+        Uri photoURI = Uri.parse(bitmapIntent.getStringExtra(ResultActivity.KEY_PHOTO));
 
         try {
-            Bitmap bitmapfull = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
-            Bitmap bitmap = Bitmap.createScaledBitmap(bitmapfull,
-                    (int)(bitmapfull.getWidth()*scale),
-                    (int)(bitmapfull.getHeight()*scale),
-                    true); //bilinear filtering
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
             imageViewBitmap.setImageBitmap(bitmap);
-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getWidth()*scale));
-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getHeight()*scale));
+
         } catch (IOException e) {
             Log.i("tagit","NO imgUri");
         }
@@ -85,7 +83,8 @@ public class TagIt extends AppCompatActivity {
         buttonTagIt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirestoreMethods.addClothes(map,photoURI);
+                //FirebaseMethods.addClothes(map,photoURI);
+                Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TagIt.this,MainActivity.class);
                 startActivity(intent);
             }

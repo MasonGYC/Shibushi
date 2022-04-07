@@ -41,7 +41,6 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_profile);
         Log.d(TAG, "onCreate: started");
-
         init();
 
 //        setupToolBar();

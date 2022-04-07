@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/tagPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/tagItImage"
+        android:layout_height="@dimen/tagItImage"
         app:layout_constraintBottom_toTopOf="@+id/spinnerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
