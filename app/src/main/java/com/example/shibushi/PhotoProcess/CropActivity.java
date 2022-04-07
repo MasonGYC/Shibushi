@@ -36,9 +36,9 @@ import java.io.File;
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
  */
-public class SampleActivity extends BaseActivity implements UCropFragmentCallback {
+public class CropActivity extends BaseActivity implements UCropFragmentCallback {
 
-    private static final String TAG = "SampleActivity";
+    private static final String TAG = "CropActivity";
 
     private static final int REQUEST_SELECT_PICTURE = 0x01;
     private static final int REQUEST_SELECT_PICTURE_FOR_FRAGMENT = 0x02;
@@ -64,8 +64,9 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
-        setupUI();
+        //setContentView(R.layout.activity_sample);
+        //setupUI();
+        pickFromGallery();
     }
 
     @Override
@@ -77,7 +78,7 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
                 if (selectedUri != null) {
                     startCrop(selectedUri);
                 } else {
-                    Toast.makeText(SampleActivity.this, R.string.toast_cannot_retrieve_selected_image, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_selected_image, Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == UCrop.REQUEST_CROP) {
                 handleCropResult(data);
@@ -88,6 +89,7 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
         }
     }
 
+    /*
     @SuppressWarnings("ConstantConditions")
     private void setupUI() {
         findViewById(R.id.button_crop).setOnClickListener(new View.OnClickListener() {
@@ -101,6 +103,8 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
         //settingsView = findViewById(R.id.settings);
 
     }
+
+     */
 
     private void pickFromGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
@@ -125,11 +129,16 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
         uCrop = basisConfig(uCrop);
         uCrop = advancedConfig(uCrop);
 
+        uCrop.start(CropActivity.this);
+
+        /*
         if (requestMode == REQUEST_SELECT_PICTURE_FOR_FRAGMENT) {       //if build variant = fragment
             setupFragment(uCrop);
         } else {                                                        // else start uCrop Activity
-            uCrop.start(SampleActivity.this);
+            uCrop.start(CropActivity.this);
         }
+
+         */
 
     }
 
@@ -176,9 +185,9 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
     private void handleCropResult(@NonNull Intent result) {
         final Uri resultUri = UCrop.getOutput(result);
         if (resultUri != null) {
-            ResultActivity.startWithUri(SampleActivity.this, resultUri);
+            ResultActivity.startWithUri(CropActivity.this, resultUri);
         } else {
-            Toast.makeText(SampleActivity.this, R.string.toast_cannot_retrieve_cropped_image, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_cropped_image, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -187,9 +196,9 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
         final Throwable cropError = UCrop.getError(result);
         if (cropError != null) {
             Log.e(TAG, "handleCropError: ", cropError);
-            Toast.makeText(SampleActivity.this, cropError.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(CropActivity.this, cropError.getMessage(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(SampleActivity.this, R.string.toast_unexpected_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CropActivity.this, R.string.toast_unexpected_error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -220,6 +229,7 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
         settingsView.setVisibility(View.VISIBLE);
     }
 
+    /*
     public void setupFragment(UCrop uCrop) {
         fragment = uCrop.getFragment(uCrop.getIntent(this).getExtras());
         getSupportFragmentManager().beginTransaction()
@@ -228,6 +238,8 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
 
         setupViews(uCrop.getIntent(this).getExtras());
     }
+
+
 
     public void setupViews(Bundle args) {
         //settingsView.setVisibility(View.GONE);
@@ -242,9 +254,13 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
         setupAppBar();
     }
 
+     */
+
+
     /**
      * Configures and styles both status bar and toolbar.
      */
+    /*
     private void setupAppBar() {
         setStatusBarColor(mStatusBarColor);
 
@@ -273,6 +289,8 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
         }
     }
 
+     */
+
     /**
      * Sets status-bar color for L devices.
      *
@@ -288,6 +306,7 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
             }
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {

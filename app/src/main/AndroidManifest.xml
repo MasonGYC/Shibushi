@@ -60,10 +60,11 @@
         <activity android:name=".Feed.Profile.Profile" />
         <activity android:name=".Feed.Profile.AccountSettings" />
 
-        <activity android:name=".PhotoProcess.SampleActivity"
+        <activity android:name=".PhotoProcess.CropActivity"
             android:exported="true"/>
         <activity android:name=".PhotoProcess.ResultActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".PhotoProcess.BaseActivity"
             android:exported="true"/>
 

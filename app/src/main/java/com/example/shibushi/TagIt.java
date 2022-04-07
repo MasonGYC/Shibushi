@@ -2,9 +2,7 @@ package com.example.shibushi;
 
 import static com.example.shibushi.Feed.FeedActivity.KEY_FEED_PHOTO;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,32 +14,28 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.shibushi.PhotoProcess.ResultActivity;
+import com.example.shibushi.Utils.FirebaseMethods;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
+import java.util.HashMap;
 
 public class TagIt extends AppCompatActivity {
 
+    ImageView imageViewBitmap;
     Button buttonTagIt;
     Spinner spinnerColor;
     Spinner spinnerCategory;
     Spinner spinnerOccasion;
+    final float scale = 0.7f; //scale factor for bitmap display
     FirebaseStorage storage;
     StorageReference storageReference;
     public Uri filePath;
-
+    String photoURIString;
 
 
     @Override
@@ -49,21 +43,41 @@ public class TagIt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tagit);
 
+        //dummy hashmap
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("color", "red");
+        map.put("size", "M");
+        map.put("Category", "Shirt");
+
         // get the Firebase  storage reference
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
         //get widgets
+        imageViewBitmap = findViewById(R.id.tagPhoto);
         buttonTagIt = findViewById(R.id.buttonTagIt);
         spinnerColor = findViewById(R.id.spinnerColor);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         spinnerOccasion = findViewById(R.id.spinnerOccasion);
 
+        //get intent to set image
+        Intent bitmapIntent = getIntent();
 
+        Uri photoURI = Uri.parse(bitmapIntent.getStringExtra(ResultActivity.KEY_PHOTO));
+
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
+            imageViewBitmap.setImageBitmap(bitmap);
+
+        } catch (IOException e) {
+            Log.i("tagit","NO imgUri");
+        }
 
         buttonTagIt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //FirebaseMethods.addClothes(map,photoURI);
+                Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TagIt.this,MainActivity.class);
                 startActivity(intent);
             }
@@ -71,9 +85,7 @@ public class TagIt extends AppCompatActivity {
 
     }
 
-
-
-    public void uploadImage() {
+    /*public void uploadImage() {
         if (filePath != null) {
 
             // Code for showing progressDialog while uploading
@@ -118,7 +130,7 @@ public class TagIt extends AppCompatActivity {
                                 }
                             });
         }
-    }
+    }*/
 
 
 

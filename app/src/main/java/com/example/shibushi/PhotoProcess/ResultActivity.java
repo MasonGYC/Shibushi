@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.shibushi.TagIt;
 import com.yalantis.ucrop.view.UCropView;
 import com.example.shibushi.R;
 
@@ -48,6 +49,7 @@ public class ResultActivity extends BaseActivity {
     private static final String TAG = "ResultActivity";
     private static final String CHANNEL_ID = "3000";
     private static final int DOWNLOAD_NOTIFICATION_ID_DONE = 911;
+    public static final String KEY_PHOTO = "KEY_PHOTO";
 
     public static void startWithUri(@NonNull Context context, @NonNull Uri uri) {
         Intent intent = new Intent(context, ResultActivity.class);
@@ -92,7 +94,7 @@ public class ResultActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_download) {
+        if (item.getItemId() == R.id.menu_upload) {
             saveCroppedImage();
         } else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
@@ -127,7 +129,10 @@ public class ResultActivity extends BaseActivity {
             Uri imageUri = getIntent().getData();
             if (imageUri != null && imageUri.getScheme().equals("file")) {
                 try {
-                    copyFileToDownloads(getIntent().getData());
+                    //copyFileToDownloads(getIntent().getData());
+                    Intent tagItIntent = new Intent(ResultActivity.this, TagIt.class);
+                    tagItIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
+                    startActivity(tagItIntent);
                 } catch (Exception e) {
                     Toast.makeText(ResultActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, imageUri.toString(), e);
@@ -139,10 +144,10 @@ public class ResultActivity extends BaseActivity {
     }
 
     private void copyFileToDownloads(Uri croppedFileUri) throws Exception {
-        String downloadsDirectoryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        //String downloadsDirectoryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String filename = String.format("%d_%s", Calendar.getInstance().getTimeInMillis(), croppedFileUri.getLastPathSegment());
-
-        File saveFile = new File(downloadsDirectoryPath, filename);
+        File saveFile = new File(storageDir, filename);
 
         FileInputStream inStream = new FileInputStream(new File(croppedFileUri.getPath()));
         FileOutputStream outStream = new FileOutputStream(saveFile);

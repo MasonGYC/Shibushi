@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,7 +23,7 @@ import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.shibushi.PhotoProcess.SampleActivity;
+import com.example.shibushi.PhotoProcess.CropActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changePassword();
                 break;
             case R.id.bImportClothing:
-                Intent cropIntent = new Intent(MainActivity.this,SampleActivity.class);
+                Intent cropIntent = new Intent(MainActivity.this, CropActivity.class);
                 startActivity(cropIntent);
                 break;
             default:
