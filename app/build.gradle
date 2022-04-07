@@ -70,6 +70,6 @@ dependencies {
 
     //crop
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
-    implementation 'com.github.yalantis:ucrop:2.2.8-native'
+    //implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
 }

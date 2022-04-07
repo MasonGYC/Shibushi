@@ -60,6 +60,13 @@
         <activity android:name=".Feed.Profile.Profile" />
         <activity android:name=".Feed.Profile.AccountSettings" />
 
+        <activity android:name=".PhotoProcess.SampleActivity"
+            android:exported="true"/>
+        <activity android:name=".PhotoProcess.ResultActivity"
+            android:exported="true"/>
+        <activity android:name=".PhotoProcess.BaseActivity"
+            android:exported="true"/>
+
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
