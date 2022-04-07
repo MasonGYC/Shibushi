@@ -43,6 +43,7 @@ public class TagIt extends AppCompatActivity {
     StorageReference storageReference;
     public Uri filePath;
     String photoURIString;
+    HashMap<String, Object> map;
 
 
     @Override
@@ -51,7 +52,6 @@ public class TagIt extends AppCompatActivity {
         setContentView(R.layout.activity_tagit);
 
         //dummy hashmap
-        HashMap<String, Object> map = new HashMap<>();
         map.put("color", "red");
         map.put("size", "M");
         map.put("Category", "Shirt");
@@ -83,6 +83,10 @@ public class TagIt extends AppCompatActivity {
         buttonTagIt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: 1. STORE TAGS
+
+                //TODO: 2. UPLOAD IMAGE
+                //TODO: 3. CHANGE UI
                 //FirebaseMethods.addClothes(map,photoURI);
                 Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TagIt.this,MainActivity.class);
