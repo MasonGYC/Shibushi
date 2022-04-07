@@ -24,6 +24,7 @@ import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.example.shibushi.PhotoProcess.SampleActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -111,10 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changePassword();
                 break;
             case R.id.bImportClothing:
-                SelectImage(PICK_IMAGE_REQUEST);
-                break;
-            case R.id.bTakePhoto:
-                dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
+                Intent cropIntent = new Intent(MainActivity.this,SampleActivity.class);
+                startActivity(cropIntent);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
@@ -122,23 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Log.i("onActivityResult","tagItIntent");
-            Intent cropIntent = new Intent(MainActivity.this,Crop.class);
-            cropIntent.putExtra(KEY_PHOTO, photoURI.toString());
-            startActivity(cropIntent);
-        }
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {
-            Uri filePath = intent.getData();
-            Intent cropIntent = new Intent(MainActivity.this, Crop.class);
-            cropIntent.putExtra(KEY_PHOTO, filePath.toString());
-            startActivity(cropIntent);
-        }
-    }
 
     // TODO: 3/15/2022 refactor into a new java file
     private void logOut() {

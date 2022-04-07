@@ -39,8 +39,6 @@
         <activity
             android:name=".TagIt"
             android:exported="true" />
-        <activity android:name=".Crop"
-            android:exported="true" />
         <activity
             android:name=".Login.Login"
             android:exported="true">
@@ -62,9 +60,14 @@
         <activity android:name=".Feed.Profile.Profile" />
         <activity android:name=".Feed.Profile.AccountSettings" />
 
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
+            android:authorities="@string/file_provider_authorities"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -14,11 +14,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.shibushi.Crop;
 import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
-import com.example.shibushi.TagIt;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -143,9 +141,12 @@ public class FeedActivity extends AppCompatActivity {
         if (requestCode == MainActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (intent.getData() != null) {
                 imageUri = intent.getData();
+                /*
                 Intent cropIntent = new Intent(mContext, Crop.class);
                 cropIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());
                 startActivity(cropIntent);
+
+                 */
 
             }
 

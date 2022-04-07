@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Shibushi"
 include ':app'
+include ':ucrop'
