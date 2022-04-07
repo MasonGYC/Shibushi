@@ -21,7 +21,7 @@
 
                     <!-- Back arrow -->
                     <ImageView
-                        android:id="@+id/snippet_create_tag_toolbar_back"
+                        android:id="@+id/snippet_change_pw_toolbar_back"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentLeft="true"
@@ -31,17 +31,17 @@
 
                     <!-- Text Settings -->
                     <TextView
-                        android:id="@+id/snippet_create_tag_toolbar_text"
+                        android:id="@+id/snippet_change_pw_toolbar_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/snippet_create_tag_toolbar_back"
-                        android:text="@string/change_password"
+                        android:layout_toRightOf="@+id/snippet_change_pw_toolbar_back"
+                        android:text="@string/create_new_tag"
                         android:textSize="20sp" />
 
                     <!-- Check -->
                     <ImageView
-                        android:id="@+id/snippet_create_tag_toolbar_check"
+                        android:id="@+id/snippet_change_pw_toolbar_check"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"

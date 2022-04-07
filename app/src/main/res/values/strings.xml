@@ -71,5 +71,11 @@
     <string name="label_select_picture">Select Picture</string>
     <string name="label_ok">OK</string>
     <string name="label_cancel">CANCEL</string>
+    <string name="Color">COLOR</string>
+    <string name="Category">CATEGORY</string>
+    <string name="Occasion">OCCASION</string>
+    <string name="Size">SIZE</string>
+    <string name="create_new_tag">My tags</string>
+
 
 </resources>
