@@ -113,15 +113,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changePassword();
                 break;
             case R.id.bImportClothing:
-                SelectImage(PICK_IMAGE_REQUEST);
+                //SelectImage(PICK_IMAGE_REQUEST);
+                Intent cropIntent = new Intent(MainActivity.this, CropActivity.class);
+                startActivity(cropIntent);
                 break;
             case R.id.bTakePhoto:
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
                 goFirestore();
-                Intent cropIntent = new Intent(MainActivity.this, CropActivity.class);
-                startActivity(cropIntent);
+
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
