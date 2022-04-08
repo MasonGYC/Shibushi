@@ -21,7 +21,6 @@
 
         </RelativeLayout>
 
-        <!-- bottom navigation -->
         <RelativeLayout
             android:id="@+id/community_feed_relLayout2"
             android:layout_width="match_parent"
@@ -29,8 +28,13 @@
             android:layout_below="@+id/community_feed_relLayout1"
             android:layout_marginTop="0dp">
 
-            <!-- Middle Section: Posts scroll -->
-            <include layout="@layout/activity_feed"></include>
+            <!-- Feed Recycler View -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feed_parent_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
             <!-- Floating Action button -->
             <com.getbase.floatingactionbutton.FloatingActionsMenu

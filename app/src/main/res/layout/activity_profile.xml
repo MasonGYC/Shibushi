@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/profile_relLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Top toolbar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_toolbar_height"
+            android:layout_alignParentTop="true">
+
+            <include layout="@layout/snippet_profile_toolbar" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profile_relLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_relLayout1">
+
+        <!-- Center -->
+        <include layout="@layout/layout_profile_center" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/profile_progress_bar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp" />
+
+    <!-- Bottom Navbar -->
+    <include layout="@layout/layout_navbar_bottom" />
+
+</RelativeLayout>
