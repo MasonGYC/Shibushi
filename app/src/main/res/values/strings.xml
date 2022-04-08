@@ -13,7 +13,6 @@
     <string name="take_photo" translatable="false">TAKE PHOTO</string>
     <string name="tag_it" translatable="false">Tag it!</string>
 
-
     <!-- fragment names -->
     <string name="edit_profile_fragment" translatable="false">Edit Profile</string>
     <string name="logout_fragment" translatable="false">Logout</string>
@@ -27,14 +26,10 @@
     <!-- uCrop -->
     <string name="notification_image_saved" translatable="false">Image saved</string>
     <string name="notification_image_saved_click_to_preview" translatable="false">Image saved. Click to preview.</string>
-
     <string name="menu_download" translatable="false">Download</string>
-
     <string name="button_pick_amp_crop" translatable="false"><![CDATA[Pick & Crop]]></string>
     <string name="button_crop_random_image" translatable="false">Crop random image</string>
-
     <string name="description_cropped_image" translatable="false">Cropped image</string>
-
     <string name="format_crop_result_d_d" translatable="false">Crop Result (%1$dx%2$d)</string>
     <string name="format_quality_d" translatable="false">Quality: %d</string>
     <string name="format_d_d_px" translatable="false">%1$dx%2$d px</string>
@@ -57,6 +52,7 @@
     <string name="label_ok" translatable="false">OK</string>
     <string name="label_cancel" translatable="false">CANCEL</string>
 
+    <!-- tag  spinner -->
     <string name="Color" translatable="false">COLOR</string>
     <string name="Category" translatable="false">CATEGORY</string>
     <string name="Occasion" translatable="false">OCCASION</string>
