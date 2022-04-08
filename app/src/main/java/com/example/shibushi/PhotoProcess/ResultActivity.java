@@ -129,7 +129,7 @@ public class ResultActivity extends BaseActivity {
             Uri imageUri = getIntent().getData();
             if (imageUri != null && imageUri.getScheme().equals("file")) {
                 try {
-                    //copyFileToDownloads(getIntent().getData());
+                    copyFileToDownloads(getIntent().getData());
                     Intent tagItIntent = new Intent(ResultActivity.this, TagIt.class);
                     tagItIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
                     startActivity(tagItIntent);
