@@ -1,75 +1,62 @@
 <resources>
-    <string name="app_name">Shibushi</string>
-    <string name="change_password">Change Password</string>
-    <string name="choose">Choose</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="register">Register</string>
-    <string name="shibushi">shibushi</string>
-    <string name="shibushi_logo">shibushi logo</string>
-    <string name="email_address">Email Address</string>
-    <string name="upload">Upload</string>
-    <string name="import_clothing">Import Clothing</string>
-    <string name="take_photo">TAKE PHOTO</string>
-    <string name="tag_it">Tag it!</string>
-    <string-array name="size_array">
-        <item>XS</item>
-        <item>S</item>
-        <item>M</item>
-        <item>L</item>
-        <item>XL</item>
-    </string-array>
-    <string-array name="color_array">
-        <item>Red</item>
-        <item>Orange</item>
-        <item>Yellow</item>
-        <item>Green</item>
-        <item>Blue</item>
-        <item>Indigo</item>
-        <item>Violet</item>
-    </string-array>
+    <string name="app_name" translatable="false">Shibushi</string>
+    <string name="change_password" translatable="false">Change Password</string>
+    <string name="choose" translatable="false">Choose</string>
+    <string name="username" translatable="false">Username</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="register" translatable="false">Register</string>
+    <string name="shibushi" translatable="false">shibushi</string>
+    <string name="shibushi_logo" translatable="false">shibushi logo</string>
+    <string name="email_address" translatable="false">Email Address</string>
+    <string name="upload" translatable="false">Upload</string>
+    <string name="import_clothing" translatable="false">Import Clothing</string>
+    <string name="take_photo" translatable="false">TAKE PHOTO</string>
+    <string name="tag_it" translatable="false">Tag it!</string>
 
     <!-- fragment names -->
-    <string name="edit_profile_fragment">Edit Profile</string>
-    <string name="logout_fragment">Logout</string>
-    <string name="profile_fragment">Profile</string>
+    <string name="edit_profile_fragment" translatable="false">Edit Profile</string>
+    <string name="logout_fragment" translatable="false">Logout</string>
+    <string name="profile_fragment" translatable="false">Profile</string>
 
     <!-- Intent extras -->
-    <string name="calling_activity">calling_activity</string>
-    <string name="profile">profile</string>
-    <string name="logout">LOGOUT</string>
+    <string name="calling_activity" translatable="false">calling_activity</string>
+    <string name="profile" translatable="false">profile</string>
+    <string name="logout" translatable="false">LOGOUT</string>
 
     <!-- uCrop -->
-    <string name="notification_image_saved">Image saved</string>
-    <string name="notification_image_saved_click_to_preview">Image saved. Click to preview.</string>
+    <string name="notification_image_saved" translatable="false">Image saved</string>
+    <string name="notification_image_saved_click_to_preview" translatable="false">Image saved. Click to preview.</string>
+    <string name="menu_download" translatable="false">Download</string>
+    <string name="button_pick_amp_crop" translatable="false"><![CDATA[Pick & Crop]]></string>
+    <string name="button_crop_random_image" translatable="false">Crop random image</string>
+    <string name="description_cropped_image" translatable="false">Cropped image</string>
+    <string name="format_crop_result_d_d" translatable="false">Crop Result (%1$dx%2$d)</string>
+    <string name="format_quality_d" translatable="false">Quality: %d</string>
+    <string name="format_d_d_px" translatable="false">%1$dx%2$d px</string>
+    <string name="format_max_cropped_image_size" translatable="false">Max cropped image size cannot be less then %d</string>
+    <string name="format_max_cropped_image_size_resolution" translatable="false">Too big resolution</string>
 
-    <string name="menu_download">Download</string>
+    <string name="permission_title_rationale" translatable="false">Permission needed</string>
+    <string name="permission_read_storage_rationale" translatable="false">Storage read permission is needed to pick files.</string>
+    <string name="permission_write_storage_rationale" translatable="false">Storage write permission is needed to save the image.</string>
 
-    <string name="button_pick_amp_crop"><![CDATA[Pick & Crop]]></string>
-    <string name="button_crop_random_image">Crop random image</string>
+    <string name="toast_cannot_retrieve_selected_image" translatable="false">Cannot retrieve selected image</string>
+    <string name="toast_cannot_retrieve_cropped_image" translatable="false">Cannot retrieve cropped image</string>
+    <string name="toast_unexpected_error" translatable="false">Unexpected error</string>
 
-    <string name="description_cropped_image">Cropped image</string>
+    <string name="file_provider_authorities" translatable="false">com.yalantis.ucrop.provider</string>
+    <string name="channel_name" translatable="false">ucrop_chanel</string>
+    <string name="channel_description" translatable="false">ucrop result image</string>
 
-    <string name="format_crop_result_d_d">Crop Result (%1$dx%2$d)</string>
-    <string name="format_quality_d">Quality: %d</string>
-    <string name="format_d_d_px">%1$dx%2$d px</string>
-    <string name="format_max_cropped_image_size">Max cropped image size cannot be less then %d</string>
-    <string name="format_max_cropped_image_size_resolution">Too big resolution</string>
+    <string name="label_select_picture" translatable="false">Select Picture</string>
+    <string name="label_ok" translatable="false">OK</string>
+    <string name="label_cancel" translatable="false">CANCEL</string>
 
-    <string name="permission_title_rationale">Permission needed</string>
-    <string name="permission_read_storage_rationale">Storage read permission is needed to pick files.</string>
-    <string name="permission_write_storage_rationale">Storage write permission is needed to save the image.</string>
-
-    <string name="toast_cannot_retrieve_selected_image">Cannot retrieve selected image</string>
-    <string name="toast_cannot_retrieve_cropped_image">Cannot retrieve cropped image</string>
-    <string name="toast_unexpected_error">Unexpected error</string>
-
-    <string name="file_provider_authorities">com.yalantis.ucrop.provider</string>
-    <string name="channel_name">ucrop_chanel</string>
-    <string name="channel_description">ucrop result image</string>
-
-    <string name="label_select_picture">Select Picture</string>
-    <string name="label_ok">OK</string>
-    <string name="label_cancel">CANCEL</string>
+    <!-- tag  spinner -->
+    <string name="Color" translatable="false">COLOR</string>
+    <string name="Category" translatable="false">CATEGORY</string>
+    <string name="Occasion" translatable="false">OCCASION</string>
+    <string name="Size" translatable="false">SIZE</string>
+    <string name="create_new_tag" translatable="false">My tags</string>
 
 </resources>
