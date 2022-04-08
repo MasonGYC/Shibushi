@@ -122,6 +122,7 @@ public class Profile extends AppCompatActivity {
 //     * TODO: Obtain image URLs from firebase, currently dummy images
 //     */
 //    private void setupImageGrid(ArrayList<String> imgURLs) {
+//        GridView gridView = findViewById(R.id.layout_centre_profile_gridView);
 //
 //        // set the width of each image grid
 //        int gridWidth = getResources().getDisplayMetrics().widthPixels;

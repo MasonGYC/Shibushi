@@ -1,0 +1,350 @@
+Index: app/src/main/java/com/example/shibushi/TagIt.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.shibushi;\r\n\r\nimport static com.example.shibushi.Feed.FeedActivity.KEY_FEED_PHOTO;\r\n\r\nimport android.app.ProgressDialog;\r\nimport android.content.Intent;\r\nimport android.database.Cursor;\r\nimport android.graphics.Bitmap;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.provider.MediaStore;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.ImageView;\r\nimport android.widget.Spinner;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.google.android.gms.tasks.OnFailureListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.firebase.storage.FirebaseStorage;\r\nimport com.google.firebase.storage.OnProgressListener;\r\nimport com.google.firebase.storage.StorageReference;\r\nimport com.google.firebase.storage.UploadTask;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\nimport java.util.UUID;\r\n\r\npublic class TagIt extends AppCompatActivity {\r\n\r\n    ImageView imageViewBitmap;\r\n    Button buttonTagIt;\r\n    Spinner spinnerColor;\r\n    Spinner spinnerCategory;\r\n    Spinner spinnerOccasion;\r\n    final float scale = 0.7f; //scale factor for bitmap display\r\n    FirebaseStorage storage;\r\n    StorageReference storageReference;\r\n    public Uri filePath;\r\n    String photoURIString;\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_tagit);\r\n\r\n        // get the Firebase  storage reference\r\n        storage = FirebaseStorage.getInstance();\r\n        storageReference = storage.getReference();\r\n\r\n        //get widgets\r\n        imageViewBitmap = findViewById(R.id.tagPhoto);\r\n        buttonTagIt = findViewById(R.id.buttonTagIt);\r\n        spinnerColor = findViewById(R.id.spinnerColor);\r\n        spinnerCategory = findViewById(R.id.spinnerCategory);\r\n        spinnerOccasion = findViewById(R.id.spinnerOccasion);\r\n\r\n        //get intent to set image\r\n        Intent bitmapIntent = getIntent();\r\n        if (bitmapIntent.getStringExtra(KEY_FEED_PHOTO) != null){\r\n            photoURIString= bitmapIntent.getStringExtra(KEY_FEED_PHOTO);\r\n        }\r\n        else if (bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO) != null){\r\n            photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);\r\n            }\r\n\r\n        Uri photoURI = Uri.parse(photoURIString);\r\n\r\n        try {\r\n            Bitmap bitmapfull = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);\r\n            Bitmap bitmap = Bitmap.createScaledBitmap(bitmapfull,\r\n                    (int)(bitmapfull.getWidth()*scale),\r\n                    (int)(bitmapfull.getHeight()*scale),\r\n                    true); //bilinear filtering\r\n            imageViewBitmap.setImageBitmap(bitmap);\r\n            Log.i(\"imageViewBitmap\", String.valueOf(bitmapfull.getWidth()*scale));\r\n            Log.i(\"imageViewBitmap\", String.valueOf(bitmapfull.getHeight()*scale));\r\n        } catch (IOException e) {\r\n            Log.i(\"tagit\",\"NO imgUri\");\r\n        }\r\n\r\n        buttonTagIt.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(TagIt.this,MainActivity.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n    }\r\n\r\n    public void uploadImage() {\r\n        if (filePath != null) {\r\n\r\n            // Code for showing progressDialog while uploading\r\n            ProgressDialog progressDialog\r\n                    = new ProgressDialog(this);\r\n            progressDialog.setTitle(\"Uploading...\");\r\n            progressDialog.show();\r\n\r\n            // Defining the child of storageReference\r\n            StorageReference ref = storageReference.child(\"images/\" + UUID.randomUUID().toString());\r\n\r\n            // adding listeners on upload\r\n            // or failure of image\r\n            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {\r\n                @Override\r\n                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {\r\n                    // Image uploaded successfully\r\n                    // Dismiss dialog\r\n                    progressDialog.dismiss();\r\n                    Toast.makeText(TagIt.this, \"Image Uploaded!!\", Toast.LENGTH_SHORT).show();\r\n                }\r\n            })\r\n\r\n                    .addOnFailureListener(new OnFailureListener() {\r\n                        @Override\r\n                        public void onFailure(@NonNull Exception e) {\r\n                            // Error, Image not uploaded\r\n                            progressDialog.dismiss();\r\n                            Toast.makeText(TagIt.this, \"Failed \" + e.getMessage(), Toast.LENGTH_SHORT).show();\r\n                        }\r\n                    })\r\n                    .addOnProgressListener(\r\n                            new OnProgressListener<UploadTask.TaskSnapshot>() {\r\n                                // Progress Listener for loading\r\n                                // percentage on the dialog box\r\n                                @Override\r\n                                public void onProgress(\r\n                                        UploadTask.TaskSnapshot taskSnapshot) {\r\n                                    double progress\r\n                                            = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());\r\n                                    progressDialog.setMessage(\"Uploaded \" + (int)progress + \"%\");\r\n                                }\r\n                            });\r\n        }\r\n    }\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/shibushi/TagIt.java b/app/src/main/java/com/example/shibushi/TagIt.java
+--- a/app/src/main/java/com/example/shibushi/TagIt.java	(revision 1485af6450a7e02ccc45693cfd75ee27bfac5994)
++++ b/app/src/main/java/com/example/shibushi/TagIt.java	(date 1649072916446)
+@@ -17,7 +17,9 @@
+ import android.widget.Toast;
+ 
+ import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
+ import androidx.appcompat.app.AppCompatActivity;
++import androidx.core.content.FileProvider;
+ 
+ import com.google.android.gms.tasks.OnFailureListener;
+ import com.google.android.gms.tasks.OnSuccessListener;
+@@ -32,16 +34,14 @@
+ 
+ public class TagIt extends AppCompatActivity {
+ 
+-    ImageView imageViewBitmap;
+     Button buttonTagIt;
+     Spinner spinnerColor;
+     Spinner spinnerCategory;
+     Spinner spinnerOccasion;
+-    final float scale = 0.7f; //scale factor for bitmap display
+     FirebaseStorage storage;
+     StorageReference storageReference;
+     public Uri filePath;
+-    String photoURIString;
++
+ 
+ 
+     @Override
+@@ -54,35 +54,12 @@
+         storageReference = storage.getReference();
+ 
+         //get widgets
+-        imageViewBitmap = findViewById(R.id.tagPhoto);
+         buttonTagIt = findViewById(R.id.buttonTagIt);
+         spinnerColor = findViewById(R.id.spinnerColor);
+         spinnerCategory = findViewById(R.id.spinnerCategory);
+         spinnerOccasion = findViewById(R.id.spinnerOccasion);
+ 
+-        //get intent to set image
+-        Intent bitmapIntent = getIntent();
+-        if (bitmapIntent.getStringExtra(KEY_FEED_PHOTO) != null){
+-            photoURIString= bitmapIntent.getStringExtra(KEY_FEED_PHOTO);
+-        }
+-        else if (bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO) != null){
+-            photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);
+-            }
+ 
+-        Uri photoURI = Uri.parse(photoURIString);
+-
+-        try {
+-            Bitmap bitmapfull = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
+-            Bitmap bitmap = Bitmap.createScaledBitmap(bitmapfull,
+-                    (int)(bitmapfull.getWidth()*scale),
+-                    (int)(bitmapfull.getHeight()*scale),
+-                    true); //bilinear filtering
+-            imageViewBitmap.setImageBitmap(bitmap);
+-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getWidth()*scale));
+-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getHeight()*scale));
+-        } catch (IOException e) {
+-            Log.i("tagit","NO imgUri");
+-        }
+ 
+         buttonTagIt.setOnClickListener(new View.OnClickListener() {
+             @Override
+@@ -94,6 +71,8 @@
+ 
+     }
+ 
++
++
+     public void uploadImage() {
+         if (filePath != null) {
+ 
+Index: app/src/main/java/com/example/shibushi/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.shibushi;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.os.Environment;\r\nimport android.provider.MediaStore;\r\nimport android.util.Log;\r\nimport android.view.Menu;\r\nimport android.view.MenuItem;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.content.FileProvider;\r\n\r\nimport com.example.shibushi.Login.ChangePassword;\r\nimport com.example.shibushi.Login.Login;\r\nimport com.example.shibushi.Utils.BottomNavigationViewHelper;\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\nimport java.text.SimpleDateFormat;\r\nimport java.util.Date;\r\n\r\n\r\npublic class MainActivity extends AppCompatActivity implements View.OnClickListener{\r\n    private static final String TAG = \"MainActivity\";\r\n    private Context mContext = MainActivity.this;\r\n    private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number\r\n\r\n    Button bLogout, bChangePassword, bImportClothing, bTakePhoto;\r\n    TextView tvWelcome;\r\n    String welcome;\r\n    private FirebaseAuth mAuth;\r\n    public static final int REQUEST_IMAGE_CAPTURE = 1;\r\n    public static final int PICK_IMAGE_REQUEST = 2;\r\n    static final String KEY_PHOTO = \"PHOTO\";\r\n    Uri photoURI;\r\n    String currentPhotoPath;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n        // Button Views\r\n        bLogout = findViewById(R.id.bLogout);\r\n        bChangePassword = findViewById(R.id.bChangePassword);\r\n        bImportClothing = findViewById(R.id.bImportClothing);\r\n\r\n        // Button OnClickListener\r\n        bLogout.setOnClickListener(this);\r\n        bChangePassword.setOnClickListener(this);\r\n        bImportClothing.setOnClickListener(this);\r\n\r\n        // Set up bottom navigation bar\r\n        setupBottomNavigationView();\r\n\r\n        //Firebase authentication\r\n        mAuth = FirebaseAuth.getInstance();\r\n        FirebaseUser currentUser = mAuth.getCurrentUser();\r\n\r\n        //Welcome message\r\n        //Obviously we don't have to include this but its an option to display the username somewhere\r\n        //somehow\r\n        String username = currentUser.getDisplayName();\r\n        if (username != null){\r\n            welcome = \"Welcome, \" + currentUser.getDisplayName();\r\n        }\r\n        else {\r\n            welcome = \"\"; //not sure if it's possible to have a blank string\r\n        }\r\n        tvWelcome = findViewById(R.id.tvWelcome);\r\n        tvWelcome.setText(welcome);\r\n\r\n        //take photo\r\n        bTakePhoto = findViewById(R.id.bTakePhoto);\r\n        bTakePhoto.setOnClickListener(this);\r\n\r\n    }\r\n\r\n    // BottomNavigationView setup\r\n    private void setupBottomNavigationView() {\r\n        Log.d(TAG, \"setupBottomNavigationView: Setting up BottomNavigationView\");\r\n        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);\r\n        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);\r\n        BottomNavigationViewHelper.enableNavigation(mContext, bottom_navbar_view);\r\n\r\n        // To highlight the correct icon when on correct page\r\n        Menu menu = bottom_navbar_view.getMenu();\r\n        MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);\r\n        menuItem.setChecked(true);\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v){\r\n        switch(v.getId()){\r\n            case R.id.bLogout:\r\n                logOut();\r\n                break;\r\n            // Not high priority, may remove\r\n            case R.id.bChangePassword:\r\n                changePassword();\r\n                break;\r\n            case R.id.bImportClothing:\r\n                SelectImage(PICK_IMAGE_REQUEST);\r\n                break;\r\n            case R.id.bTakePhoto:\r\n                dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);\r\n                break;\r\n            default:\r\n                throw new IllegalStateException(\"Unexpected value: \" + v.getId());\r\n        }\r\n    }\r\n\r\n\r\n\r\n    @Override\r\n    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {\r\n        super.onActivityResult(requestCode, resultCode, intent);\r\n        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {\r\n            Log.i(\"onActivityResult\",\"tagItIntent\");\r\n            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);\r\n            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());\r\n            startActivity(tagItIntent);\r\n        }\r\n        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {\r\n            Uri filePath = intent.getData();\r\n            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);\r\n            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());\r\n            startActivity(tagItIntent);\r\n        }\r\n    }\r\n\r\n    // TODO: 3/15/2022 refactor into a new java file\r\n    private void logOut() {\r\n        FirebaseUser user = mAuth.getCurrentUser();\r\n        if (user != null){\r\n            mAuth.signOut();\r\n            Toast.makeText(this, user.getEmail()+ \"is logged out!\", Toast.LENGTH_SHORT).show();\r\n            startActivity(new Intent(this, Login.class));\r\n        }else{\r\n            Toast.makeText(this, \"You aren't logged in yet!\", Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n    //Methods below better not put in a separate file, due to pass-by-reference i guess\r\n    //take picture\r\n    public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {\r\n        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);\r\n        // Ensure that there's a camera activity to handle the intent\r\n        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {\r\n            // Create the File where the photo should go\r\n            File photoFile = null;\r\n            try {\r\n                photoFile = createImageFile();\r\n            } catch (IOException ex) {\r\n                // Error occurred while creating the File\r\n                Toast.makeText(MainActivity.this,\"Cannot create files for photos\",Toast.LENGTH_SHORT).show();\r\n                //Log.i(\"TakePicture: \",\"Cannot create files for photos\");\r\n            }\r\n            // Continue only if the File was successfully created\r\n            if (photoFile != null) {\r\n                photoURI = FileProvider.getUriForFile(this,\r\n                        \"com.example.android.fileprovider\",\r\n                        photoFile);\r\n                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);\r\n                startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n    public void changePassword() {\r\n        startActivity(new Intent(MainActivity.this, ChangePassword.class));\r\n    }\r\n\r\n\r\n\r\n    //store in public Pictures directory\r\n    public File createImageFile() throws IOException {\r\n        // Create an image file name\r\n        String timeStamp = new SimpleDateFormat(\"yyyyMMdd_HHmmss\").format(new Date());\r\n        String imageFileName = \"Shibushi_\" + timeStamp + \"_\";\r\n        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);\r\n        File image = File.createTempFile(\r\n                imageFileName,  /* prefix */\r\n                \".jpg\",         /* suffix */\r\n                storageDir      /* directory */\r\n        );\r\n\r\n        // Save a file: path for use with ACTION_VIEW intents\r\n        currentPhotoPath = image.getAbsolutePath();\r\n        return image;\r\n    }\r\n\r\n    // Select Image method\r\n    public void SelectImage(int PICK_IMAGE_REQUEST) {\r\n        // Defining Implicit Intent to mobile gallery\r\n        Intent selectIntent = new Intent();\r\n        selectIntent.setType(\"image/*\");\r\n        selectIntent.setAction(Intent.ACTION_GET_CONTENT);\r\n        startActivityForResult(Intent.createChooser(selectIntent, \"Select Image from here...\"), PICK_IMAGE_REQUEST);\r\n    }\r\n\r\n}\r\n\r\n\r\n/*\r\n* This is the Main screen that the user sees. From here, users can navigate to other activities.\r\n* */\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/shibushi/MainActivity.java b/app/src/main/java/com/example/shibushi/MainActivity.java
+--- a/app/src/main/java/com/example/shibushi/MainActivity.java	(revision 1485af6450a7e02ccc45693cfd75ee27bfac5994)
++++ b/app/src/main/java/com/example/shibushi/MainActivity.java	(date 1649072916477)
+@@ -128,15 +128,15 @@
+         super.onActivityResult(requestCode, resultCode, intent);
+         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+             Log.i("onActivityResult","tagItIntent");
+-            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
+-            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());
+-            startActivity(tagItIntent);
++            Intent cropIntent = new Intent(MainActivity.this,Crop.class);
++            cropIntent.putExtra(KEY_PHOTO, photoURI.toString());
++            startActivity(cropIntent);
+         }
+         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {
+             Uri filePath = intent.getData();
+-            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);
+-            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());
+-            startActivity(tagItIntent);
++            Intent cropIntent = new Intent(MainActivity.this, Crop.class);
++            cropIntent.putExtra(KEY_PHOTO, filePath.toString());
++            startActivity(cropIntent);
+         }
+     }
+ 
+Index: app/src/main/java/com/example/shibushi/Feed/FeedActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.shibushi.Feed;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.Menu;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\n\r\nimport com.example.shibushi.Feed.Profile.Profile;\r\nimport com.example.shibushi.MainActivity;\r\nimport com.example.shibushi.R;\r\nimport com.example.shibushi.TagIt;\r\nimport com.example.shibushi.Utils.BottomNavigationViewHelper;\r\nimport com.example.shibushi.Utils.UniversalImageLoader;\r\nimport com.getbase.floatingactionbutton.FloatingActionButton;\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\nimport com.google.firebase.database.annotations.Nullable;\r\nimport com.nostra13.universalimageloader.core.ImageLoader;\r\n\r\npublic class FeedActivity extends AppCompatActivity {\r\n\r\n    private static final String TAG = \"CommunityFeed\";\r\n    private Context mContext = FeedActivity.this;\r\n    // Bottom navbar activity number\r\n    private static final int b_menu_ACTIVTY_NUM = 1;\r\n\r\n    public static final String KEY_FEED_PHOTO = \"KEY_FEED_PHOTO\";\r\n    Uri imageUri;\r\n\r\n\r\n    @Override\r\n    protected void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.community_feed);\r\n        Log.d(TAG, \"onCreate: started\");\r\n\r\n        initImageLoader(); //Init Image Loader\r\n        setupToolBar(); //Setup top toolbar\r\n        setupBottomNavigationView(); //Setup bottom navigation bar\r\n        setup_FAB(); //Setup floating action button\r\n\r\n    }\r\n\r\n\r\n    /**\r\n     * Initialise ImageLoader\r\n     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup\r\n     */\r\n    private void initImageLoader() {\r\n        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);\r\n        ImageLoader.getInstance().init(universalImageLoader.getConfig());\r\n    }\r\n\r\n    // Floating action button\r\n    private void setup_FAB() {\r\n        Log.d(TAG, \"setupFloatingActionButton: Setting up FAB menu\");\r\n\r\n        FloatingActionButton fab_outfit = findViewById(R.id.community_feed_fab_outfit);\r\n        FloatingActionButton fab_hanger = findViewById(R.id.community_feed_fab_hanger);\r\n        FloatingActionButton fab_edit = findViewById(R.id.community_feed_fab_edit);\r\n\r\n        fab_edit.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                // TODO: Add new post page\r\n                Toast.makeText(mContext, \"Creating new post...\", Toast.LENGTH_SHORT).show();\r\n                // Intent intent = new Intent(mContext, NewPost.class);\r\n                // startActivity(intent);\r\n\r\n            }\r\n        });\r\n\r\n        fab_hanger.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Toast.makeText(mContext, \"Adding new clothes...\", Toast.LENGTH_SHORT).show();\r\n                importClothing(MainActivity.PICK_IMAGE_REQUEST);\r\n            }\r\n        });\r\n\r\n        fab_outfit.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                // TODO: Add new outfit page\r\n                Toast.makeText(mContext, \"Making new outfit...\", Toast.LENGTH_SHORT).show();\r\n                // Intent intent = new Intent(mContext, NewOutfit.class);\r\n                // startActivity(intent);\r\n            }\r\n        });\r\n    }\r\n\r\n    // Top toolbar setup\r\n    private void setupToolBar() {\r\n        Log.d(TAG, \"setupBottomNavigationView: Setting up top Toolbar\");\r\n        Toolbar toolbar = findViewById(R.id.community_feed_top_toolbar);\r\n        setSupportActionBar(toolbar);\r\n\r\n        ImageView myprofile = findViewById(R.id.community_feed_top_toolbar_profile);\r\n        myprofile.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Log.d(TAG, \"onClick: Navigating to my profile\");\r\n                Intent intent = new Intent(mContext, Profile.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n    }\r\n\r\n    // BottomNavigationView setup\r\n    private void setupBottomNavigationView() {\r\n        Log.d(TAG, \"setupBottomNavigationView: Setting up BottomNavigationView\");\r\n        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);\r\n        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);\r\n        BottomNavigationViewHelper.enableNavigation(mContext, bottom_navbar_view);\r\n\r\n        // To highlight the correct icon when on correct page\r\n        Menu menu = bottom_navbar_view.getMenu();\r\n        MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);\r\n        menuItem.setChecked(true);\r\n    }\r\n\r\n    // Select Image method\r\n    public void importClothing(int PICK_IMAGE_REQUEST) {\r\n        // Defining Implicit Intent to mobile gallery\r\n        Intent selectIntent = new Intent();\r\n        selectIntent.setType(\"image/*\");\r\n        selectIntent.setAction(Intent.ACTION_GET_CONTENT);\r\n        startActivityForResult(Intent.createChooser(selectIntent, \"Select Image from here...\"), PICK_IMAGE_REQUEST);\r\n    }\r\n\r\n    @Override\r\n    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {\r\n        super.onActivityResult(requestCode, resultCode, intent);\r\n        if (requestCode == MainActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {\r\n            if (intent.getData() != null) {\r\n                imageUri = intent.getData();\r\n                Intent tagItIntent = new Intent(mContext, TagIt.class);\r\n                tagItIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());\r\n                startActivity(tagItIntent);\r\n\r\n            }\r\n\r\n        }\r\n\r\n        }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/shibushi/Feed/FeedActivity.java b/app/src/main/java/com/example/shibushi/Feed/FeedActivity.java
+--- a/app/src/main/java/com/example/shibushi/Feed/FeedActivity.java	(revision 1485af6450a7e02ccc45693cfd75ee27bfac5994)
++++ b/app/src/main/java/com/example/shibushi/Feed/FeedActivity.java	(date 1649072916493)
+@@ -14,6 +14,7 @@
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.appcompat.widget.Toolbar;
+ 
++import com.example.shibushi.Crop;
+ import com.example.shibushi.Feed.Profile.Profile;
+ import com.example.shibushi.MainActivity;
+ import com.example.shibushi.R;
+@@ -142,9 +143,9 @@
+         if (requestCode == MainActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+             if (intent.getData() != null) {
+                 imageUri = intent.getData();
+-                Intent tagItIntent = new Intent(mContext, TagIt.class);
+-                tagItIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());
+-                startActivity(tagItIntent);
++                Intent cropIntent = new Intent(mContext, Crop.class);
++                cropIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());
++                startActivity(cropIntent);
+ 
+             }
+ 
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.shibushi\">\r\n    <!-- To get pictures from camera for new posts -->\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />\r\n\r\n    <queries>\r\n        <intent>\r\n            <action android:name=\"android.media.action.IMAGE_CAPTURE\" />\r\n        </intent>\r\n    </queries> <!-- To use device camera -->\r\n    <uses-feature\r\n        android:name=\"android.hardware.camera\"\r\n        android:required=\"true\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.Shibushi\">\r\n        <activity\r\n            android:name=\".Login.ChangePassword\"\r\n            android:theme=\"@style/Theme.AppCompat.Light\"\r\n            android:parentActivityName=\".MainActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".ViewWardrobeActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".TagIt\"\r\n            android:exported=\"false\"\r\n            android:parentActivityName=\".MainActivity\" />\r\n        <activity\r\n            android:name=\".Login.Login\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:configChanges=\"orientation|keyboardHidden|screenSize\"\r\n            android:exported=\"false\"\r\n            android:screenOrientation=\"portrait\" />\r\n        <activity\r\n            android:name=\".Login.Register\"\r\n            android:exported=\"true\" />\r\n        <activity android:name=\".ViewOutfitsActivity\" />\r\n        <activity android:name=\".Feed.FeedActivity\" />\r\n        <activity android:name=\".Feed.Profile.Profile\" />\r\n        <activity android:name=\".Feed.Profile.AccountSettings\" />\r\n\r\n        <provider\r\n            android:name=\"androidx.core.content.FileProvider\"\r\n            android:authorities=\"com.example.android.fileprovider\"\r\n            android:exported=\"false\"\r\n            android:grantUriPermissions=\"true\">\r\n            <meta-data\r\n                android:name=\"android.support.FILE_PROVIDER_PATHS\"\r\n                android:resource=\"@xml/file_paths\" />\r\n        </provider>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 1485af6450a7e02ccc45693cfd75ee27bfac5994)
++++ b/app/src/main/AndroidManifest.xml	(date 1649072954728)
+@@ -24,39 +24,37 @@
+         android:supportsRtl="true"
+         android:theme="@style/Theme.Shibushi">
+         <activity
+-            android:name=".Login.ChangePassword"
+-            android:theme="@style/Theme.AppCompat.Light"
+-            android:parentActivityName=".MainActivity"
+-            android:exported="false" />
+-        <activity
+             android:name=".ViewWardrobeActivity"
+             android:exported="false" />
+         <activity
+             android:name=".TagIt"
+-            android:exported="false"
+-            android:parentActivityName=".MainActivity" />
++            android:parentActivityName=".MainActivity"
++            android:exported="false" />
+         <activity
+             android:name=".Login.Login"
+             android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+-
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+         <activity
+             android:name=".MainActivity"
++            android:exported="false"
+             android:configChanges="orientation|keyboardHidden|screenSize"
+-            android:exported="false"
+-            android:screenOrientation="portrait" />
++            android:screenOrientation="portrait"            />
+         <activity
+             android:name=".Login.Register"
+             android:exported="true" />
+-        <activity android:name=".ViewOutfitsActivity" />
+-        <activity android:name=".Feed.FeedActivity" />
+-        <activity android:name=".Feed.Profile.Profile" />
+-        <activity android:name=".Feed.Profile.AccountSettings" />
+-
++        <activity
++            android:name=".ViewOutfitsActivity"/>
++        <activity
++            android:name=".Feed.FeedActivity"/>
++        <activity
++            android:name=".Feed.Profile.Profile"/>
++        <activity
++            android:name=".Feed.Profile.AccountSettings"/>
++            android:exported="false" />
+         <provider
+             android:name="androidx.core.content.FileProvider"
+             android:authorities="com.example.android.fileprovider"
+@@ -64,8 +62,9 @@
+             android:grantUriPermissions="true">
+             <meta-data
+                 android:name="android.support.FILE_PROVIDER_PATHS"
+-                android:resource="@xml/file_paths" />
++                android:resource="@xml/file_paths"></meta-data>
+         </provider>
++
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/java/com/example/shibushi/Crop.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/shibushi/Crop.java b/app/src/main/java/com/example/shibushi/Crop.java
+new file mode 100644
+--- /dev/null	(date 1649072954775)
++++ b/app/src/main/java/com/example/shibushi/Crop.java	(date 1649072954775)
+@@ -0,0 +1,80 @@
++package com.example.shibushi;
++
++import static com.example.shibushi.Feed.FeedActivity.KEY_FEED_PHOTO;
++
++import android.content.Intent;
++import android.graphics.Bitmap;
++import android.net.Uri;
++import android.os.Bundle;
++import android.widget.ImageView;
++import android.widget.Toast;
++
++import androidx.annotation.Nullable;
++import androidx.appcompat.app.AppCompatActivity;
++
++import java.io.IOException;
++
++public class Crop extends AppCompatActivity {
++
++    private static final int CROP_PHOTO = 4;
++    String photoURIString;
++    Uri photoURI;
++
++    ImageView imageViewBitmap = findViewById(R.id.tagPhoto);
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++
++        //get intent to set image
++        Intent bitmapIntent = getIntent();
++        if (bitmapIntent.getStringExtra(KEY_FEED_PHOTO) != null){
++            photoURIString= bitmapIntent.getStringExtra(KEY_FEED_PHOTO);
++        }
++        else if (bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO) != null){
++            photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);
++        }
++
++        photoURI = Uri.parse(photoURIString);
++        Toast.makeText(Crop.this,photoURI.toString(),Toast.LENGTH_SHORT).show();
++
++        try {
++            cropPhoto(photoURI);
++            Toast.makeText(Crop.this,"debug",Toast.LENGTH_SHORT).show();
++            Intent tagItIntent = new Intent(Crop.this,TagIt.class);
++            startActivity(tagItIntent);
++        } catch (IOException e) {
++            e.printStackTrace();
++        }
++    }
++
++    private void cropPhoto(Uri uri) throws IOException {
++        Intent intent = new Intent("com.android.camera.action.CROP");
++        intent.setDataAndType(uri, "image/*");
++        intent.putExtra("scale", true);
++
++        // crop output size
++        intent.putExtra("crop","true");
++        intent.putExtra("aspectX",1);
++        intent.putExtra("aspectY",1);
++        intent.putExtra("outputX", R.dimen.tagItImage);
++        intent.putExtra("outputY", R.dimen.tagItImage);
++        intent.putExtra("return-data", true);
++
++        startActivityForResult(intent, CROP_PHOTO);
++
++    }
++
++
++    @Override
++    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
++        super.onActivityResult(requestCode, resultCode, data);
++        if (requestCode == CROP_PHOTO && resultCode == RESULT_OK) {
++            Bitmap bitmap = data.getExtras().getParcelable("data");
++            imageViewBitmap.setImageBitmap(bitmap);
++            Toast.makeText(Crop.this,"setbitmap",Toast.LENGTH_SHORT).show();
++            Intent tagItIntent = new Intent(Crop.this, TagIt.class);
++            startActivity(tagItIntent);
++        }
++    }
++}
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <!-- Default screen margins, per the Android Design guidelines. -->\r\n    <dimen name=\"fragment_horizontal_margin\">16dp</dimen>\r\n    <dimen name=\"fragment_vertical_margin\">16dp</dimen>\r\n    <dimen name=\"top_toolbar_height\">50dp</dimen>\r\n    <dimen name=\"bottom_navbar_height\">50dp</dimen>\r\n    <dimen name=\"progress_bar_height\">50dp</dimen>\r\n    <dimen name=\"progress_bar_width\">50dp</dimen>\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/dimens.xml b/app/src/main/res/values/dimens.xml
+--- a/app/src/main/res/values/dimens.xml	(revision 1485af6450a7e02ccc45693cfd75ee27bfac5994)
++++ b/app/src/main/res/values/dimens.xml	(date 1649072916508)
+@@ -6,5 +6,6 @@
+     <dimen name="bottom_navbar_height">50dp</dimen>
+     <dimen name="progress_bar_height">50dp</dimen>
+     <dimen name="progress_bar_width">50dp</dimen>
++    <dimen name="tagItImage">300dp</dimen>
+ 
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_tagit.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/tagPhoto\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/spinnerColor\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.515\" />\r\n\r\n    <Spinner\r\n        android:id=\"@+id/spinnerColor\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"440dp\"\r\n        android:entries=\"@array/spinnerColor\"\r\n        android:spinnerMode=\"dropdown\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n    <Spinner\r\n        android:id=\"@+id/spinnerCategory\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"36dp\"\r\n        android:entries=\"@array/spinnerCategory\"\r\n        android:spinnerMode=\"dropdown\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/spinnerColor\"\r\n        tools:layout_editor_absoluteX=\"0dp\" />\r\n\r\n    <Spinner\r\n        android:id=\"@+id/spinnerOccasion\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"32dp\"\r\n        android:entries=\"@array/spinnerOccasion\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/spinnerCategory\"\r\n        tools:layout_editor_absoluteX=\"0dp\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/buttonTagIt\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"36dp\"\r\n        android:text=\"@string/tag_it\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.498\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/spinnerOccasion\"\r\n        app:layout_constraintVertical_bias=\"1.0\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_tagit.xml b/app/src/main/res/layout/activity_tagit.xml
+--- a/app/src/main/res/layout/activity_tagit.xml	(revision 1485af6450a7e02ccc45693cfd75ee27bfac5994)
++++ b/app/src/main/res/layout/activity_tagit.xml	(date 1649072954760)
+@@ -7,8 +7,8 @@
+ 
+     <ImageView
+         android:id="@+id/tagPhoto"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
++        android:layout_width="@dimen/tagItImage"
++        android:layout_height="@dimen/tagItImage"
+         app:layout_constraintBottom_toTopOf="@+id/spinnerColor"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"

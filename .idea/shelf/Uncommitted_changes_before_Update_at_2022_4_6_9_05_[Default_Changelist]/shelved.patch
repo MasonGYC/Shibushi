@@ -1,0 +1,143 @@
+Index: app/src/main/java/com/example/shibushi/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.shibushi;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.os.Environment;\r\nimport android.provider.MediaStore;\r\nimport android.util.Log;\r\nimport android.view.Menu;\r\nimport android.view.MenuItem;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.content.FileProvider;\r\n\r\nimport com.example.shibushi.Login.ChangePassword;\r\nimport com.example.shibushi.Login.Login;\r\nimport com.example.shibushi.Utils.BottomNavigationViewHelper;\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\nimport java.text.SimpleDateFormat;\r\nimport java.util.Date;\r\n\r\n\r\npublic class MainActivity extends AppCompatActivity implements View.OnClickListener{\r\n    private static final String TAG = \"MainActivity\";\r\n    private Context mContext = MainActivity.this;\r\n    private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number\r\n\r\n    Button bLogout, bChangePassword, bImportClothing, bTakePhoto;\r\n    TextView tvWelcome;\r\n    String welcome;\r\n    private FirebaseAuth mAuth;\r\n    public static final int REQUEST_IMAGE_CAPTURE = 1;\r\n    public static final int PICK_IMAGE_REQUEST = 2;\r\n    static final String KEY_PHOTO = \"PHOTO\";\r\n    Uri photoURI;\r\n    String currentPhotoPath;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n        // Button Views\r\n        bLogout = findViewById(R.id.bLogout);\r\n        bChangePassword = findViewById(R.id.bChangePassword);\r\n        bImportClothing = findViewById(R.id.bImportClothing);\r\n\r\n        // Button OnClickListener\r\n        bLogout.setOnClickListener(this);\r\n        bChangePassword.setOnClickListener(this);\r\n        bImportClothing.setOnClickListener(this);\r\n\r\n        // Set up bottom navigation bar\r\n        setupBottomNavigationView();\r\n\r\n        //Firebase authentication\r\n        mAuth = FirebaseAuth.getInstance();\r\n        FirebaseUser currentUser = mAuth.getCurrentUser();\r\n\r\n        //Welcome message\r\n        //Obviously we don't have to include this but its an option to display the username somewhere\r\n        //somehow\r\n        String username = currentUser.getDisplayName();\r\n        if (username != null){\r\n            welcome = \"Welcome, \" + currentUser.getDisplayName();\r\n        }\r\n        else {\r\n            welcome = \"\"; //not sure if it's possible to have a blank string\r\n        }\r\n        tvWelcome = findViewById(R.id.tvWelcome);\r\n        tvWelcome.setText(welcome);\r\n\r\n        //take photo\r\n        bTakePhoto = findViewById(R.id.bTakePhoto);\r\n        bTakePhoto.setOnClickListener(this);\r\n\r\n    }\r\n\r\n    // BottomNavigationView setup\r\n    private void setupBottomNavigationView() {\r\n        Log.d(TAG, \"setupBottomNavigationView: Setting up BottomNavigationView\");\r\n        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);\r\n        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);\r\n        BottomNavigationViewHelper.enableNavigation(mContext, bottom_navbar_view);\r\n\r\n        // To highlight the correct icon when on correct page\r\n        Menu menu = bottom_navbar_view.getMenu();\r\n        MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);\r\n        menuItem.setChecked(true);\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v){\r\n        switch(v.getId()){\r\n            case R.id.bLogout:\r\n                logOut();\r\n                break;\r\n            // Not high priority, may remove\r\n            case R.id.bChangePassword:\r\n                changePassword();\r\n                break;\r\n            case R.id.bImportClothing:\r\n                SelectImage(PICK_IMAGE_REQUEST);\r\n                break;\r\n            case R.id.bTakePhoto:\r\n                dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);\r\n                break;\r\n            default:\r\n                throw new IllegalStateException(\"Unexpected value: \" + v.getId());\r\n        }\r\n    }\r\n\r\n\r\n\r\n    @Override\r\n    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {\r\n        super.onActivityResult(requestCode, resultCode, intent);\r\n        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {\r\n            Log.i(\"onActivityResult\",\"tagItIntent\");\r\n            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);\r\n            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());\r\n            startActivity(tagItIntent);\r\n        }\r\n        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {\r\n            Uri filePath = intent.getData();\r\n            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);\r\n            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());\r\n            startActivity(tagItIntent);\r\n        }\r\n    }\r\n\r\n    // TODO: 3/15/2022 refactor into a new java file\r\n    private void logOut() {\r\n        FirebaseUser user = mAuth.getCurrentUser();\r\n        if (user != null){\r\n            mAuth.signOut();\r\n            Toast.makeText(this, user.getEmail()+ \"is logged out!\", Toast.LENGTH_SHORT).show();\r\n            startActivity(new Intent(this, Login.class));\r\n        }else{\r\n            Toast.makeText(this, \"You aren't logged in yet!\", Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n    //Methods below better not put in a separate file, due to pass-by-reference i guess\r\n    //take picture\r\n    public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {\r\n        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);\r\n        // Ensure that there's a camera activity to handle the intent\r\n        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {\r\n            // Create the File where the photo should go\r\n            File photoFile = null;\r\n            try {\r\n                photoFile = createImageFile();\r\n            } catch (IOException ex) {\r\n                // Error occurred while creating the File\r\n                Toast.makeText(MainActivity.this,\"Cannot create files for photos\",Toast.LENGTH_SHORT).show();\r\n                //Log.i(\"TakePicture: \",\"Cannot create files for photos\");\r\n            }\r\n            // Continue only if the File was successfully created\r\n            if (photoFile != null) {\r\n                photoURI = FileProvider.getUriForFile(this,\r\n                        \"com.example.android.fileprovider\",\r\n                        photoFile);\r\n                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);\r\n                startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n    public void changePassword() {\r\n        startActivity(new Intent(MainActivity.this, ChangePassword.class));\r\n    }\r\n\r\n\r\n\r\n    //store in public Pictures directory\r\n    public File createImageFile() throws IOException {\r\n        // Create an image file name\r\n        String timeStamp = new SimpleDateFormat(\"yyyyMMdd_HHmmss\").format(new Date());\r\n        String imageFileName = \"Shibushi_\" + timeStamp + \"_\";\r\n        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);\r\n        File image = File.createTempFile(\r\n                imageFileName,  /* prefix */\r\n                \".jpg\",         /* suffix */\r\n                storageDir      /* directory */\r\n        );\r\n\r\n        // Save a file: path for use with ACTION_VIEW intents\r\n        currentPhotoPath = image.getAbsolutePath();\r\n        return image;\r\n    }\r\n\r\n    // Select Image method\r\n    public void SelectImage(int PICK_IMAGE_REQUEST) {\r\n        // Defining Implicit Intent to mobile gallery\r\n        Intent selectIntent = new Intent();\r\n        selectIntent.setType(\"image/*\");\r\n        selectIntent.setAction(Intent.ACTION_GET_CONTENT);\r\n        startActivityForResult(Intent.createChooser(selectIntent, \"Select Image from here...\"), PICK_IMAGE_REQUEST);\r\n    }\r\n\r\n}\r\n\r\n\r\n/*\r\n* This is the Main screen that the user sees. From here, users can navigate to other activities.\r\n* */\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/shibushi/MainActivity.java b/app/src/main/java/com/example/shibushi/MainActivity.java
+--- a/app/src/main/java/com/example/shibushi/MainActivity.java	
++++ b/app/src/main/java/com/example/shibushi/MainActivity.java	
+@@ -2,6 +2,7 @@
+ 
+ import android.content.Context;
+ import android.content.Intent;
++import android.graphics.Bitmap;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.Environment;
+@@ -12,6 +13,7 @@
+ import android.util.Log;
+ import android.view.View;
+ import android.widget.Button;
++import android.widget.ImageView;
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
+@@ -33,6 +35,7 @@
+ 
+ public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+     private static final String TAG = "MainActivity";
++    private static final int CROP_PHOTO = 44;
+     private Context mContext = MainActivity.this;
+     private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number
+ 
+@@ -128,17 +131,59 @@
+         super.onActivityResult(requestCode, resultCode, intent);
+         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+             Log.i("onActivityResult","tagItIntent");
+-            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
+-            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());
+-            startActivity(tagItIntent);
++            Uri filePath = intent.getData();
++            try {
++                cropPhoto(filePath);
++            } catch (IOException e) {
++                Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
++            }
+         }
+         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {
+             Uri filePath = intent.getData();
+-            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);
+-            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());
++            try {
++                cropPhoto(filePath);
++            } catch (IOException e) {
++                Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
++            }
++
++        }
++        if(requestCode == CROP_PHOTO && resultCode == RESULT_OK){
++            Uri cropped = intent.getData();
++            //Bitmap bitmap = intent.getExtras().getParcelable("data");
++            //Log.i("CROP", bitmap.toString());
++            //ImageView imageViewBitmap = findViewById(R.id.tagPhoto);
++            //imageViewBitmap.setImageBitmap(bitmap);
++            Toast.makeText(MainActivity.this,cropped.toString(),Toast.LENGTH_SHORT).show();
++            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
++            tagItIntent.putExtra(KEY_PHOTO,cropped.toString());
+             startActivity(tagItIntent);
++
+         }
+     }
++
++
++    private void cropPhoto(Uri srcUri) throws IOException {
++        File cropFile = createImageFile();
++        Uri desUri = FileProvider.getUriForFile(this,
++                "com.example.android.fileprovider",
++                cropFile);
++        Intent intent = new Intent("com.android.camera.action.CROP");
++        intent.setDataAndType(srcUri, "image/*");
++        intent.putExtra("crop", "true");
++        intent.putExtra(MediaStore.EXTRA_OUTPUT, desUri);
++        intent.putExtra("aspectX", 1);
++        intent.putExtra("aspectY", 1);
++        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG);
++        intent.putExtra("outputX", R.dimen.tagItImage);
++        intent.putExtra("outputY", R.dimen.tagItImage);
++        intent.putExtra("scale", true);
++        intent.putExtra("scaleUpIfNeeded", true);
++        intent.putExtra("return-data", false);
++        startActivityForResult(intent, CROP_PHOTO);
++    }
++
++
++
+ 
+     // TODO: 3/15/2022 refactor into a new java file
+     private void logOut() {
+@@ -156,23 +201,18 @@
+     //take picture
+     public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {
+         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+-        // Ensure that there's a camera activity to handle the intent
+         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+-            // Create the File where the photo should go
+             File photoFile = null;
+             try {
+                 photoFile = createImageFile();
+             } catch (IOException ex) {
+-                // Error occurred while creating the File
+                 Toast.makeText(MainActivity.this,"Cannot create files for photos",Toast.LENGTH_SHORT).show();
+-                //Log.i("TakePicture: ","Cannot create files for photos");
+             }
+-            // Continue only if the File was successfully created
+             if (photoFile != null) {
+-                photoURI = FileProvider.getUriForFile(this,
++                Uri takephotoURI = FileProvider.getUriForFile(this,
+                         "com.example.android.fileprovider",
+                         photoFile);
+-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
++                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, takephotoURI);
+                 startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+ 
+             }
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <!-- Default screen margins, per the Android Design guidelines. -->\r\n    <dimen name=\"fragment_horizontal_margin\">16dp</dimen>\r\n    <dimen name=\"fragment_vertical_margin\">16dp</dimen>\r\n    <dimen name=\"top_toolbar_height\">50dp</dimen>\r\n    <dimen name=\"bottom_navbar_height\">50dp</dimen>\r\n    <dimen name=\"progress_bar_height\">50dp</dimen>\r\n    <dimen name=\"progress_bar_width\">50dp</dimen>\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/dimens.xml b/app/src/main/res/values/dimens.xml
+--- a/app/src/main/res/values/dimens.xml	
++++ b/app/src/main/res/values/dimens.xml	
+@@ -6,5 +6,6 @@
+     <dimen name="bottom_navbar_height">50dp</dimen>
+     <dimen name="progress_bar_height">50dp</dimen>
+     <dimen name="progress_bar_width">50dp</dimen>
++    <dimen name="tagItImage">300dp</dimen>
+ 
+ </resources>
+\ No newline at end of file

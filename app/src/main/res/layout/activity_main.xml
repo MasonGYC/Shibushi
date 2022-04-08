@@ -42,12 +42,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bLogout"
         android:text="@string/change_password"/>
+
     <Button
         android:id="@+id/bFirestore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bChangePassword"
-        android:text="Firestore"/>
+        android:text="Firestore" />
 
 
 

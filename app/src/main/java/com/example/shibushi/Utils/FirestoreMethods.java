@@ -49,6 +49,7 @@ public class FirestoreMethods {
     /*
     * Takes in image ID, returns bitmap.
     * */
+    /*
     public static Bitmap fetchClothes(String clothesID){
         // Source can be CACHE, SERVER, or DEFAULT.
         Source source = Source.CACHE;
@@ -66,6 +67,9 @@ public class FirestoreMethods {
         });
 
     }
+
+     */
+
 
 
 
