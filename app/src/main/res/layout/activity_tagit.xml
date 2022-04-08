@@ -48,17 +48,14 @@
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
         tools:layout_editor_absoluteX="0dp" />
 
-
     <Spinner
-        android:id="@+id/spinnerSize"
-        android:prompt="@string/Size"
+        android:id="@+id/spinnerPrivacy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:entries="@array/spinnerSize"
+        android:entries="@array/spinnerPrivacy"
         app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
         tools:layout_editor_absoluteX="0dp" />
-
     <Button
         android:id="@+id/buttonTagIt"
         android:layout_width="wrap_content"
