@@ -67,16 +67,14 @@ public class Profile extends AppCompatActivity {
         profileParentAdapter = new ProfileParentAdapter();
         parentRecyclerView.setAdapter(profileParentAdapter);
 
-        Log.d(TAG, "WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
         //TODO: Utilise firestore methods
         // DUMMY DATA
         ArrayList<cClothing> cClothingList = new ArrayList<>();
-        cClothing cClothing1 = new cClothing("ShirtID1", "Shirt", "user1");
-        cClothing cClothing2 = new cClothing("ShirtID2", "Shirt", "user1");
-        cClothing cClothing3 = new cClothing("ShirtID3", "Shirt", "user1");
-        cClothing cClothing4 = new cClothing("ShirtID4", "Shirt", "user1");
-        cClothing cClothing5 = new cClothing("ShirtID5", "Shirt", "user1");
+        cClothing cClothing1 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing2 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing3 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing4 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing5 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
 
         cClothingList.add(cClothing1);
         cClothingList.add(cClothing2);

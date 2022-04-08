@@ -53,7 +53,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             // If user is already signed in, show Feed page on start
-            startActivity(new Intent(this, FeedActivity.class));
+            startActivity(new Intent(this, FeedActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             //Should use FirebaseUser.reload method instead?
         }
     }
@@ -96,7 +96,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(Login.this, MainActivity.class));
+                            startActivity(new Intent(Login.this, FeedActivity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());

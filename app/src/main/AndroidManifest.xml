@@ -58,7 +58,8 @@
 
         <!-- FEEDS -->
         <activity android:name=".Feed.FeedActivity" />
-        <activity android:name=".Feed.SearchActivity"/>
+        <activity android:name=".Feed.SearchActivity"
+            android:parentActivityName=".Feed.FeedActivity"/>
         <activity android:name=".Feed.ViewOutfitPostActivity"/>
 
         <!-- PROFILE -->
@@ -78,8 +79,7 @@
         <activity
             android:name=".Feed.Profile.ChangePassword"
             android:theme="@style/Theme.AppCompat.Light"
-            android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
-            android:exported="false" />
+            android:parentActivityName=".Feed.Profile.AccountSettingsActivity" />
         <activity
             android:name=".Feed.Profile.SignOutActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"

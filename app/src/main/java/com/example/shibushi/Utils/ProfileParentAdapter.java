@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,27 @@ public class ProfileParentAdapter extends RecyclerView.Adapter<ProfileParentAdap
     public void onBindViewHolder(@NonNull ProfileParentViewHolder holder, int position) {
         cOutfits cOutfits = cOutfitsList.get(position);
         // TODO: fetch data from firestore and set the views
+
+        /* METHOD 1 - FOLLOWING
+        1. Get the currentUser userID from firebase auth
+        2. Get a list of userID that the currentUser is following
+        3. For each userID:
+        4.      loop through the cOutfits collection
+        5.          if userID in cOutfits && privacy == false
+        6.              add the metadata: list "items" into cOutfitsList
+        7. Order the outfits in cOutfitsList by timestamp
+        8. for each position in RV:
+        9.      get the img_name/url of each outfit
+        10.     Create a
+         */
+
+        /* METHOD 2 - ALL OUTFITS IN FIRESTORE
+        1. Order the Outfits by timestamp
+         */
+
+        // Firebase authentication
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         String userID = cOutfits.getUserID();
 
         holder.outfitNameTV.setText(cOutfits.getName());
