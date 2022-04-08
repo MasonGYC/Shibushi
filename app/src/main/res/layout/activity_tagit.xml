@@ -19,9 +19,8 @@
         android:id="@+id/spinnerColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="412dp"
+        android:layout_marginTop="440dp"
         android:entries="@array/spinnerColor"
-        android:prompt="@string/Color"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -30,10 +29,9 @@
 
     <Spinner
         android:id="@+id/spinnerCategory"
-        android:prompt="@string/Category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:entries="@array/spinnerCategory"
         android:spinnerMode="dropdown"
         app:layout_constraintTop_toBottomOf="@+id/spinnerColor"
@@ -41,22 +39,11 @@
 
     <Spinner
         android:id="@+id/spinnerOccasion"
-        android:prompt="@string/Occasion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:entries="@array/spinnerOccasion"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <Spinner
-        android:id="@+id/spinnerSize"
-        android:prompt="@string/Size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:entries="@array/spinnerSize"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
@@ -67,10 +54,9 @@
         android:text="@string/tag_it"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
-        app:layout_constraintVertical_bias="0.91" />
-
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

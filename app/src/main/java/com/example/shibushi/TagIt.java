@@ -45,17 +45,16 @@ public class TagIt extends AppCompatActivity {
     String photoURIString;
     HashMap<String, Object> map;
 
-    //TAGS
-    public final static String COLOR = "COLOR";
-    public final static String OCCASION = "OCCASION";
-    public final static String SIZE = "SIZE";
-    public final static String CATEGORY = "CATEGORY";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tagit);
+
+        //dummy hashmap
+        map.put("color", "red");
+        map.put("size", "M");
+        map.put("Category", "Shirt");
 
         // get the Firebase  storage reference
         storage = FirebaseStorage.getInstance();
@@ -85,16 +84,11 @@ public class TagIt extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO: 1. STORE TAGS
-                map.put(COLOR,spinnerColor.getSelectedItem().toString());
-                map.put(SIZE,spinnerColor.getSelectedItem().toString());
-                map.put(CATEGORY,spinnerCategory.getSelectedItem().toString());
-                map.put(OCCASION,spinnerOccasion.getSelectedItem().toString());
-                //TODO: 2. UPLOAD IMAGE AND TAGS
+
+                //TODO: 2. UPLOAD IMAGE
+                //TODO: 3. CHANGE UI
                 //FirebaseMethods.addClothes(map,photoURI);
-
-                //TODO: 3. *CUSTOMIZE TAGS
-
-                Toast.makeText(TagIt.this, "Image Uploaded", Toast.LENGTH_LONG).show();
+                Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TagIt.this,MainActivity.class);
                 startActivity(intent);
             }

@@ -18,15 +18,5 @@
         <item>Formal</item>
         <item>Casual</item>
     </string-array>
-    <string-array name="spinnerSize">
-        <item>XS</item>
-        <item>S</item>
-        <item>M</item>
-        <item>L</item>
-        <item>XL</item>
-        <item>XXL</item>
-        <item>XXXL</item>
-        <item>XXXXL</item>
-    </string-array>
 
 </resources>
