@@ -28,11 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
-        <activity
-            android:name=".Login.ChangePassword"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ViewWardrobeActivity"
             android:exported="true" />
@@ -59,11 +55,36 @@
             android:name=".Login.Register"
             android:exported="true" />
         <activity android:name=".ViewOutfitsActivity" />
+
+        <!-- FEEDS -->
         <activity android:name=".Feed.FeedActivity" />
-        <activity android:name=".Feed.Profile.Profile" />
-        <activity android:name=".Feed.Profile.AccountSettings" />
         <activity android:name=".Feed.SearchActivity"/>
         <activity android:name=".Feed.ViewOutfitPostActivity"/>
+
+        <!-- PROFILE -->
+        <activity android:name=".Feed.Profile.Profile" />
+
+        <!-- ACCOUNT SETTINGS -->
+        <activity
+            android:name=".Feed.Profile.AccountSettingsActivity"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:parentActivityName=".Feed.Profile.Profile"
+            android:exported="false" />
+        <activity
+            android:name=".Feed.Profile.EditProfileActivity"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:parentActivityName=".Feed.Profile.Profile"
+            android:exported="false" />
+        <activity
+            android:name=".Feed.Profile.ChangePassword"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Feed.Profile.SignOutActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
+            android:exported="false" />
 
         <activity android:name=".PhotoProcess.CropActivity"
             android:exported="true"/>

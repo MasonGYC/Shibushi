@@ -37,8 +37,8 @@
             android:layout_below="@+id/activity_signout_ButtonSignout"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:text="CANCEL"
             android:background="@drawable/button_round"
+            android:text="CANCEL"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -59,7 +59,5 @@
         android:textSize="15sp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
-
-
 
 </RelativeLayout>

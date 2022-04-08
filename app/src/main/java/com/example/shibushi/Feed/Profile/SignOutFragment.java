@@ -1,6 +1,5 @@
 package com.example.shibushi.Feed.Profile;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,11 +41,11 @@ public class SignOutFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        tvSignOut = view.findViewById(R.id.fragment_signout_tvSignoutQn);
-        tvSigningOut = view.findViewById(R.id.fragment_signout_tvSigningOut);
-        buttonSignOut = view.findViewById(R.id.fragment_signout_ButtonSignout);
-        buttonCancel = view.findViewById(R.id.fragment_signout_ButtonCancel);
-        mProgressBar = view.findViewById(R.id.fragment_signout_progBar);
+        tvSignOut = view.findViewById(R.id.activity_signout_tvSignoutQn);
+        tvSigningOut = view.findViewById(R.id.activity_signout_tvSigningOut);
+        buttonSignOut = view.findViewById(R.id.activity_signout_ButtonSignout);
+        buttonCancel = view.findViewById(R.id.activity_signout_ButtonCancel);
+        mProgressBar = view.findViewById(R.id.activity_signout_progBar);
 
         mProgressBar.setVisibility(View.GONE);
         tvSigningOut.setVisibility(View.GONE);

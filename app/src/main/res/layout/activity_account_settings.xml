@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Bottom navigation bar -->
+    <ListView
+        android:id="@+id/account_settings_ListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include layout="@layout/layout_navbar_bottom"
+        android:layout_below="@+id/select_dialog_listview"
+        android:layout_height="@dimen/bottom_navbar_height"
+        android:layout_width="match_parent" />
+
+</RelativeLayout>

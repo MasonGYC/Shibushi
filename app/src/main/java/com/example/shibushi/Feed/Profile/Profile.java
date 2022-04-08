@@ -185,7 +185,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Navigating to account settings");
-                Intent intent = new Intent(mContext, AccountSettings.class);
+                Intent intent = new Intent(mContext, AccountSettingsActivity.class);
                 startActivity(intent);
             }
         });
@@ -202,8 +202,8 @@ public class Profile extends AppCompatActivity {
         mEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: navigating to edit profile fragment");
-                Intent intent = new Intent(mContext, AccountSettings.class);
+                Log.d(TAG, "onClick: navigating to edit profile");
+                Intent intent = new Intent(mContext, EditProfileActivity.class);
                 startActivity(intent);
             }
         });

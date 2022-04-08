@@ -17,7 +17,6 @@
         <!-- Image of each clothing -->
         <ImageView
             android:id="@+id/profile_each_child_clothing_IV"
-            layout="@layout/snippet_square_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"

@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.example.shibushi.Login.ChangePassword;
+import com.example.shibushi.Feed.Profile.ChangePassword;
 import com.example.shibushi.Login.Login;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

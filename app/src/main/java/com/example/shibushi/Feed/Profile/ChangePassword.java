@@ -1,4 +1,4 @@
-package com.example.shibushi.Login;
+package com.example.shibushi.Feed.Profile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
