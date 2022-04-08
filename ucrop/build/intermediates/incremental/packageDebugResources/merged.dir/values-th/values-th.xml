@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ucrop_crop">พืชผล</string>
+    <string name="ucrop_label_edit_photo">แก้ไขรูปภาพ</string>
+    <string name="ucrop_label_original">เป็นต้นฉบับ</string>
+    <string name="ucrop_menu_crop">พืชผล</string>
+    <string name="ucrop_rotate">หมุน</string>
+    <string name="ucrop_scale">ขนาด</string>
+</resources>

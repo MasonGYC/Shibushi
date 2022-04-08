@@ -1,6 +1,5 @@
 package com.example.shibushi.Utils;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 
@@ -13,11 +12,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -49,7 +44,7 @@ public class FirestoreMethods {
     /*
     * Takes in image ID, returns bitmap.
     * */
-    public static Bitmap fetchClothes(String clothesID){
+    /*public static Bitmap fetchClothes(String clothesID){
         // Source can be CACHE, SERVER, or DEFAULT.
         Source source = Source.CACHE;
         Query query = clothesRef.whereEqualTo("ID", clothesID);
@@ -65,7 +60,7 @@ public class FirestoreMethods {
             }
         });
 
-    }
+    }*/
 
 
 
