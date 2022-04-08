@@ -38,20 +38,15 @@ public class TagIt extends AppCompatActivity {
     Spinner spinnerColor;
     Spinner spinnerCategory;
     Spinner spinnerOccasion;
-    Spinner spinnerPrivacy;
-    final float scale = 0.7f; //scale factor for bitmap display
+    Spinner spinnerSize;
     FirebaseStorage storage;
     StorageReference storageReference;
-    public Uri filePath;
-    String photoURIString;
-    HashMap<String, Object> map = new HashMap<>();
 
     //TAGS
-    public final static String COLOR = "color";
-    public final static String OCCASION = "occasion";
-    public final static String SIZE = "size";
-    public final static String CATEGORY = "category";
-    public final static String PRIVACY = "privacy";
+    public final static String COLOR = "COLOR";
+    public final static String OCCASION = "OCCASION";
+    public final static String SIZE = "SIZE";
+    public final static String CATEGORY = "CATEGORY";
 
 
     @Override
@@ -59,6 +54,7 @@ public class TagIt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tagit);
 
+        HashMap<String, Object> map = new HashMap<>();
 
         // get the Firebase  storage reference
         storage = FirebaseStorage.getInstance();
@@ -70,12 +66,7 @@ public class TagIt extends AppCompatActivity {
         spinnerColor = findViewById(R.id.spinnerColor);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         spinnerOccasion = findViewById(R.id.spinnerOccasion);
-        spinnerPrivacy = findViewById(R.id.spinnerPrivacy);
-        //get map data
-        map.put(COLOR,spinnerColor.getSelectedItem().toString());
-        map.put(CATEGORY,spinnerCategory.getSelectedItem().toString());
-        map.put(OCCASION,spinnerOccasion.getSelectedItem().toString());
-        map.put(PRIVACY, spinnerPrivacy.getSelectedItem().toString());
+        spinnerSize = findViewById(R.id.spinnerSize);
 
         //get intent to set image
         Intent bitmapIntent = getIntent();

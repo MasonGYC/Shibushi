@@ -1,37 +1,17 @@
 <resources>
-    <string name="app_name">Shibushi</string>
-    <string name="change_password">Change Password</string>
-    <string name="choose">Choose</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="register">Register</string>
-    <string name="shibushi">shibushi</string>
-    <string name="shibushi_logo">shibushi logo</string>
-    <string name="email_address">Email Address</string>
-    <string name="upload">Upload</string>
-    <string name="import_clothing">Import Clothing</string>
-    <string name="take_photo">TAKE PHOTO</string>
-    <string name="tag_it">Tag it!</string>
-    <string-array name="size_array">
-        <item>XS</item>
-        <item>S</item>
-        <item>M</item>
-        <item>L</item>
-        <item>XL</item>
-    </string-array>
-    <string-array name="color_array">
-        <item>Red</item>
-        <item>Orange</item>
-        <item>Yellow</item>
-        <item>Green</item>
-        <item>Blue</item>
-        <item>Indigo</item>
-        <item>Violet</item>
-    </string-array>
-    <string-array name="privacy_array">
-        <item>Private</item>
-        <item>Public</item>
-    </string-array>
+    <string name="app_name" translatable="false">Shibushi</string>
+    <string name="change_password" translatable="false">Change Password</string>
+    <string name="choose" translatable="false">Choose</string>
+    <string name="username" translatable="false">Username</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="register" translatable="false">Register</string>
+    <string name="shibushi" translatable="false">shibushi</string>
+    <string name="shibushi_logo" translatable="false">shibushi logo</string>
+    <string name="email_address" translatable="false">Email Address</string>
+    <string name="upload" translatable="false">Upload</string>
+    <string name="import_clothing" translatable="false">Import Clothing</string>
+    <string name="take_photo" translatable="false">TAKE PHOTO</string>
+    <string name="tag_it" translatable="false">Tag it!</string>
 
     <!-- fragment names -->
     <string name="edit_profile_fragment" translatable="false">Edit Profile</string>

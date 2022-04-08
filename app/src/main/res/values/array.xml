@@ -28,10 +28,5 @@
         <item>XXXL</item>
         <item>XXXXL</item>
     </string-array>
-    <string-array name="spinnerPrivacy">
-        <item>Private</item>
-        <item>Public</item>
-    </string-array>
-
 
 </resources>
