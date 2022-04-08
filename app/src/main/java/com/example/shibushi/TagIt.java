@@ -1,10 +1,6 @@
 package com.example.shibushi;
 
-import static com.example.shibushi.Feed.FeedActivity.KEY_FEED_PHOTO;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,18 +12,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shibushi.PhotoProcess.ResultActivity;
-import com.example.shibushi.Utils.FirebaseMethods;
 import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -43,10 +34,11 @@ public class TagIt extends AppCompatActivity {
     StorageReference storageReference;
 
     //TAGS
-    public final static String COLOR = "COLOR";
-    public final static String OCCASION = "OCCASION";
-    public final static String SIZE = "SIZE";
-    public final static String CATEGORY = "CATEGORY";
+    public final static String COLOR = "color";
+    public final static String OCCASION = "occasion";
+    public final static String SIZE = "size";
+    public final static String CATEGORY = "category";
+    public final static String Privacy = "privacy";
 
 
     @Override

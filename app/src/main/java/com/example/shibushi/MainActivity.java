@@ -20,6 +20,8 @@ import androidx.core.content.FileProvider;
 import com.example.shibushi.Feed.Profile.ChangePassword;
 import com.example.shibushi.Login.Login;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.example.shibushi.testing.firestoreUpload;
+import com.example.shibushi.testing.imgviewer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -121,7 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
-                goFirestore();
+                startActivity(new Intent(MainActivity.this, imgviewer.class));
+                //goFirestore();
 
                 break;
             default:

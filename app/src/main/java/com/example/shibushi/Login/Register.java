@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
@@ -28,6 +27,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
     Button bRegister;
@@ -38,6 +42,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private FirebaseMethods firebaseMethods;
     private DatabaseReference dReference;
+    private static final FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
     private static final String TAG = "EmailPassword";
 
 
@@ -142,7 +147,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         if (task.isSuccessful()) {
 
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            String UserID = currentUser.getUid();
+                            Map<String, Object> foll = new HashMap<>();
+                            foll.put("following", Arrays.asList());
+                            foll.put("follower", Arrays.asList());
+                            mFirestoreDB.collection("cUsers").document(UserID).set(foll);FirebaseUser user = mAuth.getCurrentUser();
 
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(username)
