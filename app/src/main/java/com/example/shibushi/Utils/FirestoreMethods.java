@@ -12,12 +12,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -157,7 +163,68 @@ public class FirestoreMethods {
         return url[0];
     }
 
-    public static void addNewUser(String email, String username, String bio, String profile_photo) {
+    // Query clothes
+    public static ArrayList<String> getmyClothes(String userID){
+        ArrayList<String> clothes_Array = new ArrayList<>();
+        CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
+        Query myClothes = clothesRef.whereEqualTo("userid", userID);
+        myClothes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Object image_name = document.get("img_name");
+                        clothes_Array.add(image_name.toString());
+                        Log.d(TAG, document.getId() + " => " + clothes_Array);
+                        //Bitmap image = Image.getBitmap(image_url.toString());
+
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+
+            }
+        });
+        return clothes_Array;
+    }
+
+
+
+    // For User followers and followings
+    public static void getAllFollow(String userID){
+
+        getmyFollowers(userID);
+    }
+    private static void getmyFollowers(String userID){
+        DocumentReference docRef = mFirestoreDB.collection("cUsers").document(userID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        // DocumentSnapshot data: {following=[user1, user2], followers=[user0]} , is returned
+                        Map<String, Object> map = document.getData();
+                        for (Map.Entry<String, Object> entry : map.entrySet()) {
+                            int followers_count = 0;
+                            if (entry.getKey().equals("followers")) {
+                                followers_count +=1;
+                                Log.d("TAG", entry.getValue().toString());
+                            }
+                            // later return count
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
     }
 
 }
