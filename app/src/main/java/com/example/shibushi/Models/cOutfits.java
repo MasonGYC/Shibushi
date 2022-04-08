@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class cOutfits {
 
     String outfitID, timeStamp, userID, name;
-    ArrayList<cClothes> items;
+    ArrayList<cClothing> items;
 
     public cOutfits(){}
 
-    public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<cClothes> items) {
+    public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<cClothing> items) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
@@ -49,11 +49,11 @@ public class cOutfits {
         this.name = name;
     }
 
-    public ArrayList<cClothes> getItems() {
+    public ArrayList<cClothing> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<cClothes> items) {
+    public void setItems(ArrayList<cClothing> items) {
         this.items = items;
     }
 }

@@ -1,11 +1,11 @@
 package com.example.shibushi.Models;
 
-public class cClothes {
+public class cClothing {
     String ID, type, user;
 
-    public cClothes(){}
+    public cClothing(){}
 
-    public cClothes(String ID, String type, String user) {
+    public cClothing(String ID, String type, String user) {
         this.ID = ID;
         this.type = type;
         this.user = user;

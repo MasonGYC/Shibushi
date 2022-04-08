@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
+import com.example.shibushi.Models.cClothing;
+import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.FeedParentAdapter;
@@ -26,6 +28,9 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.annotations.Nullable;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -60,11 +65,33 @@ public class FeedActivity extends AppCompatActivity {
         feedParentAdapter = new FeedParentAdapter();
         parentRecyclerView.setAdapter(feedParentAdapter);
 
+        // DUMMY DATA
+        ArrayList<cClothing> cClothingList = new ArrayList<>();
+        cClothing cClothing1 = new cClothing("ShirtID1", "Shirt", "user1");
+        cClothing cClothing2 = new cClothing("ShirtID2", "Shirt", "user1");
+        cClothing cClothing3 = new cClothing("ShirtID3", "Shirt", "user1");
+        cClothing cClothing4 = new cClothing("ShirtID4", "Shirt", "user1");
+        cClothing cClothing5 = new cClothing("ShirtID5", "Shirt", "user1");
+
+        cClothingList.add(cClothing1);
+        cClothingList.add(cClothing2);
+        cClothingList.add(cClothing3);
+        cClothingList.add(cClothing4);
+        cClothingList.add(cClothing5);
+
+        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
+        cOutfits cOutfits1 = new cOutfits(
+                "outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList);
+        cOutfits cOutfits2 = new cOutfits(
+                "outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList);
+        cOutfitsList.add(cOutfits1);
+        cOutfitsList.add(cOutfits2);
+
+        feedParentAdapter.setcOutfitsList(cOutfitsList);
+        feedParentAdapter.notifyDataSetChanged();
+
         //TODO: Utilise firestore methods
     }
-
-
-
 
 //    /**
 //     * Initialise ImageLoader
