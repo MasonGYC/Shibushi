@@ -15,10 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
-import com.example.shibushi.Models.User;
-import com.example.shibushi.Models.UserAccountSettings;
 import com.example.shibushi.R;
-import com.example.shibushi.Utils.FirebaseMethods;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,7 +37,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     TextView pwStrength;
     View pwStrengthIndicator;
     private FirebaseAuth mAuth;
-    private FirebaseMethods firebaseMethods;
     private DatabaseReference dReference;
     private static final FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
     private static final String TAG = "EmailPassword";
@@ -62,9 +58,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         //Firebase authentication object
         mAuth = FirebaseAuth.getInstance();
         dReference = FirebaseDatabase.getInstance("https://shibushi-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-
-        //FirebaseMethods
-        firebaseMethods = new FirebaseMethods(this);
 
         //Password strength observer
         pwStrengthIndicator = findViewById(R.id.pwStrengthIndicator);
