@@ -60,6 +60,7 @@
         <activity android:name=".Feed.Profile.Profile" />
         <activity android:name=".Feed.Profile.AccountSettings" />
         <activity android:name=".Feed.SearchActivity"/>
+        <activity android:name=".Feed.ViewOutfitPostActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

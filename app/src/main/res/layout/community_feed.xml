@@ -21,14 +21,16 @@
 
         </RelativeLayout>
 
+        <!-- bottom navigation -->
         <RelativeLayout
             android:id="@+id/community_feed_relLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/community_feed_relLayout1">
+            android:layout_below="@+id/community_feed_relLayout1"
+            android:layout_marginTop="0dp">
 
             <!-- Middle Section: Posts scroll -->
-            <include layout="@layout/layout_center_viewpager"></include>
+            <include layout="@layout/activity_feed"></include>
 
             <!-- Floating Action button -->
             <com.getbase.floatingactionbutton.FloatingActionsMenu
@@ -80,7 +82,6 @@
 
         </RelativeLayout>
 
-        <!-- bottom navigation -->
         <include layout="@layout/layout_navbar_bottom"></include>
 
     </RelativeLayout>

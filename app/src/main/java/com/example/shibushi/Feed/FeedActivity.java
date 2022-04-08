@@ -13,12 +13,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.TagIt;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.example.shibushi.Utils.FeedParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,6 +35,11 @@ public class FeedActivity extends AppCompatActivity {
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
 
+    // Feed
+    private RecyclerView parentRecyclerView;
+    private FeedParentAdapter feedParentAdapter;
+
+    // For TagIt
     public static final String KEY_FEED_PHOTO = "KEY_FEED_PHOTO";
     Uri imageUri;
 
@@ -42,22 +50,31 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.community_feed);
         Log.d(TAG, "onCreate: started");
 
-        initImageLoader(); //Init Image Loader
+//        initImageLoader(); //Init Image Loader
         setupToolBar(); //Setup top toolbar
         setupBottomNavigationView(); //Setup bottom navigation bar
         setup_FAB(); //Setup floating action button
 
+        parentRecyclerView = findViewById(R.id.feed_parent_RV);
+        parentRecyclerView.setHasFixedSize(true);
+        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        feedParentAdapter = new FeedParentAdapter();
+        parentRecyclerView.setAdapter(feedParentAdapter);
+
+        //TODO: Utilise firestore methods
     }
 
 
-    /**
-     * Initialise ImageLoader
-     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
-     */
-    private void initImageLoader() {
-        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
-        ImageLoader.getInstance().init(universalImageLoader.getConfig());
-    }
+
+
+//    /**
+//     * Initialise ImageLoader
+//     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
+//     */
+//    private void initImageLoader() {
+//        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+//        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+//    }
 
     // Floating action button
     private void setup_FAB() {

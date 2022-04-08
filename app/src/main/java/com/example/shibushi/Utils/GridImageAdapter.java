@@ -50,8 +50,8 @@ public class GridImageAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             convertView = mInflater.inflate(layoutResource, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.progressBar = convertView.findViewById(R.id.layout_profile_grid_imageView_progBar);
-            viewHolder.imageView = convertView.findViewById(R.id.layout_profile_grid_imageview_IV);
+            viewHolder.progressBar = convertView.findViewById(R.id.snippet_squareIV_progBar);
+            viewHolder.imageView = convertView.findViewById(R.id.);
 
             convertView.setTag(viewHolder); //set widgets in memory so it doesn't cause app to slow down
         }

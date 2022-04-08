@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.R;
@@ -89,11 +88,12 @@ public class Profile extends AppCompatActivity {
         mBio = findViewById(R.id.layout_centre_profile_bio);
 
         // GridView
-        mGridView = findViewById(R.id.layout_centre_profile_gridView);
+        // mGridView = findViewById(R.id.layout_centre_profile_gridView);
 
         // Toolbar
         toolbar = findViewById(R.id.snippet_profile_toolbar);
     }
+
 
     /**
      * Temporary grid setup
@@ -128,7 +128,7 @@ public class Profile extends AppCompatActivity {
         int imageWidth = gridWidth/NUM_GRID_PER_ROW;
         mGridView.setColumnWidth(imageWidth);
 
-        GridImageAdapter gridImageAdapter = new GridImageAdapter(mContext, R.layout.layout_profile_grid_imageview, "", imgURLs);
+        GridImageAdapter gridImageAdapter = new GridImageAdapter(mContext, R.layout.snippet_square_view, "", imgURLs);
         mGridView.setAdapter(gridImageAdapter);
     }
 
