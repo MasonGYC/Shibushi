@@ -54,7 +54,7 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.community_feed);
         Log.d(TAG, "onCreate: started");
 
-//        initImageLoader(); //Init Image Loader
+        initImageLoader(); //Init Image Loader
         setupToolBar(); //Setup top toolbar
         setupBottomNavigationView(); //Setup bottom navigation bar
         setup_FAB(); //Setup floating action button
@@ -65,6 +65,7 @@ public class FeedActivity extends AppCompatActivity {
         feedParentAdapter = new FeedParentAdapter();
         parentRecyclerView.setAdapter(feedParentAdapter);
 
+        //TODO: Utilise firestore methods
         // DUMMY DATA
         ArrayList<cClothing> cClothingList = new ArrayList<>();
         cClothing cClothing1 = new cClothing("ShirtID1", "Shirt", "user1");
@@ -89,18 +90,16 @@ public class FeedActivity extends AppCompatActivity {
 
         feedParentAdapter.setcOutfitsList(cOutfitsList);
         feedParentAdapter.notifyDataSetChanged();
-
-        //TODO: Utilise firestore methods
     }
 
-//    /**
-//     * Initialise ImageLoader
-//     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
-//     */
-//    private void initImageLoader() {
-//        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
-//        ImageLoader.getInstance().init(universalImageLoader.getConfig());
-//    }
+    /**
+     * Initialise ImageLoader
+     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
+     */
+    private void initImageLoader() {
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
 
     // Floating action button
     private void setup_FAB() {

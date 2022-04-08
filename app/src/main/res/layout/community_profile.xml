@@ -18,7 +18,8 @@
         android:id="@+id/profile_relLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profile_relLayout1">
+        android:layout_below="@id/profile_relLayout1"
+        android:layout_marginTop="-2dp">
 
         <!-- Center -->
         <include layout="@layout/layout_profile_center" />

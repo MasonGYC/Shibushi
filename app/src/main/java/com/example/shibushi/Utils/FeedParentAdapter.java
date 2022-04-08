@@ -1,5 +1,6 @@
 package com.example.shibushi.Utils;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,14 +8,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,13 +47,19 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
         // TODO: fetch username from cUsers using userID
         String username = "UsErNaMe";
         // TODO: fetch profile photo from cUsers using userID
-        // String profile_photo = "https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc";
+        String profile_photo = "https://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGhvdG98ZW58MHx8MHx8&w=1000&q=80";
 
-        Log.d("LOGCAT", "onCreate: outfitnameTV IS NOT OK");
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference photoReference= storageReference.child("images/7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717");
+
         holder.outfitNameTV.setText(cOutfits.getName());
-        Log.d("LOGCAT", "onCreate: outfitnameTV IS OK");
         holder.usernameTV.setText(username);
+
+        UniversalImageLoader.setImage(profile_photo, holder.profilePhotoCIV, null, "");
+
         // Glide.with(holder.itemView.getContext()).load(profile_photo).into(holder.profilePhotoCIV);
+
+
 
         holder.clothesRecyclerView.setHasFixedSize(true);
         holder.clothesRecyclerView.setLayoutManager(
@@ -77,9 +87,9 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
         public FeedParentViewHolder(@NonNull View itemView) {
             super(itemView);
             usernameTV = itemView.findViewById(R.id.feed_each_outfit_username_TV);
-            outfitNameTV = itemView.findViewById(R.id.feed_each_outfit_TV);
+            outfitNameTV = itemView.findViewById(R.id.profile_each_outfit_TV);
             profilePhotoCIV = itemView.findViewById(R.id.feed_each_outfit_profile_photo_CIV);
-            clothesRecyclerView = itemView.findViewById(R.id.clothing_RV);
+            clothesRecyclerView = itemView.findViewById(R.id.profile_clothing_RV);
         }
     }
 }

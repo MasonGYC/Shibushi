@@ -14,7 +14,7 @@ import com.example.shibushi.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.FeedChildViewHolder> {
+public class ProfileChildAdapter extends RecyclerView.Adapter<ProfileChildAdapter.ProfileChildViewHolder> {
 
     private ArrayList<cClothing> cClothesList;
     public void setChildItemList(ArrayList<cClothing> cClothesList){
@@ -25,14 +25,14 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
 
     @NonNull
     @Override
-    public FeedChildViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProfileChildViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.snippet_feed_each_child_clothing, null, false);
-        return new FeedChildViewHolder(view);
+                .inflate(R.layout.snippet_profile_each_child_clothing, null, false);
+        return new ProfileChildViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeedChildViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProfileChildViewHolder holder, int position) {
         cClothing cClothes = cClothesList.get(position);
 
         String image = "https://i.pinimg.com/originals/03/d1/7b/03d17b74083eab433ea19b6be067d1c5.jpg";
@@ -47,11 +47,11 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
         return cClothesList.size();
     }
 
-    public class FeedChildViewHolder extends RecyclerView.ViewHolder {
+    public class ProfileChildViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView clothingIV;
 
-        public FeedChildViewHolder(@NonNull View itemView) {
+        public ProfileChildViewHolder(@NonNull View itemView) {
             super(itemView);
 
             clothingIV = itemView.findViewById(R.id.profile_each_child_clothing_IV);

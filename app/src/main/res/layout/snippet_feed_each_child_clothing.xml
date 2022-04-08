@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/feed_clothing_cardView"
+    android:id="@+id/profile_clothing_cardView"
     android:layout_width="390dp"
     android:layout_height="390dp"
     android:layout_marginStart="10dp"
@@ -16,7 +16,7 @@
 
         <!-- Image of each clothing -->
         <ImageView
-            android:id="@+id/feed_each_child_clothing_IV"
+            android:id="@+id/profile_each_child_clothing_IV"
             layout="@layout/snippet_square_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

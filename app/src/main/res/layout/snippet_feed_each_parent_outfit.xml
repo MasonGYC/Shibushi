@@ -20,7 +20,7 @@
             android:src="@drawable/default_pp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/feed_each_outfit_TV"/>
+            app:layout_constraintBottom_toTopOf="@id/profile_each_outfit_TV"/>
 
         <TextView
             android:id="@+id/feed_each_outfit_username_TV"
@@ -34,11 +34,11 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/feed_each_outfit_profile_photo_CIV"
-            app:layout_constraintBottom_toTopOf="@id/feed_each_outfit_TV"
+            app:layout_constraintBottom_toTopOf="@id/profile_each_outfit_TV"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/feed_each_outfit_TV"
+            android:id="@+id/profile_each_outfit_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -52,14 +52,14 @@
             app:layout_constraintTop_toBottomOf="@id/feed_each_outfit_profile_photo_CIV" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/clothing_RV"
+            android:id="@+id/profile_clothing_RV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feed_each_outfit_TV"/>
+            app:layout_constraintTop_toBottomOf="@+id/profile_each_outfit_TV"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
