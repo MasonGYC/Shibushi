@@ -32,10 +32,10 @@ public class WardrobeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WardrobeFragment newInstance(ArrayList<String> url) {
+    public static WardrobeFragment newInstance(ArrayList<String> urls) {
         WardrobeFragment fragment = new WardrobeFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(ARG_PARAM1, url);
+        args.putStringArrayList(ARG_PARAM1, urls);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,6 +45,11 @@ public class WardrobeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             imgsArray = getArguments().getStringArrayList(ARG_PARAM1);
+
+            // add imgs to recyclerView
+
+
+
         }
     }
 

@@ -1,10 +1,5 @@
 package com.example.shibushi.Wardrobe;
 
-import android.util.Log;
-
-import com.example.shibushi.Utils.UniversalImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +20,5 @@ public class Model {
         public Img(String url){
            this.url = url;
         }
-
     }
 }

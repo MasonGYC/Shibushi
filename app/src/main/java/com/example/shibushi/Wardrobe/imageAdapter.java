@@ -1,6 +1,8 @@
 package com.example.shibushi.Wardrobe;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.R;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHolder> {
     Context context;
@@ -32,8 +38,29 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull imageViewHolder holder, int position) {
-//        holder.itemView.setBackground(this.dataSource.get(position).url);
-        holder.imageView.setImageDrawable(Drawable.createFromPath("drawable/for_test_only.xml"));
+        String url = this.dataSource.get(position).url;
+        Bitmap img = getURLimage(url);
+
+        holder.imageView.setImageBitmap(img);
+    }
+
+    private Bitmap getURLimage(String url) {
+        Bitmap bmp = null;
+        try{
+            URL targetUrl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) targetUrl.openConnection();
+            conn.setConnectTimeout(6000);   // set timeout
+            conn.setDoInput(true);
+            conn.setUseCaches(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bmp = BitmapFactory.decodeStream(is);
+            is.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return bmp;
     }
 
     @Override
