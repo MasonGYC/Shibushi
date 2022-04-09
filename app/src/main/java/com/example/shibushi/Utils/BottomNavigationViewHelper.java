@@ -11,7 +11,7 @@ import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.ViewOutfitsActivity;
-import com.example.shibushi.ViewWardrobeActivity;
+import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.google.android.material.navigation.NavigationBarView;
 
 // A Helper class to organise implementation of Bottom Navigation Bar which applies to all screens

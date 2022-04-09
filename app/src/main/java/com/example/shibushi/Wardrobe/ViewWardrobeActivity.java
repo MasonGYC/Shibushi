@@ -1,4 +1,4 @@
-package com.example.shibushi;
+package com.example.shibushi.Wardrobe;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,9 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewWardrobeActivity extends AppCompatActivity {
 
@@ -18,6 +25,12 @@ public class ViewWardrobeActivity extends AppCompatActivity {
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 2;
 
+    // Fragment recyclerView and imageAdapter
+    private RecyclerView fragRecyclerView;
+    private imageAdapter imageAdapter;
+    private Model.DataSource dataSource;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +38,22 @@ public class ViewWardrobeActivity extends AppCompatActivity {
 
         // Set up bottom navigation bar
         setupBottomNavigationView();
+
+        //todo: change sample imgs to imgs fetched from firebase
+        List<Model.Img> imgs = new ArrayList<>();
+        imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+        dataSource = new Model.DataSource(imgs);
+        fragRecyclerView = findViewById(R.id.id_wd_fragment);
+        render();
     }
+
+    private void render() {
+
+        imageAdapter = new imageAdapter(, dataSource);
+        fragRecyclerView.setAdapter(imageAdapter);
+        fragRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+    }
+
 
     // BottomNavigationView setup
     private void setupBottomNavigationView() {

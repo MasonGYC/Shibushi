@@ -30,7 +30,7 @@
         android:theme="@style/Theme.Shibushi">
 
         <activity
-            android:name=".ViewWardrobeActivity"
+            android:name=".Wardrobe.ViewWardrobeActivity"
             android:exported="true" />
         <activity
             android:name=".TagIt"
