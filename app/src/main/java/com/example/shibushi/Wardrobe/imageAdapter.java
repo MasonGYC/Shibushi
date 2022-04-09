@@ -2,21 +2,20 @@ package com.example.shibushi.Wardrobe;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shibushi.R;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHolder> {
     Context context;
@@ -38,29 +37,34 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull imageViewHolder holder, int position) {
-        String url = this.dataSource.get(position).url;
-        Bitmap img = getURLimage(url);
+        String url_s = this.dataSource.get(position).url;
 
-        holder.imageView.setImageBitmap(img);
-    }
-
-    private Bitmap getURLimage(String url) {
-        Bitmap bmp = null;
-        try{
-            URL targetUrl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) targetUrl.openConnection();
-            conn.setConnectTimeout(6000);   // set timeout
-            conn.setDoInput(true);
-            conn.setUseCaches(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            bmp = BitmapFactory.decodeStream(is);
-            is.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return bmp;
+        ExecutorService executor;
+        executor = Executors.newSingleThreadExecutor();
+        final Handler handler = new Handler(Looper.myLooper());
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                final Container<Bitmap> cBitmap = new Container<Bitmap>();
+                try {
+                    URL url = new URL(url_s);
+                    Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
+                    cBitmap.set(bitmap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (cBitmap.get() != null) {
+                            holder.imageView.setImageBitmap(cBitmap.get());
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -74,5 +78,12 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
             super(itemView);
             imageView = itemView.findViewById(R.id.wardrobe_image);
         }
+    }
+
+    class Container<T>{
+        T value;
+        Container(){this.value=null;}
+        void set(T x){this.value=x;}
+        T get(){return this.value;}
     }
 }

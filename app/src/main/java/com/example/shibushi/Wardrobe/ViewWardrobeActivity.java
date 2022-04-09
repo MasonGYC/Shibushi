@@ -30,9 +30,6 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
 
     // Fragment & ViewPage
     private ViewPager2 viewPager;
-//    private imageAdapter imageAdapter;
-//    private Model.DataSource dataSource;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +39,6 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         // Set up bottom navigation bar
         setupBottomNavigationView();
 
-//        List<Model.Img> imgs = new ArrayList<>();
-//        imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
-//        dataSource = new Model.DataSource(imgs);
-//        fragRecyclerView = findViewById(R.id.id_wd_fragment);
-//        render();
         initPage();
         initTabView();
     }
@@ -109,19 +101,8 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                 viewPager.setCurrentItem(2);
             case 2: // R.id.id_wd_clothes
                 break;
-
-
         }
     }
-
-//    private void render() {
-//
-//        imageAdapter = new imageAdapter(, dataSource);
-//        fragRecyclerView.setAdapter(imageAdapter);
-//        fragRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-//    }
-
-
 
 
     // BottomNavigationView setup

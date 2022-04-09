@@ -4,10 +4,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shibushi.R;
@@ -27,6 +31,9 @@ public class WardrobeFragment extends Fragment {
 
     private ArrayList<String> imgsArray;
     View rootView;
+    private Model.DataSource dataSource;
+    private RecyclerView recyclerView;
+    private imageAdapter imageAdapter;
 
     public WardrobeFragment() {
         // Required empty public constructor
@@ -47,9 +54,10 @@ public class WardrobeFragment extends Fragment {
             imgsArray = getArguments().getStringArrayList(ARG_PARAM1);
 
             // add imgs to recyclerView
-
-
-
+            ArrayList<Model.Img> imgs = new ArrayList<>();
+            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+            dataSource = new Model.DataSource(imgs);
         }
     }
 
@@ -59,6 +67,13 @@ public class WardrobeFragment extends Fragment {
         // Inflate the layout for this fragment
         if (rootView==null){
             rootView = inflater.inflate(R.layout.fragment_wardrobe_page, container, false);
+
+            recyclerView = rootView.findViewById(R.id.wd_fragment_recycler);
+            imageAdapter = new imageAdapter(this.getContext(), dataSource);
+            recyclerView.setAdapter(imageAdapter);
+//            recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
         }
         initView();
         return rootView;
