@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,10 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     Context context;
     LayoutInflater inflater;
     Model.DataSource dataSource;
+    int width;
 
-    public imageAdapter(Context context, Model.DataSource dataSource){
+    public imageAdapter(Context context, Model.DataSource dataSource, int width){
+        this.width = width;
         this.context = context;
         this.dataSource = dataSource;
         inflater = LayoutInflater.from(context);
@@ -32,7 +35,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     @Override
     public imageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View imgView = inflater.inflate(R.layout.card_wd_image_layout, parent, false);
-        return new imageViewHolder(imgView);
+        return new imageViewHolder(imgView, width);
     }
 
     @Override
@@ -74,9 +77,11 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 
     public static class imageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        public imageViewHolder(@NonNull View itemView) {
+        public imageViewHolder(@NonNull View itemView, int width) {
             super(itemView);
             imageView = itemView.findViewById(R.id.wardrobe_image);
+            imageView.setMinimumWidth(width);
+            imageView.setMaxWidth(width);
         }
     }
 

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,6 @@ import java.util.List;
 public class WardrobeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-
 
     private ArrayList<String> imgsArray;
     View rootView;
@@ -56,7 +56,20 @@ public class WardrobeFragment extends Fragment {
             // add imgs to recyclerView
             ArrayList<Model.Img> imgs = new ArrayList<>();
             imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
+            imgs.add(new Model.Img("https://img2.jiemian.com/101/original/20181128/154339834262152300_a700x398.jpeg"));
+            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
+            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
             imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+            imgs.add(new Model.Img("https://img2.jiemian.com/101/original/20181128/154339834262152300_a700x398.jpeg"));
+            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
+            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
+            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
+            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
+            imgs.add(new Model.Img("https://img2.jiemian.com/101/original/20181128/154339834262152300_a700x398.jpeg"));
+            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
             dataSource = new Model.DataSource(imgs);
         }
     }
@@ -67,22 +80,19 @@ public class WardrobeFragment extends Fragment {
         // Inflate the layout for this fragment
         if (rootView==null){
             rootView = inflater.inflate(R.layout.fragment_wardrobe_page, container, false);
-
             recyclerView = rootView.findViewById(R.id.wd_fragment_recycler);
-            imageAdapter = new imageAdapter(this.getContext(), dataSource);
+            int recyclerViewWidth = recyclerView.getWidth();
+            imageAdapter = new imageAdapter(this.getContext(), dataSource, recyclerViewWidth);
+
             recyclerView.setAdapter(imageAdapter);
+//            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 //            recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
-            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
-        initView();
         return rootView;
-
     }
 
-    private void initView() {
-        TextView textView = rootView.findViewById(R.id.for_test);
-        // todo: set the fragment
-
-    }
+//    private void initView() {
+//        TextView textView = rootView.findViewById(R.id.for_test);
+//    }
 }
