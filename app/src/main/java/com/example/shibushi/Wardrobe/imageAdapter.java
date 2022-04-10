@@ -63,6 +63,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
                     public void run() {
                         if (cBitmap.get() != null) {
                             holder.imageView.setImageBitmap(cBitmap.get());
+                            executor.shutdown();
                         }
                     }
                 });

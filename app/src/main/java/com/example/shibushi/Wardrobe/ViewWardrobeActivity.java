@@ -1,11 +1,14 @@
 package com.example.shibushi.Wardrobe;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +31,12 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 2;
 
+    // Left sidebar
+    ImageView side_bar_clothes;
+    ImageView side_bar_bottoms;
+    ImageView side_bar_others;
+    ImageView current_view;
+
     // Fragment & ViewPage
     private ViewPager2 viewPager;
 
@@ -44,12 +53,14 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initTabView(){
-        TextView side_bar_clothes = findViewById(R.id.id_wd_clothes);
+        side_bar_clothes = findViewById(R.id.id_wd_clothes);
         side_bar_clothes.setOnClickListener(this);
-        TextView side_bar_bottoms = findViewById(R.id.id_wd_bottoms);
+        side_bar_bottoms = findViewById(R.id.id_wd_bottoms);
         side_bar_bottoms.setOnClickListener(this);
-        TextView side_bar_others = findViewById(R.id.id_wd_others);
+        side_bar_others = findViewById(R.id.id_wd_others);
         side_bar_others.setOnClickListener(this);
+        current_view = side_bar_clothes;
+        changeTab(R.id.id_wd_clothes);
     }
 
 
@@ -77,7 +88,6 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                changeTab(position);
             }
 
             @Override
@@ -88,17 +98,38 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void changeTab(int position) {
+        current_view.setBackgroundColor(Color.parseColor("#eeeeee"));
+//        current_view.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+//        current_view.setTextColor(Color.parseColor("#6d6d6d"));
+        current_view.setSelected(false);
         switch (position){
             case R.id.id_wd_clothes:
                 viewPager.setCurrentItem(0);
+                current_view = side_bar_clothes;
+                side_bar_clothes.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                side_bar_clothes.setSelected(true);
+//                side_bar_clothes.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//                side_bar_clothes.setTextColor(Color.parseColor("#292929"));
+
             case 0: // R.id.id_wd_clothes
                 break;
             case R.id.id_wd_bottoms:
                 viewPager.setCurrentItem(1);
+                current_view = side_bar_bottoms;
+                side_bar_bottoms.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                side_bar_bottoms.setSelected(true);
+//                side_bar_bottoms.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//                side_bar_bottoms.setTextColor(Color.parseColor("#292929"));
+
             case 1: // R.id.id_wd_clothes
                 break;
             case R.id.id_wd_others:
                 viewPager.setCurrentItem(2);
+                current_view = side_bar_others;
+                side_bar_others.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                side_bar_others.setSelected(true);
+//                side_bar_others.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//                side_bar_others.setTextColor(Color.parseColor("#292929"));
             case 2: // R.id.id_wd_clothes
                 break;
         }

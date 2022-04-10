@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="110dp"
+    android:layout_width="60dp"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="10dp">
+    android:layout_marginHorizontal="6dp"
+    android:background="#eeeeee"
+    >
 
     <TextView
         android:layout_width="match_parent"
@@ -11,42 +13,67 @@
         android:background="#E0E0E0"
         android:layout_marginTop="5dp"/>
 
-    <TextView
+    <ImageView
+        android:padding="4dp"
         android:id="@+id/id_wd_clothes"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_marginVertical="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Top"/>
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:src="@drawable/wardrobe_tab_top"
+        android:background="#eeeeee"
+        android:layout_gravity="center"/>
+<!--    <TextView-->
+<!--        android:id="@+id/id_wd_clothes"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="18sp"-->
+<!--        android:paddingVertical="5dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Top" />-->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#E0E0E0"/>
 
-    <TextView
+    <ImageView
+        android:padding="2dp"
         android:id="@+id/id_wd_bottoms"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_marginVertical="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bottom"/>
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:src="@drawable/wardrobe_tab_bottom"
+        android:background="#eeeeee"
+        android:layout_gravity="center"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/id_wd_bottoms"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="18sp"-->
+<!--        android:paddingVertical="5dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Bottom"/>-->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#E0E0E0"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/id_wd_others"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_marginVertical="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Accessories"/>
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:src="@drawable/wardrobe_tab_others"
+        android:background="#eeeeee"
+        android:layout_gravity="center"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/id_wd_others"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="18sp"-->
+<!--        android:paddingVertical="5dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Accessories"/>-->
 
     <TextView
         android:layout_width="match_parent"
