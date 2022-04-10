@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Uri photoURI;
     String currentPhotoPath;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bFirestore:
                 startActivity(new Intent(MainActivity.this, imgviewer.class));
                 //goFirestore();
-
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
-
             }
         }
     }
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user != null){
             mAuth.signOut();
             Toast.makeText(this, user.getEmail()+ "is logged out!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Login.class));
+            startActivity(new Intent(this, Login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }else{
             Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
         }

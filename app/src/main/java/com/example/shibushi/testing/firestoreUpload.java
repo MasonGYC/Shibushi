@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class firestoreUpload extends AppCompatActivity {
-
-
     FirebaseStorage storage;
     StorageReference storageReference;
     DocumentReference mDocRef;
