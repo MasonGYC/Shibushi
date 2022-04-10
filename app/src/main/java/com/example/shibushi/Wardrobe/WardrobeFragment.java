@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shibushi.R;
+import com.example.shibushi.Utils.FirestoreMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,15 +55,25 @@ public class WardrobeFragment extends Fragment {
             imgsArray = getArguments().getStringArrayList(ARG_PARAM1);
 
             // add imgs to recyclerView
+//            ArrayList<String> myClothes = FirestoreMethods.getmyClothes(FirestoreMethods.userID);
+//            ArrayList<String> myClothesUrl = new ArrayList<>();
+//            for (String i:myClothes){
+//                myClothesUrl.add(FirestoreMethods.getDownloadUrlString(i));
+//            }
             ArrayList<Model.Img> imgs = new ArrayList<>();
-            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
-            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
-            imgs.add(new Model.Img("https://img2.jiemian.com/101/original/20181128/154339834262152300_a700x398.jpeg"));
-            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
-            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
-            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
-            imgs.add(new Model.Img("https://img2.jiemian.com/101/original/20181128/154339834262152300_a700x398.jpeg"));
-            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
+//
+//            for (String i:myClothesUrl){
+//                imgs.add(new Model.Img(i));
+//            }
+//
+//            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+//            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
+//            imgs.add(new Model.Img("https://img2.jiemian.com/101/original/20181128/154339834262152300_a700x398.jpeg"));
+//            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
+//            imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
+//            imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
+//            imgs.add(new Model.Img("https://img2.jiemian.com/101/original/20181128/154339834262152300_a700x398.jpeg"));
+//            imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
             imgs.add(new Model.Img("https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg"));
             imgs.add(new Model.Img("https://i2.jueshifan.com/7b077d83/790e7f8b/30073cc809a1a756c57d.jpg"));
             imgs.add(new Model.Img("https://testfeuer.at/img/sr-originals/10/spongebob-squarepants-theory.jpg"));
