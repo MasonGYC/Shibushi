@@ -30,7 +30,6 @@ import com.google.firebase.database.annotations.Nullable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
 
