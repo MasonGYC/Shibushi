@@ -59,7 +59,6 @@ public class Profile extends AppCompatActivity {
         setupBottomNavigationView();
         setupActivityWidgets();
         setProfileImage();
-//        tempGridSetup();
 
         parentRecyclerView = findViewById(R.id.profile_outfit_RV);
         parentRecyclerView.setHasFixedSize(true);
@@ -95,23 +94,6 @@ public class Profile extends AppCompatActivity {
 
 
     }
-
-//    /**
-//     * To load the profile fragment
-//     */
-//    private void init() {
-//        Log.d(TAG, "init: inflating profile fragment");
-//
-//        ProfileFragment profileFragment = new ProfileFragment();
-//        FragmentTransaction fragmentTransaction = Profile.this.getSupportFragmentManager().beginTransaction();
-//        // replace the profile container in layout/commmunity_profile with the view for ProfileFragment class
-//        fragmentTransaction.replace(R.id.profile_container, profileFragment);
-//
-//        // keeping track of fragment stack (order of page when going back)
-//        // fragments usually do not keep track of previous fragments visited
-//        fragmentTransaction.addToBackStack(getString(R.string.profile_fragment));
-//        fragmentTransaction.commit();
-//    }
 
     /**
      * Method to make it cleaner in onCreate
