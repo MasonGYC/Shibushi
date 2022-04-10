@@ -1,8 +1,9 @@
 package com.example.shibushi.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class cUsers {
+public class cUsers implements Serializable {
 
     String username, bio, profile_photo;
     ArrayList<String> followers;

@@ -8,13 +8,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +25,7 @@ import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements cUsersAdapter.UserClickListener {
     private static final String TAG = "SearchActivity";
     private static final int b_menu_ACTIVTY_NUM = 1;
     private Context mContext = SearchActivity.this;
@@ -61,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
         FirestoreRecyclerOptions<cUsers> options = new FirestoreRecyclerOptions.Builder<cUsers>()
                 .setQuery(query, cUsers.class)
                 .build();
-        mAdapter = new cUsersAdapter(options);
+        mAdapter = new cUsersAdapter(options, this::onSelectedUser);
         recyclerView.setAdapter(mAdapter);
 
         // Listens for any change in edit text field
@@ -96,6 +92,16 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * When we select a user, navigate to their profile page
+     * @param user
+     */
+    @Override
+    public void onSelectedUser(cUsers user) {
+        Intent intent = new Intent(mContext, SelectedUserActivity.class).putExtra("data", user);
+        startActivity(intent);
+    }
+
     // BottomNavigationView setup
     private void setupBottomNavigationView() {
         Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
@@ -122,4 +128,5 @@ public class SearchActivity extends AppCompatActivity {
             mAdapter.stopListening();
         }
     }
+
 }

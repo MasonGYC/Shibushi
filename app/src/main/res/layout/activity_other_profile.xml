@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <!-- Top toolbar -->
-        <include layout="@layout/snippet_profile_toolbar" />
+        <include layout="@layout/snippet_other_profile_toolbar" />
 
     </RelativeLayout>
 

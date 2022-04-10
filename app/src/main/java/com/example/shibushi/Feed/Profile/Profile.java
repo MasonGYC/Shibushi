@@ -23,7 +23,6 @@ import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 //import com.example.shibushi.Utils.GridImageAdapter;
-import com.example.shibushi.Utils.FeedParentAdapter;
 import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,8 +37,10 @@ public class Profile extends AppCompatActivity {
     private static final String TAG = "Profile";
     private Context mContext = Profile.this;
     private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
-    private static final int NUM_GRID_PER_ROW = 2;
-    private TextView mOutfits, mFollowers, mFollowing, mUsername, mBio;
+    private TextView mFollowers;
+    private TextView mFollowing;
+    private TextView mUsername;
+    private TextView mBio;
     private TextView mEditProfile;
     private ProgressBar mProgressBar;
     private Toolbar toolbar;
@@ -66,7 +67,7 @@ public class Profile extends AppCompatActivity {
         profileParentAdapter = new ProfileParentAdapter();
         parentRecyclerView.setAdapter(profileParentAdapter);
 
-        //TODO: Utilise firestore methods
+        // TODO: Utilise firestore methods
         // DUMMY DATA
         ArrayList<cClothing> cClothingList = new ArrayList<>();
         cClothing cClothing1 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
@@ -104,14 +105,14 @@ public class Profile extends AppCompatActivity {
         mProgressBar.setVisibility(View.GONE);
 
         // Profile photo
-        profilePhoto = findViewById(R.id.layout_centre_profile_photo);
+        profilePhoto = findViewById(R.id.snippet_centre_profile_photo);
 
         // TextViews
-        mOutfits = findViewById(R.id.tvOutfits);
+        TextView mOutfits = findViewById(R.id.tvOutfits);
         mFollowers = findViewById(R.id.tvFollowers);
         mFollowing = findViewById(R.id.tvFollowing);
         mUsername = findViewById(R.id.snippet_profile_top_toolbar_username);
-        mBio = findViewById(R.id.layout_centre_profile_bio);
+        mBio = findViewById(R.id.snippet_centre_profile_bio);
 
         // GridView
         // mGridView = findViewById(R.id.layout_centre_profile_gridView);

@@ -21,20 +21,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class cUsersAdapter extends FirestoreRecyclerAdapter<cUsers, cUsersAdapter.cUsersViewHolder> {
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
+    public UserClickListener userClickListener;
+
+    public interface UserClickListener {
+        void onSelectedUser(cUsers cUser);
     }
 
-    private final OnItemClickListener listener;
-
-    cUsersAdapter(FirestoreRecyclerOptions<cUsers> options, OnItemClickListener listener) {
+    public cUsersAdapter(FirestoreRecyclerOptions<cUsers> options, UserClickListener userClickListener) {
         super(options);
-        this.listener = listener;
-    }
-
-    public cUsersAdapter(FirestoreRecyclerOptions<cUsers> options) {
-        super(options);
-        this.listener = null;
+        this.userClickListener = userClickListener;
     }
 
     class cUsersViewHolder extends RecyclerView.ViewHolder {
@@ -52,17 +47,18 @@ public class cUsersAdapter extends FirestoreRecyclerAdapter<cUsers, cUsersAdapte
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(final cUsersViewHolder holder, @NonNull int position, @NonNull final cUsers users) {
+    public void onBindViewHolder(final cUsersViewHolder holder, @NonNull int position, @NonNull final cUsers user) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.username.setText(users.getUsername());
-        UniversalImageLoader.setImage(users.getProfile_photo(), holder.profile_photo, null, "");
+        holder.username.setText(user.getUsername());
+        UniversalImageLoader.setImage(user.getProfile_photo(), holder.profile_photo, null, "");
 
-        if (listener != null) {
+        if (userClickListener != null) {
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(holder.getAbsoluteAdapterPosition());
+                    userClickListener.onSelectedUser(user);
+
                 }
             });
         }

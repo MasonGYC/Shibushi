@@ -9,14 +9,14 @@
 
         <!-- Middle Section -->
         <RelativeLayout
-            android:id="@+id/layout_centre_profile_relLayout2"
+            android:id="@+id/snippet_centre_profile_relLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_centre_profile_relLayout1"
             android:layout_marginTop="20dp">
 
             <LinearLayout
-                android:id="@+id/layout_centre_profile_linLayout1"
+                android:id="@+id/snippet_centre_profile_linLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -29,7 +29,7 @@
                     android:layout_weight="25">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/layout_centre_profile_photo"
+                        android:id="@+id/snippet_centre_profile_photo"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_centerVertical="true"
@@ -53,16 +53,16 @@
 
             <!-- Profile Description -->
             <LinearLayout
-                android:id="@+id/layout_centre_profile_linLayout2"
+                android:id="@+id/snippet_centre_profile_linLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_centre_profile_linLayout1"
+                android:layout_below="@+id/snippet_centre_profile_linLayout1"
                 android:background="@drawable/grey_border_bottom"
                 android:orientation="vertical"
                 android:padding="20dp">
 
                 <TextView
-                    android:id="@+id/layout_centre_profile_bio"
+                    android:id="@+id/snippet_centre_profile_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="I am a fashionista"
@@ -72,13 +72,13 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_centre_profile_relLayout3"
+                android:id="@+id/snippet_centre_profile_relLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/layout_centre_profile_linLayout2">
+                android:layout_below="@+id/snippet_centre_profile_linLayout2">
 
                 <!-- Outfit posts RV -->
                 <androidx.recyclerview.widget.RecyclerView

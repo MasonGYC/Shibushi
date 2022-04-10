@@ -65,6 +65,7 @@
 
         <!-- PROFILE -->
         <activity android:name=".Feed.Profile.Profile" />
+        <activity android:name=".Feed.SelectedUserActivity"/>
 
         <!-- ACCOUNT SETTINGS -->
         <activity
@@ -82,8 +83,7 @@
         <activity
             android:name=".Feed.Profile.SignOutActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
-            android:exported="false" />
+            android:parentActivityName=".Feed.Profile.AccountSettingsActivity" />
 
         <activity android:name=".PhotoProcess.CropActivity"
             android:exported="true"/>
