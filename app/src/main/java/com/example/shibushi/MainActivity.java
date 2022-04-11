@@ -199,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void changePassword() {
         startActivity(new Intent(MainActivity.this, ChangePassword.class));
     }
+
+    //No need
     public void goFirestore() {
         startActivity(new Intent(MainActivity.this, firestoreUpload.class));
     }

@@ -56,7 +56,9 @@
         <activity android:name=".testing.firestoreUpload" />
         <activity
             android:name=".Login.Register"
-            android:exported="true" /> <!-- FEEDS -->
+            android:exported="true" />
+
+        <!-- FEEDS -->
         <activity android:name=".Feed.FeedActivity" />
         <activity
             android:name=".Feed.SearchActivity"
@@ -77,10 +79,15 @@
             android:name=".Feed.Profile.ChangePassword"
             android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
             android:theme="@style/Theme.AppCompat.Light" />
+
+
+
         <activity
             android:name=".Feed.Profile.SignOutActivity"
             android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!--Photo Process-->
         <activity
             android:name=".PhotoProcess.CropActivity"
             android:exported="true" />
@@ -90,14 +97,23 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PhotoProcess.BaseActivity"
-            android:exported="true" /> <!-- crop -->
+            android:exported="true" />
+        <!-- crop -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- outfit -->
+       <!-- Outfits-->
+
+        <activity
+            android:name=".Outfits.SingleOutfit"
+            android:exported="true" />
         <activity
             android:name=".Outfits.ViewOutfitsParentActivity"
             android:exported="true" />
+
+
+        <!-- File Providers-->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.shibushi.fileprovider"
