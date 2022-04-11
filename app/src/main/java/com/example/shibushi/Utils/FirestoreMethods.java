@@ -5,7 +5,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -49,9 +49,11 @@ public class FirestoreMethods {
      * Takes in an image and uploads it to Cloud Storage
      * */
     public static void addClothes(HashMap<String, Object> map , Uri filePath){
+        Date date=new java.util.Date();
         String img_name = uploadImage(filePath);
         map.put("img_name", img_name);
         map.put("userid", userID);
+        map.put("creation_time", date.toString());
         metadataUpload(map, img_name);
     }
 

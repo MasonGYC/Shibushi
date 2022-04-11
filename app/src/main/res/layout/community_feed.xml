@@ -51,12 +51,12 @@
 
                 <!-- Share new outfit -->
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/community_feed_fab_edit"
+                    android:id="@+id/community_feed_fab_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fab_colorNormal="@color/white"
                     app:fab_colorPressed="@color/grey"
-                    app:fab_icon="@drawable/ic_baseline_edit_24"
+                    app:fab_icon="@drawable/ic_share"
                     app:fab_size="mini"
                     app:fab_title="Share New Outfit" />
 
