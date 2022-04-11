@@ -19,10 +19,12 @@ public class OutfitParentAdapter extends RecyclerView.Adapter<OutfitParentAdapte
     Context context;
     LayoutInflater inflater;
     List<OutfitChildModel.ChildDataSource> datas;
+    String category;
 
-    public OutfitParentAdapter(Context context, List<OutfitChildModel.ChildDataSource> datas) {
+    public OutfitParentAdapter(Context context, OutfitParentModel.ParentDataSource parentDataSource) {
         this.context = context;
-        this.datas = datas;
+        this.datas = parentDataSource.data;
+        this.category = parentDataSource.category;
         inflater = LayoutInflater.from(context);
     }
 
@@ -45,7 +47,7 @@ public class OutfitParentAdapter extends RecyclerView.Adapter<OutfitParentAdapte
         holder.outfitParentRV.setLayoutManager(parentlinearLayoutManager);
         holder.outfitParentRV.setAdapter(outfitChildAdapter);
         holder.outfitParentRV.setVisibility(View.VISIBLE);
-        holder.categoryTextView.setText(datas.get(position).get(position).name);
+        holder.categoryTextView.setText(category);
     }
 
     @Override

@@ -1,30 +1,38 @@
 package com.example.shibushi.Wardrobe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ViewWardrobeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ViewWardrobe";
-    final private Context mContext = ViewWardrobeActivity.this;
+    private Context mContext = ViewWardrobeActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 2;
 
@@ -34,6 +42,14 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     ImageView side_bar_others;
     ImageView current_view;
 
+    // Create outfit
+    Button create_outfit_button;
+    Button create_cancel_button;
+    Bundle bundle = new Bundle();
+    public static boolean isChoosing = false;
+    ImageView basket;
+
+
     // Fragment & ViewPage
     private ViewPager2 viewPager;
 
@@ -42,9 +58,11 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_wardrobe);
 
+        isChoosing = false;
         // Set up bottom navigation bar
         setupBottomNavigationView();
 
+        initCreateOutfitFunction();
         initPage();
         initTabView();
     }
@@ -149,4 +167,124 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         changeTab(view.getId());
     }
+
+    // Whether it's choosing
+    public void setState(boolean b) {
+        isChoosing = b;
+        if (b) {
+            create_outfit_button.setVisibility(View.VISIBLE);
+            create_cancel_button.setVisibility(View.VISIBLE);
+        } else {
+            create_outfit_button.setVisibility(View.GONE);
+            create_cancel_button.setVisibility(View.GONE);
+        }
+    }
+
+    public void initCreateOutfitFunction(){
+        // outfit button
+        create_outfit_button = findViewById(R.id.buttonCreateOutfit);
+        create_outfit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // init intent
+                Intent intent = new Intent(mContext, ViewOutfitsParentActivity.class);
+                String category = "Spring"; //TODO: create a new page top input category and name
+                String name = "KoolGuy";
+                isChoosing = false;
+                // process data
+                bundle.putStringArrayList(ViewOutfitsParentActivity.KEY_OUTFIT_URIS,imageAdapter.selectedItems); //Bundle cat and uris
+                bundle.putString(ViewOutfitsParentActivity.KEY_OUTFIT_CAT,category);
+                bundle.putString(ViewOutfitsParentActivity.KEY_OUTFIT_NAME,name);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        // cancel button
+        create_cancel_button = findViewById(R.id.buttonCancelCreate);
+        create_cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isChoosing = false;
+                setState(isChoosing);
+            }
+        });
+
+        // basket icon
+        basket = findViewById(R.id.wardrobe_basket);
+        basket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isChoosing = true;
+                setState(isChoosing);
+            }
+        });
+
+        setState(isChoosing);
+    }
 }
+
+
+/**
+ * According to this link:
+ * https://stackoverflow.com/questions/58590666/firebase-use-metadata-to-sort-which-files-get-displayed-when-use-list
+ * It's good to use Firebase storage for image storage
+ * in conjunction with RTDB or Cloud Firestore for file metadata.
+ * This allows us to easily store, query and update the metadata
+ * We may not want to separate the uploads into different folders for each user as
+ * we want to be able to view others by tags
+ *
+ * According to this link:
+ * https://firebase.google.com/docs/firestore/query-data/queries#java_5
+ * We can do complex queries in Cloud Firestore
+ * E.g. we can structure each document in Cloud Firestore as
+ *
+ * Documetn structure
+ * { username: michael
+ *   imageurl: url(truncated)
+ *   color : color
+ *   etc...
+ * }
+ *
+ * Common operations:
+ *
+ *  Query/search:
+ *      All yellow shirts (color, type) -> Query chainedQuery1 = images.whereEqualTo(color , "yellow").whereEqualTo(username, "Joshua)
+ *      All formal pants (occasion, type)
+ *      All white cotton (color, material)
+ *
+ *      -> Query chainedQuery1 = images.whereEqualTo(color , "yellow")
+ *      .whereEqualTo(username, "Michael")
+ *      .whereEqualTo(type, "Shirt")
+ *      Query chainedQuery2 = images.whereEqualTo(color, "yellow").whereEqualTo(type, "Shirt").whereEqualTo(privacy, "public")
+ *
+ *      We may not search by privacy attribute
+ *
+ *  Add:
+ *
+ *  Delete Image, if user match/authorized:
+ *
+ *  Tree structure - flat hierarchy:
+ *
+ *  Images
+ *      -Public
+ *          -Image1
+ *          -Image2
+ *          -Image3
+ *      -Private
+ *          -User
+ *              -Image1
+ *
+ *         -OR-
+ *   Images
+ *      -Image1
+ *      -Image2
+ *      -Image3
+ *
+ *
+ *  Don't bother splitting between private and public, just use a != filter for privacy
+ *
+ *
+ *
+ *
+ * */
