@@ -5,21 +5,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.shibushi.R;
-import com.example.shibushi.Utils.FirestoreMethods;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +25,6 @@ import java.util.List;
 public class WardrobeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-
-    private ArrayList<String> imgsArray;
     View rootView;
     private Model.DataSource dataSource;
     private RecyclerView recyclerView;
@@ -52,9 +46,7 @@ public class WardrobeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            imgsArray = getArguments().getStringArrayList(ARG_PARAM1);
 
-            // add imgs to recyclerView
 //            ArrayList<String> myClothes = FirestoreMethods.getmyClothes(FirestoreMethods.userID);
 //            ArrayList<String> myClothesUrl = new ArrayList<>();
 //            for (String i:myClothes){
@@ -92,18 +84,37 @@ public class WardrobeFragment extends Fragment {
         if (rootView==null){
             rootView = inflater.inflate(R.layout.fragment_wardrobe_page, container, false);
             recyclerView = rootView.findViewById(R.id.wd_fragment_recycler);
-            int recyclerViewWidth = recyclerView.getWidth();
-            imageAdapter = new imageAdapter(this.getContext(), dataSource, recyclerViewWidth);
+            final Container<Integer> width_container = new Container<>();
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (recyclerView.getWidth() != 0) {
+                        Container.w = recyclerView.getWidth();
+                        Log.i("Wardrobe fragment width", String.valueOf(width_container.get()));
+                    }
+                    imageAdapter = new imageAdapter(recyclerView.getContext(), dataSource, Container.w);
+                    recyclerView.setAdapter(imageAdapter);
+//                    recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                    recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
+//                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                }
+            });
 
-            recyclerView.setAdapter(imageAdapter);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//            recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//            int recyclerViewWidth = rootView.getMeasuredWidth();
+//            Log.i("WIDTH",String.valueOf(recyclerViewWidth));
+//            imageAdapter = new imageAdapter(this.getContext(), dataSource, recyclerViewWidth);
+//
+//            recyclerView.setAdapter(imageAdapter);
+//            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
         return rootView;
     }
 
-//    private void initView() {
-//        TextView textView = rootView.findViewById(R.id.for_test);
-//    }
+    static class Container<T>{
+        static int w;
+        T value;
+        Container(){this.value=null;}
+        void set(T x){this.value=x;}
+        T get(){return this.value;}
+    }
 }
