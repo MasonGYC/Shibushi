@@ -10,24 +10,25 @@ import java.util.Date;
 
 public class cOutfits {
 
-    String outfitID, timeStamp, userID, name;
+    String outfitID, userID, name;
+    Timestamp timeStamp;
     ArrayList<String> img_names;
 
     public cOutfits(){}
 
     // constructor for pull from firestore
-    public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<String> img_names) {
+    public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, ArrayList<String> img_names) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
         this.name = name;
         this.img_names = img_names;
     }
+
     // constructor for new outfits
     public cOutfits(String userID, String name, ArrayList<String> img_names) {
-        Date timestamp = new Date();
         this.outfitID = UUID.randomUUID().toString();
-        this.timeStamp = timeStamp.toString();
+        this.timeStamp = Timestamp.now();
         this.userID = userID;
         this.name = name;
         this.img_names = img_names;
@@ -42,12 +43,12 @@ public class cOutfits {
         this.outfitID = outfitID;
     }
 
-    public String getTimeStamp() {
+    public Timestamp getTimestamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timeStamp = timestamp;
     }
 
     public String getUserID() {

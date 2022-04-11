@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class cClothing {
-    //String userid, category, color, occation, size, img_name, url;
+    //String userid, category, color, occasion, size, img_name, url;
     String img_name = "";
     String userid = "";
     HashMap<String,String> tags = new HashMap<>();

@@ -3,6 +3,7 @@ package com.example.shibushi.Models;
 import android.util.Log;
 
 import com.example.shibushi.Utils.FirestoreMethods;
+import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class cWardrobe {
         // add string "/cOutfit/" + img_names, for each
         ArrayList<String> items = img_names;
         String userid = FirestoreMethods.getUserID();
-        cOutfits o = new cOutfits(userid, outfit_name, items, img_names);
+        cOutfits o = new cOutfits(userid, outfit_name, img_names);
         wardrobeOutfit.put(outfit_name, o);
         FirestoreMethods.addOutfit(o,outfit_name);
     }
@@ -59,14 +60,13 @@ public class cWardrobe {
         //For each clothing document
         for (Map<String,Object> outfit : outfit_map){
             String outfitID = outfit.get("outfitID").toString();
-            String timeStamp = outfit.get("timeStamp").toString();
+            Timestamp timeStamp = (Timestamp) outfit.get("timeStamp");
             String userID = outfit.get("userID").toString();
             String outfit_name = outfit.get("name").toString();
             ArrayList<String> items =  (ArrayList<String>) outfit.get("items");
-            ArrayList<String> clothings =  (ArrayList<String>) outfit.get("img_names");
             // If it clothing object does not exist
             if (!wardrobeOutfit.containsKey(outfitID)){
-                cOutfits o1 = new cOutfits(outfitID, timeStamp, timeStamp, userID, outfit_name, items, clothings);
+                cOutfits o1 = new cOutfits(outfitID, timeStamp, userID, outfit_name, items);
                 wardrobeOutfit.put(outfitID,o1);
             }
         }
