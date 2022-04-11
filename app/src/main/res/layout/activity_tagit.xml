@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.515"
-        android:contentDescription="Photo" />
+        android:contentDescription="@string/tagitimage" />
 
     <Spinner
         android:id="@+id/spinnerColor"
@@ -73,7 +73,7 @@
         android:minHeight="48dp"
         android:textOff="Public"
         android:textOn="Private"
-        android:gravity="left"
+        android:gravity="start"
         app:layout_constraintTop_toBottomOf="@+id/spinnerSize"
         tools:layout_editor_absoluteX="0dp" />
 

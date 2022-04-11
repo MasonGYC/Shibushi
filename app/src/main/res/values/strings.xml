@@ -63,6 +63,7 @@
     <string name="my_outfits" translatable="false">My Outfits</string>
     <string name="outfitimage" translatable="false">outfitimage</string>
     <string name="create_outfit" translatable="false">Create</string>
+    <string name="tagitimage">tagItImage</string>
 
     <item name="imageView_tag_uri" type="id"></item>
 
