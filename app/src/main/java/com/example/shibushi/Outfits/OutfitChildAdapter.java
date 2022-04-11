@@ -37,7 +37,8 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
     Context context;
     LayoutInflater inflater;
     OutfitChildModel.ChildDataSource datasource;
-    public static final String KEY_SINGLE_OUTFIT_VIEW = "KEY_SINGLE_OUTFIT_VIE";
+    public static final String KEY_SINGLE_OUTFIT_VIEW_ITEMS = "KEY_SINGLE_OUTFIT_VIEW_ITEMS";
+    public static final String KEY_SINGLE_OUTFIT_VIEW_NAME = "KEY_SINGLE_OUTFIT_VIEW_NAME";
 
     public OutfitChildAdapter(Context context, OutfitChildModel.ChildDataSource datasource) {
         this.context = context;
@@ -105,7 +106,8 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
                 //Toast.makeText(view.getContext(),"outfitImageButton",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), SingleOutfit.class);
                 // TODO: to start Single outfit page
-                intent.putExtra(KEY_SINGLE_OUTFIT_VIEW,items);
+                intent.putExtra(KEY_SINGLE_OUTFIT_VIEW_ITEMS,items);
+                intent.putExtra(KEY_SINGLE_OUTFIT_VIEW_NAME,name);
                 context.startActivity(intent);
             }
         });

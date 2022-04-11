@@ -100,6 +100,8 @@
         <activity
             android:name=".Outfits.ViewOutfitsParentActivity"
             android:exported="true" />
+        <activity android:name=".Outfits.SingleOutfit"
+            android:exported="true"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
