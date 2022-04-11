@@ -166,28 +166,28 @@ public class FirestoreMethods {
     }
 
     // Query clothes
-    public static ArrayList<String> getmyClothes(String userID){
-        ArrayList<String> clothes_Array = new ArrayList<>();
-        CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
-        Query myClothes = clothesRef.whereEqualTo("userid", userID);
-        myClothes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Object image_name = document.get("img_name");
-                        clothes_Array.add(image_name.toString());
-                        Log.d(TAG, document.getId() + " => " + clothes_Array);
-                        //Bitmap image = Image.getBitmap(image_url.toString());
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-        return clothes_Array;
-    }
+//    public static ArrayList<String> getmyClothes(String userID){
+//        ArrayList<String> clothes_Array = new ArrayList<>();
+//        CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
+//        Query myClothes = clothesRef.whereEqualTo("userid", userID);
+//        myClothes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        Object image_name = document.get("img_name");
+//                        clothes_Array.add(image_name.toString());
+//                        Log.d(TAG, document.getId() + " => " + clothes_Array);
+//                        //Bitmap image = Image.getBitmap(image_url.toString());
+//                    }
+//                } else {
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                }
+//            }
+//        });
+//        return clothes_Array;
+//    }
 
 
 
@@ -225,6 +225,7 @@ public class FirestoreMethods {
         });
     }
 
+// register
     public static void initialise_cUser(FirebaseUser currentUser) {
         String userID = currentUser.getUid();
         String username = currentUser.getDisplayName();
@@ -257,4 +258,62 @@ public class FirestoreMethods {
 
     }
 
+
+    // Populate/update wardrobe with all clothes from firebase
+    public static ArrayList<Map> getAllClothes(){
+        ArrayList<Map> clothes_Array = new ArrayList<>();
+        HashMap<String,String> clothes_map = new HashMap<>();
+        CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
+        // All of User's clothes saved as a Query Object.
+        Query myClothes = clothesRef.whereEqualTo("userid", userID);
+        myClothes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    // for each clothing as a document, put as a map
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> map = document.getData();
+                        clothes_Array.add(map);
+
+//                        Object image_name = document.get("img_name");
+//                        clothes_Array.add(image_name.toString());
+//                        Log.d(TAG, document.getId() + " => " + clothes_Array);
+                        //Bitmap image = Image.getBitmap(image_url.toString());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+        return clothes_Array;
+    }
+
+    // Populate/update wardrobe with all Outfits from firebase
+    public static ArrayList<Map> getAllOutfits(){
+        ArrayList<Map> outfits_Array = new ArrayList<>();
+        HashMap<String,String> outfits_map = new HashMap<>();
+        CollectionReference outfitRef = mFirestoreDB.collection("cOutfits");
+        // All of User's clothes saved as a Query Object.
+        Query myOutfits = outfitRef.whereEqualTo("userID", userID);
+        myOutfits.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    // for each clothing as a document, put as a map
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> map = document.getData();
+                        outfits_Array.add(map);
+
+//                        Object image_name = document.get("img_name");
+//                        clothes_Array.add(image_name.toString());
+//                        Log.d(TAG, document.getId() + " => " + clothes_Array);
+                        //Bitmap image = Image.getBitmap(image_url.toString());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+        return outfits_Array;
+    }
 }
