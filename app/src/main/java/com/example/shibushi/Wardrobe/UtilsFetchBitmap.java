@@ -157,41 +157,10 @@ public class UtilsFetchBitmap {
      * @param  url a URL object
      * @return a Bitmap object
      */
-    static Bitmap getBitmap(URL url) throws IOException{
+    public static Bitmap getBitmap(URL url) throws IOException{
 
         return convertStreamToBitmap(getInputStream(url));
     }
 
-    /**
-     * This method checks if an Activity has a network connection
-     * @param  context a Context object (Context is the superclass of AppCompatActivity
-     * @return a boolean object
-     */
-
-    static boolean isNetworkAvailable(Context context) {
-
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        boolean haveNetwork = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        Log.i(UTILS_TAG, "Active Network: " + haveNetwork);
-        return haveNetwork;
-    }
-
-    /**
-     * This method gets the xkcd JSON response from the comic No
-     * @param  comicNo a String containing the comicNo
-     * @return a String containing the JSON response
-     */
-    static String getImageURLFromXkcdApi(String comicNo)
-            throws IOException, JSONException{
-
-        final String xkcdImageKey = "img";
-
-        URL url = buildURL(comicNo);
-        String jsonString = getJson(url);
-        JSONObject jsonObject = new JSONObject(jsonString);
-        return jsonObject.getString(xkcdImageKey);
-    }
 
 }

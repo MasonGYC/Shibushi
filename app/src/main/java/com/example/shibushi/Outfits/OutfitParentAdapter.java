@@ -47,7 +47,7 @@ public class OutfitParentAdapter extends RecyclerView.Adapter<OutfitParentAdapte
         holder.outfitParentRV.setLayoutManager(parentlinearLayoutManager);
         holder.outfitParentRV.setAdapter(outfitChildAdapter);
         holder.outfitParentRV.setVisibility(View.VISIBLE);
-        holder.categoryTextView.setText(category);
+        holder.categoryTextView.setText(datas.get(position).category);
     }
 
     @Override

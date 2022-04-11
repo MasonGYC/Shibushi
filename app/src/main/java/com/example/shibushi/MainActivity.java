@@ -19,13 +19,12 @@ import androidx.core.content.FileProvider;
 
 import com.example.shibushi.Feed.Profile.ChangePassword;
 import com.example.shibushi.Login.Login;
+import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.testing.firestoreUpload;
-import com.example.shibushi.testing.imgviewer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.shibushi.PhotoProcess.CropActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         //Welcome message
-        //Obviously we don't have to include this but its an option to display the username somewhere
-        //somehow
         String username = currentUser.getDisplayName();
         if (username != null){
             welcome = "Welcome, " + currentUser.getDisplayName();
@@ -121,10 +118,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(cropIntent);
                 break;
             case R.id.bTakePhoto:
+
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
-                startActivity(new Intent(MainActivity.this, imgviewer.class));
+                startActivity(new Intent(MainActivity.this, TagIt.class));
                 //goFirestore();
                 break;
             default:
@@ -135,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //take picture
     public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -146,11 +145,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this,"Cannot create files for photos",Toast.LENGTH_SHORT).show();
                 //Log.i("TakePicture: ","Cannot create files for photos");
             }
+            Log.d(TAG,"We got this far!");
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
+                        "com.example.shibushi.fileprovider",
                         photoFile);
+
+                Log.d("ronda2", currentPhotoPath);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
             }
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "Shibushi_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -182,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
 
+
     // TODO: remove
     private void logOut() {
         FirebaseUser user = mAuth.getCurrentUser();
@@ -196,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void changePassword() {
         startActivity(new Intent(MainActivity.this, ChangePassword.class));
     }
+
+    //No need
     public void goFirestore() {
         startActivity(new Intent(MainActivity.this, firestoreUpload.class));
     }
