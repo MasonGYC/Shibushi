@@ -99,10 +99,10 @@ public class FirestoreMethods {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Log.d(TAG, "Metadata was saved!");
+                    Log.d(TAG, "Clothes metadata was saved!");
                 }
                 else{
-                    Log.w(TAG, "Metadata was not saved!");
+                    Log.w(TAG, "Clothes metadata was not saved!");
                 }
             }
         });
@@ -120,10 +120,10 @@ public class FirestoreMethods {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Log.d(TAG, "Document was deleted!");
+                    Log.d(TAG, "Clothes metadata was deleted!");
                 }
                 else{
-                    Log.w(TAG, "Document was not deleted!");
+                    Log.w(TAG, "Clothes metadata was not deleted!");
                 }
             }
         });
@@ -188,6 +188,26 @@ public class FirestoreMethods {
             }
         });
     }
+    public static void editClothes(String img_name, HashMap<String, Object> map ){
+        mDocRef = clothesRef.document(img_name);
+        try{
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                mDocRef.update(entry.getKey(), entry.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "1/? Clothes metadata was updated!");
+                    }
+                });
+                Log.d(TAG, "All clothes metadata was updated!");
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Clothes metadata was not updated!");
+        }
+
+
+    }
+
+
 
     // Query clothes
     public static ArrayList<String> getmyClothes(String userID){
@@ -252,6 +272,25 @@ public class FirestoreMethods {
                 }
             }
         });
+    }
+
+    public static void editOutfit(String outfitName, HashMap<String, Object> map ){
+        mDocRef = outfitsRef.document(outfitName);
+        try{
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                mDocRef.update(entry.getKey(), entry.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "1/? Outfit metadata was updated!");
+                    }
+                });
+                Log.d(TAG, "All outfit metadata was updated!");
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Outfit metadata was not updated!");
+        }
+
+
     }
 
 
