@@ -1,22 +1,27 @@
 package com.example.shibushi.Models;
 
 import java.io.Serializable;
+import com.google.firebase.Timestamp;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.util.Date;
 
 public class cOutfits implements Serializable {
 
-    String outfitID, timeStamp, userID, name, category;
+    String outfitID, userID, name, category;
     ArrayList<cClothing> items;
+    Timestamp timeStamp;
+    ArrayList<String> img_names;
     // empty constructor for recycler view
     public cOutfits(){}
 
     // constructor for new outfits
     public cOutfits(String userID, String name, String category, ArrayList<cClothing> items) {
-        Date timestamp = new Date();
         this.outfitID = UUID.randomUUID().toString();
-        this.timeStamp = timestamp.toString();
+        this.timeStamp = timeStamp;
         this.userID = userID;
         this.name = name;
         this.items = items;
@@ -24,13 +29,23 @@ public class cOutfits implements Serializable {
 
     }
 
-    // constructor for outfits from firestore
-    public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<cClothing> items) {
+    // constructor for pull from firestore
+    public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, ArrayList<String> img_names) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
         this.name = name;
-        this.items = items;
+        this.img_names = img_names;
+    }
+
+    // constructor for new outfits
+    public cOutfits(String userID, String name, ArrayList<String> img_names) {
+        this.outfitID = UUID.randomUUID().toString();
+        this.timeStamp = Timestamp.now();
+        this.userID = userID;
+        this.name = name;
+        this.img_names = img_names;
+
     }
 
     public String getOutfitID() {
@@ -41,12 +56,12 @@ public class cOutfits implements Serializable {
         this.outfitID = outfitID;
     }
 
-    public String getTimeStamp() {
+    public Timestamp getTimestamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timeStamp = timestamp;
     }
 
     public String getUserID() {

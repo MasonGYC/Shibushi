@@ -27,6 +27,7 @@ import com.example.shibushi.Utils.BottomNavigationViewHelper;
 //import com.example.shibushi.Utils.GridImageAdapter;
 import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +42,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Profile extends AppCompatActivity {
@@ -63,7 +65,6 @@ public class Profile extends AppCompatActivity {
 
     // Firestore
     private FirebaseFirestore mDatabase;
-    private DocumentReference docRef;
     private String current_UserID;
 
     // Model
@@ -83,9 +84,8 @@ public class Profile extends AppCompatActivity {
         // Firestore
         mDatabase = FirebaseFirestore.getInstance();
         current_UserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d(TAG, current_UserID);
-        docRef = mDatabase.collection("cUsers").document(current_UserID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        DocumentReference docRefUser = mDatabase.collection("cUsers").document(current_UserID);
+        docRefUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -103,38 +103,47 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        parentRecyclerView = findViewById(R.id.profile_outfit_RV);
-        parentRecyclerView.setHasFixedSize(true);
-        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        profileParentAdapter = new ProfileParentAdapter();
-        parentRecyclerView.setAdapter(profileParentAdapter);
-
         // TODO: Utilise firestore methods
-        // DUMMY DATA
-        ArrayList<cClothing> cClothingList = new ArrayList<>();
-        cClothing cClothing1 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing2 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing3 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing4 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing5 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        // Firestore
+        setupRecyclerViews(current_UserID);
+    }
 
-        cClothingList.add(cClothing1);
-        cClothingList.add(cClothing2);
-        cClothingList.add(cClothing3);
-        cClothingList.add(cClothing4);
-        cClothingList.add(cClothing5);
+    private void setupRecyclerViews(String current_UserID) {
+        mDatabase.collection("cOutfits")
+                .whereEqualTo("userID", current_UserID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // set outfit count textview
+                            mOutfits.setText(String.valueOf(task.getResult().size()));
+                            ArrayList<cOutfits> cOutfitsArrayList = new ArrayList<>();
 
-        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
-        cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", "timestamp1", "userID1", "outfitname1",cClothingList);
-        cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", "timestamp2", "userID2", "outfitname2",cClothingList);
-        cOutfitsList.add(cOutfits1);
-        cOutfitsList.add(cOutfits2);
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                // Change document into class
 
-        profileParentAdapter.setcOutfitsList(cOutfitsList);
-        profileParentAdapter.notifyDataSetChanged();
+                                cOutfits outfit = document.toObject(cOutfits.class);
+                                Log.d(TAG, "onComplete: " + document.get("img_names"));
+                                Log.d(TAG, "onComplete: " + outfit.getName());
+                                Log.d(TAG, "onComplete: " + outfit.getImg_names());
+                                cOutfitsArrayList.add(outfit);
+                                Log.e(TAG, String.valueOf(cOutfitsArrayList.size()));
+                            }
 
+                            // Recycler Views and Adapters
+                            parentRecyclerView = findViewById(R.id.profile_outfit_RV);
+                            parentRecyclerView.setHasFixedSize(true);
+                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(Profile.this));
+                            profileParentAdapter = new ProfileParentAdapter(cOutfitsArrayList);
+                            parentRecyclerView.setAdapter(profileParentAdapter);
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**
@@ -169,7 +178,7 @@ public class Profile extends AppCompatActivity {
 
         setProfileImage(user);
 
-        getOutfitCount(user);
+        // getOutfitCount(user);
 
         // TODO: Search if user is in current user's followings --> Change mFollowStatus to Following, Else Follow
         TextView mFollowStatus = findViewById(R.id.textEditProfile);
@@ -214,9 +223,13 @@ public class Profile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            // set outfit count textview
                             mOutfits.setText(String.valueOf(task.getResult().size()));
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                // Change document into class
+
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

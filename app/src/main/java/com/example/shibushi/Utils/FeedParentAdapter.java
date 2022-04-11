@@ -68,7 +68,7 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
         // TODO: TAKE NOTE MIGHT HAVE ISSUES
         // Array in cOutfit.items in firestore is a reference to a clothes document
         // Might still need to retrieve the image from the clothes
-        feedChildAdapter.setChildItemList(cOutfits.getItems());
+        feedChildAdapter.setChildItemList(cOutfits.getImg_names());
         holder.clothesRecyclerView.setAdapter(feedChildAdapter);
         feedChildAdapter.notifyDataSetChanged();
     }

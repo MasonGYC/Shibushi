@@ -1,16 +1,31 @@
 package com.example.shibushi.Models;
 
+import java.util.HashMap;
+import java.util.Map;
 import android.net.Uri;
 
 import java.io.Serializable;
 import java.net.URL;
 
+
+
 public class cClothing implements Serializable {
-    String userid, category, color, occasion, size, img_name, url;
+    String userid, img_name, category, color, occasion, size, url;
+    HashMap<String, String> tags = new HashMap<>();
 
     public cClothing(){}
 
-    public cClothing(String userid, String category, String color, String occasion, String size, String img_name, String url) {
+    public cClothing(Map clothing, String img_name){
+        this.img_name = img_name;
+        clothing.remove("img_name");
+        userid = clothing.get("userid").toString();
+        clothing.remove("userid");
+        tags = (HashMap<String, String>) clothing;
+    }
+
+
+
+        public cClothing(String userid, String category, String color, String occasion, String size, String img_name, String url) {
         this.userid = userid;
         this.category = category;
         this.color = color;

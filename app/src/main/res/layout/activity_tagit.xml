@@ -13,7 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.515" />
+        app:layout_constraintVertical_bias="0.515"
+        android:contentDescription="@string/tagitimage" />
 
     <Spinner
         android:id="@+id/spinnerColor"
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="440dp"
         android:entries="@array/spinnerColor"
+        android:minHeight="48dp"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,34 +31,50 @@
 
     <Spinner
         android:id="@+id/spinnerCategory"
-        android:prompt="@string/Category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:entries="@array/spinnerCategory"
+        android:minHeight="48dp"
+        android:prompt="@string/Category"
         android:spinnerMode="dropdown"
         app:layout_constraintTop_toBottomOf="@+id/spinnerColor"
         tools:layout_editor_absoluteX="0dp" />
 
     <Spinner
         android:id="@+id/spinnerOccasion"
-        android:prompt="@string/Occasion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:entries="@array/spinnerOccasion"
+        android:minHeight="48dp"
+        android:prompt="@string/Occasion"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
         tools:layout_editor_absoluteX="0dp" />
 
 
     <Spinner
         android:id="@+id/spinnerSize"
-        android:prompt="@string/Size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:entries="@array/spinnerSize"
+        android:minHeight="48dp"
+        android:prompt="@string/Size"
         app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/privacySwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:textOff="Public"
+        android:textOn="Private"
+        android:gravity="start"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSize"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
