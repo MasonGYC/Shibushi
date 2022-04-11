@@ -15,7 +15,7 @@ public class cWardrobe {
     private int clothing_count = 0;
     private int outfit_count = 0;
 
-    cWardrobe(){
+    public cWardrobe(){
 
     }
 
@@ -64,9 +64,10 @@ public class cWardrobe {
             String userID = outfit.get("userID").toString();
             String outfit_name = outfit.get("name").toString();
             ArrayList<String> items =  (ArrayList<String>) outfit.get("items");
+            String category = outfit.get("category").toString();
             // If it clothing object does not exist
             if (!wardrobeOutfit.containsKey(outfitID)){
-                cOutfits o1 = new cOutfits(outfitID, timeStamp, userID, outfit_name, items);
+                cOutfits o1 = new cOutfits(outfitID, timeStamp, userID, outfit_name, category, items);
                 wardrobeOutfit.put(outfitID,o1);
             }
         }

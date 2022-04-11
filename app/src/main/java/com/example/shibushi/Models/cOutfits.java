@@ -1,5 +1,6 @@
 package com.example.shibushi.Models;
 
+import java.io.Serializable;
 import com.google.firebase.Timestamp;
 
 import java.lang.reflect.Array;
@@ -8,16 +9,28 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.Date;
 
-public class cOutfits {
+public class cOutfits implements Serializable {
 
-    String outfitID, userID, name;
+    String outfitID, userID, name, category;
+    ArrayList<cClothing> items;
     Timestamp timeStamp;
     ArrayList<String> img_names;
-
+    // empty constructor for recycler view
     public cOutfits(){}
 
+    // constructor for new outfits
+    public cOutfits(String userID, String name, String category, ArrayList<cClothing> items) {
+        this.outfitID = UUID.randomUUID().toString();
+        this.timeStamp = timeStamp;
+        this.userID = userID;
+        this.name = name;
+        this.items = items;
+        this.category = category;
+
+    }
+
     // constructor for pull from firestore
-    public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, ArrayList<String> img_names) {
+    public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, String category , ArrayList<String> img_names) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
@@ -66,6 +79,15 @@ public class cOutfits {
     public void setName(String name) {
         this.name = name;
     }
+
+    public ArrayList<cClothing> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<cClothing> items) {
+        this.items = items;
+    }
+
 
     public ArrayList<String> getImg_names() {
         return img_names;

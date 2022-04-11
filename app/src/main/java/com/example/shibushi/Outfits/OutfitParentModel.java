@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OutfitParentModel {
+    // list of arraylist of outfits
     public static class ParentDataSource {
         List<OutfitChildModel.ChildDataSource> data = new ArrayList<OutfitChildModel.ChildDataSource>();
         String category;
         public ParentDataSource() {
         }
-        public ParentDataSource(List<OutfitChildModel.ChildDataSource> data, String category) {
+        public ParentDataSource(List<OutfitChildModel.ChildDataSource> data) {
             this.data = data;
             this.category = category;
         }

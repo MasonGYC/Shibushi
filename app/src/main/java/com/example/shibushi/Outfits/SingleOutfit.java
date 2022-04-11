@@ -1,4 +1,6 @@
 package com.example.shibushi.Outfits;
 
-public class SingleOutfit {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SingleOutfit extends AppCompatActivity {
 }

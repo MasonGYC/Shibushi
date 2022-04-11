@@ -21,6 +21,7 @@ import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -45,7 +46,6 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     // Create outfit
     Button create_outfit_button;
     Button create_cancel_button;
-    Bundle bundle = new Bundle();
     public static boolean isChoosing = false;
     ImageView basket;
 
@@ -192,10 +192,9 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                 String name = "KoolGuy";
                 isChoosing = false;
                 // process data
-                bundle.putStringArrayList(ViewOutfitsParentActivity.KEY_OUTFIT_URIS,imageAdapter.selectedItems); //Bundle cat and uris
-                bundle.putString(ViewOutfitsParentActivity.KEY_OUTFIT_CAT,category);
-                bundle.putString(ViewOutfitsParentActivity.KEY_OUTFIT_NAME,name);
-                intent.putExtras(bundle);
+                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CREATE,imageAdapter.selectedItems);
+                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CAT,category);
+                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_NAME,name);
                 startActivity(intent);
             }
         });
