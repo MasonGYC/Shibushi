@@ -1,6 +1,5 @@
 package com.example.shibushi.Models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,10 +68,10 @@ public class cClothing {
 //    public void setSize(String size) {
 //        this.size = size;
 //    }
-//
-//    public String getImg_name() {
-//        return img_name;
-//    }
+
+    public String getImg_name() {
+        return img_name;
+    }
 //
 //    public void setImg_name(String img_name) {
 //        this.img_name = img_name;

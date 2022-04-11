@@ -112,11 +112,11 @@ public class SelectedUserActivity extends AppCompatActivity {
         cClothingList.add(cClothing4);
         cClothingList.add(cClothing5);
 
-        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
+        ArrayList<String> cOutfitsList = new ArrayList<>();
         cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList);
+                "outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList,cClothingList);
         cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList);
+                "outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList, cClothingList);
         cOutfitsList.add(cOutfits1);
         cOutfitsList.add(cOutfits2);
 

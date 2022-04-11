@@ -32,6 +32,7 @@ import com.google.firebase.database.annotations.Nullable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -68,24 +69,29 @@ public class FeedActivity extends AppCompatActivity {
 
         //TODO: Utilise firestore methods
         // DUMMY DATA
-        ArrayList<cClothing> cClothingList = new ArrayList<>();
-        cClothing cClothing1 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing2 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        ArrayList<String> cClothingList = new ArrayList<>();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("color", "red");
+        map.put("category", "Shirt");
+        map.put("img_name","dummy img name");
+        map.put("userid","userid dummy" );
+
+
+        cClothing cClothing1 = new cClothing( map, "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717" );
+        /*cClothing cClothing2 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
         cClothing cClothing3 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
         cClothing cClothing4 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
         cClothing cClothing5 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-
-        cClothingList.add(cClothing1);
-        cClothingList.add(cClothing2);
-        cClothingList.add(cClothing3);
+*/
+        cClothingList.add(cClothing1.getImg_name());
+  /*      cClothingList.add(cClothing3);
         cClothingList.add(cClothing4);
+        cClothingList.add(cClothing2);
         cClothingList.add(cClothing5);
-
+*/
         ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
-        cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList);
-        cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList);
+        cOutfits cOutfits1 = new cOutfits("outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList, cClothingList);
+        cOutfits cOutfits2 = new cOutfits("outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList, cClothingList);
         cOutfitsList.add(cOutfits1);
         cOutfitsList.add(cOutfits2);
 
