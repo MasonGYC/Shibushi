@@ -1,21 +1,29 @@
 package com.example.shibushi.Wardrobe;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shibushi.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,6 +32,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     LayoutInflater inflater;
     Model.DataSource dataSource;
     int width;
+    public static ArrayList<String> selectedItems = new ArrayList<>();
 
     public imageAdapter(Context context, Model.DataSource dataSource, int width){
         this.width = width;
@@ -35,14 +44,35 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     @NonNull
     @Override
     public imageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        selectedItems.clear();
         View imgView = inflater.inflate(R.layout.card_wd_image_layout, parent, false);
-        return new imageViewHolder(imgView);
+        return new imageViewHolder(imgView, width);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull imageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull imageViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String url_s = this.dataSource.get(position).url;
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (NotificationManagerCompat.from(view.getContext()).areNotificationsEnabled() ){
+                    Toast.makeText(view.getContext(),"Selected",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Log.i("noti","notification unabled");
+                }
 
+                Log.i("onBindVH",view.getContext().toString());
+                ViewWardrobeActivity.isChoosing = true;
+                if (view.getTag(R.id.imageView_tag_uri) != null){
+                    String  uri =  (String) view.getTag(R.id.imageView_tag_uri);
+                    Log.i("selcted",uri );
+                    selectedItems.add(uri);
+
+                }
+                return true;
+            }
+        });
         ExecutorService executor;
         executor = Executors.newSingleThreadExecutor();
         final Handler handler = new Handler(Looper.myLooper());
@@ -68,6 +98,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 //                            Picasso.get().load(cUri.get()).into(holder.imageView);
 //                            holder.imageView.setImageBitmap(cBitmap.get());
                             holder.imageView.setMaxWidth(width);
+                            holder.imageView.setTag(R.id.imageView_tag_uri, cUri.get());
 //                            holder.imageView.setMaxHeight(width);
 //                            holder.imageViewLayout.setMinimumHeight(width);
 //                            holder.imageViewLayout.setMinimumWidth(width);
@@ -84,11 +115,13 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
         return this.dataSource.count();
     }
 
+
     public static class imageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        public imageViewHolder(@NonNull View itemView) {
+        public imageViewHolder(@NonNull View itemView, int width) {
             super(itemView);
             imageView = itemView.findViewById(R.id.wardrobe_image);
+            imageView.setLongClickable(true);
 //            imageViewLayout = itemView.findViewById(R.id.wardrobe_image);
 //            imageView.setMinimumWidth(width);
 //            imageView.setMaxWidth(width);

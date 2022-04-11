@@ -16,7 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +30,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ViewOutfitsParentActivity extends AppCompatActivity {
     private static final String TAG = "ViewOutfits";
+    public static final String KEY_OUTFIT_CAT = "KEY_OUTFIT_CAT";
+    public static final String KEY_OUTFIT_URIS = "KEY_OUTFIT_URIS";
+    public static final String KEY_OUTFIT_NAME = "KEY_OUTFIT_NAME";
     private Context mContext = ViewOutfitsParentActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 3;
@@ -33,6 +40,7 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
     OutfitParentAdapter outfitParentAdapter;
     OutfitParentModel.ParentDataSource parentDataSource;
     ImageView createNewCat;
+    List<OutfitChildModel.ChildDataSource> datas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,29 +50,25 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         // Set up bottom navigation bar
         setupBottomNavigationView();
 
-        // todo: query old and get new outfit data
-        Intent intent = getIntent();
-
-
-        // create new category
-//        createNewCat = findViewById(R.id.snippet_viewoutfit_toolbar_create);
-//        createNewCat.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent createNew = new Intent(ViewOutfitsParentActivity.this,CreateNewCateOutfit.class);
-//                startActivity(createNew);
-//            }
-//        });
-
-        // receive created new cat
-        //String[] created = getIntent().getStringArrayExtra(CreateNewCateOutfit.CREATED_CAT);
-
-
+        // query old and get new outfit data
+        Map<String[], ArrayList<Uri>> outfitmap = null;
+        try {
+            outfitmap = getNewOutfit();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        if (outfitmap == null || outfitmap.isEmpty()){
+            parentDataSource = dataInit(); //dummy
+        }
+        else {
+            parentDataSource = dataInit(outfitmap);
+        }
         //set recycler view
-        List<OutfitChildModel.ChildDataSource> datas = dataInit();
         outfitRecyclerView = findViewById(R.id.outfitParentRecyclerView);
-        outfitRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        outfitParentAdapter = new OutfitParentAdapter(this, datas);
+        outfitRecyclerView.setLayoutManager(new LinearLayoutManager(ViewOutfitsParentActivity.this));
+        outfitParentAdapter = new OutfitParentAdapter(ViewOutfitsParentActivity.this, parentDataSource);
         outfitRecyclerView.setAdapter(outfitParentAdapter);
     }
 
@@ -78,25 +82,23 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
     }
 
     // dummy
-    public List<OutfitChildModel.ChildDataSource> dataInit(){
+    public OutfitParentModel.ParentDataSource dataInit(){
 
         // init new child datas
         List<OutfitChildModel.ChildDataSource> datas = new ArrayList<>();
 
-        // get uris for a single outfit
-//        for (Uri clothe: clothes_cat_uris){
-//            OutfitChildModel.SingleOutfit singleOutfit = new OutfitChildModel.SingleOutfit(clothe,"Cat1");
-//        }
         Uri uri_one = getUriToDrawable(mContext,R.drawable.ic_launcher_background);
         Uri uri_two = getUriToDrawable(mContext,R.drawable.ic_launcher_foreground);
-
-        OutfitChildModel.SingleOutfit singleOutfit = new OutfitChildModel.SingleOutfit(uri_two,"Cat1");
+        ArrayList<Uri> uris = new ArrayList<>();
+        uris.add(uri_one);
+        uris.add(uri_two);
+        OutfitChildModel.SingleOutfit singleOutfit = new OutfitChildModel.SingleOutfit(uri_two,"name1",uris);
         List<OutfitChildModel.SingleOutfit> data = new ArrayList<>();
         data.add(singleOutfit);
         data.add(singleOutfit);
         data.add(singleOutfit);
 
-        OutfitChildModel.SingleOutfit singleOutfit1 = new OutfitChildModel.SingleOutfit(uri_one,"Cat2");
+        OutfitChildModel.SingleOutfit singleOutfit1 = new OutfitChildModel.SingleOutfit(uri_one,"name2",uris);
         List<OutfitChildModel.SingleOutfit> data1 = new ArrayList<>();
         data1.add(singleOutfit1);
         data1.add(singleOutfit1);
@@ -107,29 +109,30 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
 
         datas.add(childDataSource);
         datas.add(childDataSource1);
-        parentDataSource = new OutfitParentModel.ParentDataSource(datas);
-        return datas;
+        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(datas,"category");
+        return parentDataSource;
     }
 
     // real fetch data
-    public List<OutfitChildModel.ChildDataSource> dataInit(Map<String,ArrayList<Uri>> clothes_cat_uris){
+    public OutfitParentModel.ParentDataSource dataInit(Map<String[],ArrayList<Uri>> clothes_cat_uris){
 
         // init new child datas
         List<OutfitChildModel.ChildDataSource> datas = new ArrayList<>();
 
         // get uris for a single outfit
-
-        for (Map.Entry<String,ArrayList<Uri>> entry: clothes_cat_uris.entrySet()){
-            List<OutfitChildModel.SingleOutfit> data = new ArrayList<>();
+        List<OutfitChildModel.SingleOutfit> data = new ArrayList<>();
+        String cat = "default";
+        String name;
+        for (Map.Entry<String[],ArrayList<Uri>> entry: clothes_cat_uris.entrySet()){
             ArrayList<Uri> uris = entry.getValue();
-            String cat = entry.getKey();
-            for (Uri uri: uris){
-                data.add(new OutfitChildModel.SingleOutfit(uri,cat));
-            }
-            datas.add(new OutfitChildModel.ChildDataSource(data));
+            cat = entry.getKey()[0];
+            name = entry.getKey()[1];
+            data.add(new OutfitChildModel.SingleOutfit(uris.get(0),name,uris));//cover image only
+
         }
-        //parentDataSource = new OutfitParentModel.ParentDataSource(datas);
-        return datas;
+        datas.add(new OutfitChildModel.ChildDataSource(data));
+        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(datas,cat);
+        return parentDataSource;
     }
 
     // BottomNavigationView setup
@@ -143,6 +146,40 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         Menu menu = bottom_navbar_view.getMenu();
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
+    }
+
+    public Map<String[], ArrayList<Uri>> getNewOutfit() throws MalformedURLException, URISyntaxException {
+        //to get intent data to retrieve new created single outfit
+
+        Map<String[],ArrayList<Uri>> map = new HashMap<>(); //downloaded processed data from firebase
+
+        Intent intent = getIntent();
+        // get image uris and category name
+        if (intent.getExtras() != null){
+            Bundle new_map = intent.getExtras();
+            String category = (String) new_map.get(KEY_OUTFIT_CAT);
+            String name = (String) new_map.get(KEY_OUTFIT_NAME);
+            ArrayList<String > image_uri_strings = (ArrayList<String>) new_map.get(KEY_OUTFIT_URIS);
+            ArrayList<Uri> image_uris = new ArrayList<>();
+            // chaneg string to url
+            for (String s:image_uri_strings){
+                Uri uri = Uri.parse(new URL(s).toString());
+                image_uris.add(uri);
+                Log.i("getNewOutfit",uri.toString());
+            }
+            String[] cat_name = {category,name};
+            map.put(cat_name,image_uris);
+            Log.i(TAG,map.toString());
+        }
+        else {
+            Log.i(TAG,"No outfit created");
+        }
+
+        return map;
+    }
+    public Map<String[], ArrayList<Uri>> getOldOutfit(Map<String[], ArrayList<Uri>> new_map){
+
+        return new_map;
     }
 
 }

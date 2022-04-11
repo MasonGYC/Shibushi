@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,7 @@ public class TagIt extends AppCompatActivity {
     Spinner spinnerCategory;
     Spinner spinnerOccasion;
     Spinner spinnerSize;
+    Switch switchPrivacy;
     FirebaseStorage storage;
     StorageReference storageReference;
 
@@ -38,7 +40,7 @@ public class TagIt extends AppCompatActivity {
     public final static String OCCASION = "occasion";
     public final static String SIZE = "size";
     public final static String CATEGORY = "category";
-    public final static String Privacy = "privacy";
+    public final static String PRIVACY = "privacy";
 
 
     @Override
@@ -59,6 +61,13 @@ public class TagIt extends AppCompatActivity {
         spinnerCategory = findViewById(R.id.spinnerCategory);
         spinnerOccasion = findViewById(R.id.spinnerOccasion);
         spinnerSize = findViewById(R.id.spinnerSize);
+
+        switchPrivacy = findViewById(R.id.privacySwitch);
+        switchPrivacy.setChecked(true);
+        switchPrivacy.setTextOn("Private"); // displayed text of the Switch whenever it is in checked or on state
+        switchPrivacy.setTextOff("Public"); // displayed text of the Switch whenever it is in unchecked i.e. off state
+
+
 
         //get intent to set image
         Intent bitmapIntent = getIntent();
@@ -82,8 +91,18 @@ public class TagIt extends AppCompatActivity {
                 map.put(SIZE, spinnerSize.getSelectedItem().toString());
                 map.put(CATEGORY, spinnerCategory.getSelectedItem().toString());
                 map.put(OCCASION, spinnerOccasion.getSelectedItem().toString());
+
+                Boolean switchState = switchPrivacy.isChecked();
+                if (switchState){
+                    //private
+                    map.put(PRIVACY, "private");
+                }
+                else{
+                    map.put(PRIVACY, "public");
+                }
                 // UPLOAD IMAGE AND TAGS
                 FirestoreMethods.addClothes(map, photoURI);
+                // ^^ need to return img_name and userid, both add to the map.
                 // go back to MainActivity
                 Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TagIt.this, MainActivity.class);

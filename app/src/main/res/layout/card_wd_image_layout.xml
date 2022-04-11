@@ -7,15 +7,20 @@
 <!--        android:layout_width="200dp"-->
 <!--        android:layout_height="200dp"-->
 <!--        android:id="@+id/wardrobe_image_container">-->
-    <ImageView
-        android:id="@+id/wardrobe_image"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:padding="1dp"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/wardrobe_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:padding="1dp"
 
-        android:layout_gravity="center_horizontal|top"
-        />
+            android:layout_gravity="center_horizontal|top"
+            />
+    </RelativeLayout>
+
 <!--    </LinearLayout>-->
 </LinearLayout>
