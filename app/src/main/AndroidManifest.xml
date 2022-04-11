@@ -58,23 +58,23 @@
         <!-- FEEDS -->
         <activity android:name=".Feed.FeedActivity" />
         <activity android:name=".Feed.SearchActivity"
-            android:parentActivityName=".Feed.FeedActivity"/>
+            android:parentActivityName=".Feed.FeedActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity android:name=".Feed.ViewOutfitPostActivity"/>
 
         <!-- PROFILE -->
         <activity android:name=".Feed.Profile.Profile" />
+        <activity android:name=".Feed.SelectedUserActivity"/>
 
         <!-- ACCOUNT SETTINGS -->
         <activity
             android:name=".Feed.Profile.AccountSettingsActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:parentActivityName=".Feed.Profile.Profile"
-            android:exported="false" />
+            android:parentActivityName=".Feed.Profile.Profile" />
         <activity
             android:name=".Feed.Profile.EditProfileActivity"
             android:theme="@style/Theme.AppCompat.Light"
-            android:parentActivityName=".Feed.Profile.Profile"
-            android:exported="false" />
+            android:parentActivityName=".Feed.Profile.Profile" />
         <activity
             android:name=".Feed.Profile.ChangePassword"
             android:theme="@style/Theme.AppCompat.Light"
@@ -82,8 +82,7 @@
         <activity
             android:name=".Feed.Profile.SignOutActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
-            android:exported="false" />
+            android:parentActivityName=".Feed.Profile.AccountSettingsActivity" />
 
         <activity android:name=".PhotoProcess.CropActivity"
             android:exported="true"/>

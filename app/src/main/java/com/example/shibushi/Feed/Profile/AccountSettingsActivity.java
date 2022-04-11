@@ -33,6 +33,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_settings);
+        this.setTitle("Account Settings");
 
         settingsListView = findViewById(R.id.account_settings_ListView);
         settingsArrayList = new ArrayList<>();

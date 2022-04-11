@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,26 +21,38 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Models.cOutfits;
+import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 //import com.example.shibushi.Utils.GridImageAdapter;
-import com.example.shibushi.Utils.FeedParentAdapter;
 import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
 public class Profile extends AppCompatActivity {
 
-    private static final String TAG = "Profile";
+    private static final String TAG = "ProfileActivity";
     private Context mContext = Profile.this;
     private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
-    private static final int NUM_GRID_PER_ROW = 2;
-    private TextView mOutfits, mFollowers, mFollowing, mUsername, mBio;
+    private TextView mFollowers;
+    private TextView mFollowing;
+    private TextView mUsername;
+    private TextView mOutfits;
+    private TextView mBio;
     private TextView mEditProfile;
     private ProgressBar mProgressBar;
     private Toolbar toolbar;
@@ -49,17 +62,47 @@ public class Profile extends AppCompatActivity {
     private RecyclerView parentRecyclerView;
     private ProfileParentAdapter profileParentAdapter;
 
+    // Firestore
+    private FirebaseFirestore mDatabase;
+    private DocumentReference docRef;
+    private String current_UserID;
+
+    // Model
+    private cUsers user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_profile);
         Log.d(TAG, "onCreate: started");
 
-        setupToolBar();
-        setupBottomNavigationView();
         setupActivityWidgets();
-        setProfileImage();
-//        tempGridSetup();
+        setupToolBar();
+        initImageLoader();
+        setupBottomNavigationView();
+
+        // Firestore
+        mDatabase = FirebaseFirestore.getInstance();
+        current_UserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.d(TAG, current_UserID);
+        docRef = mDatabase.collection("cUsers").document(current_UserID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        user = document.toObject(cUsers.class);
+                        setupUserDetails(user);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
 
         parentRecyclerView = findViewById(R.id.profile_outfit_RV);
         parentRecyclerView.setHasFixedSize(true);
@@ -67,7 +110,7 @@ public class Profile extends AppCompatActivity {
         profileParentAdapter = new ProfileParentAdapter();
         parentRecyclerView.setAdapter(profileParentAdapter);
 
-        //TODO: Utilise firestore methods
+        // TODO: Utilise firestore methods
         // DUMMY DATA
         ArrayList<cClothing> cClothingList = new ArrayList<>();
         cClothing cClothing1 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
@@ -93,74 +136,102 @@ public class Profile extends AppCompatActivity {
         profileParentAdapter.setcOutfitsList(cOutfitsList);
         profileParentAdapter.notifyDataSetChanged();
 
-
     }
-
-//    /**
-//     * To load the profile fragment
-//     */
-//    private void init() {
-//        Log.d(TAG, "init: inflating profile fragment");
-//
-//        ProfileFragment profileFragment = new ProfileFragment();
-//        FragmentTransaction fragmentTransaction = Profile.this.getSupportFragmentManager().beginTransaction();
-//        // replace the profile container in layout/commmunity_profile with the view for ProfileFragment class
-//        fragmentTransaction.replace(R.id.profile_container, profileFragment);
-//
-//        // keeping track of fragment stack (order of page when going back)
-//        // fragments usually do not keep track of previous fragments visited
-//        fragmentTransaction.addToBackStack(getString(R.string.profile_fragment));
-//        fragmentTransaction.commit();
-//    }
 
     /**
      * Method to make it cleaner in onCreate
      */
     private void setupActivityWidgets() {
+        Log.d(TAG, "setupActivityWidgets: started");
         // Progress bar
         mProgressBar = findViewById(R.id.profile_progress_bar);
         mProgressBar.setVisibility(View.GONE);
 
         // Profile photo
-        profilePhoto = findViewById(R.id.layout_centre_profile_photo);
+        profilePhoto = findViewById(R.id.snippet_centre_profile_photo);
 
         // TextViews
         mOutfits = findViewById(R.id.tvOutfits);
         mFollowers = findViewById(R.id.tvFollowers);
         mFollowing = findViewById(R.id.tvFollowing);
         mUsername = findViewById(R.id.snippet_profile_top_toolbar_username);
-        mBio = findViewById(R.id.layout_centre_profile_bio);
-
-        // GridView
-        // mGridView = findViewById(R.id.layout_centre_profile_gridView);
+        mBio = findViewById(R.id.snippet_centre_profile_bio);
 
         // Toolbar
         toolbar = findViewById(R.id.snippet_profile_toolbar);
     }
 
     /**
-     * Initialise ImageLoader
-     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
+     * Setup user details: followStatus, OutfitsCount, Following, Followers
+     * and update the UI respectively
      */
-    private void initImageLoader() {
-        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
-        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    private void setupUserDetails(cUsers user) {
+        Log.d(TAG, "setupUserDetails: setting user details");
+
+        setProfileImage(user);
+
+        getOutfitCount(user);
+
+        // TODO: Search if user is in current user's followings --> Change mFollowStatus to Following, Else Follow
+        TextView mFollowStatus = findViewById(R.id.textEditProfile);
+        mFollowStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Follow/ Unfollow");
+                // SETUP FOLLOW STATUS
+            }
+        });
+
+        mFollowers.setText(String.valueOf(user.getFollowers().size()));
+        mFollowing.setText(String.valueOf(user.getFollowing().size()));
+        mBio.setText(user.getBio());
+
     }
 
     /**
      * Profile Image setup
-     * TODO: Obtain image from firebase, currently dummy image
      */
-    private void setProfileImage() {
+    private void setProfileImage(cUsers user) {
         Log.d(TAG, "setProfileImage: setting profile image");
-        String imgURL = "https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg";
+
+        //     java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.shibushi/com.example.shibushi.Feed.Profile.Profile}: java.lang.NullPointerException:
+        //     Attempt to invoke virtual method 'java.lang.String com.example.shibushi.Models.cUsers.getProfile_photo()' on a null object reference
+        String imgURL = user.getProfile_photo();
+        Log.d(TAG, "setProfileImage: " + imgURL);
         UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "");
+    }
+
+    /**
+     * Method to search through cOutfits collection and returning the count
+     * @param user
+     */
+    private void getOutfitCount(cUsers user) {
+        Log.d(TAG, "getOutfitCount: Getting user's outfit count");
+
+        mDatabase.collection("cOutfits")
+                .whereEqualTo("userID", user.getUserID())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            mOutfits.setText(String.valueOf(task.getResult().size()));
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**
      * Top toolbar setup
      */
     private void setupToolBar() {
+        Log.d(TAG, "setupToolBar: Setting up toolbar");
+
         Toolbar toolbar = findViewById(R.id.snippet_profile_toolbar);
         setSupportActionBar(toolbar);
 
@@ -205,6 +276,15 @@ public class Profile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Initialise ImageLoader
+     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
+     */
+    private void initImageLoader() {
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
     }
 
     /**

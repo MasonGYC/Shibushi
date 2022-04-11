@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -222,6 +224,38 @@ public class FirestoreMethods {
             }
         });
 
+
+    }
+
+    public static void initialise_cUser(FirebaseUser currentUser) {
+        String userID = currentUser.getUid();
+        String username = currentUser.getDisplayName();
+
+        // Initialise data in firestore
+        Map<String, Object> username_hashMap = new HashMap<>();
+        username_hashMap.put("username", username);
+        mFirestoreDB.collection("cUsers").document(userID).set(username_hashMap);
+
+        Map<String, Object> userID_hashMap = new HashMap<>();
+        userID_hashMap.put("userID", userID);
+        mFirestoreDB.collection("cUsers").document(userID).update(userID_hashMap);
+
+        Map<String, Object> bio = new HashMap<>();
+        bio.put("bio", "No description");
+        mFirestoreDB.collection("cUsers").document(userID).update(bio);
+
+        Map<String, Object> following = new HashMap<>();
+        following.put("following", new ArrayList<>());
+        mFirestoreDB.collection("cUsers").document(userID).update(following);
+
+        Map<String, Object> followers = new HashMap<>();
+        followers.put("followers", new ArrayList<>());
+        mFirestoreDB.collection("cUsers").document(userID).update(followers);
+
+        // TODO: Update when url is working
+        Map<String, Object> profile_photo = new HashMap<>();
+        profile_photo.put("profile_photo", "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png");
+        mFirestoreDB.collection("cUsers").document(userID).update(profile_photo);
 
     }
 
