@@ -180,12 +180,10 @@ public class FirestoreMethods {
                         clothes_Array.add(image_name.toString());
                         Log.d(TAG, document.getId() + " => " + clothes_Array);
                         //Bitmap image = Image.getBitmap(image_url.toString());
-
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-
             }
         });
         return clothes_Array;

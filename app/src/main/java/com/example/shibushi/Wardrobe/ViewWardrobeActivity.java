@@ -135,7 +135,6 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-
     // BottomNavigationView setup
     private void setupBottomNavigationView() {
         Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
