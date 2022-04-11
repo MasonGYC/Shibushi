@@ -4,17 +4,20 @@ import java.util.ArrayList;
 
 public class cOutfits {
 
-    String outfitID, timeStamp, userID, name;
+    String outfitID, timeStamp, userID, name, category;
     ArrayList<cClothing> items;
 
     public cOutfits(){}
 
-    public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<cClothing> items) {
+
+
+    public cOutfits(String outfitID, String timeStamp, String userID, String name, String category, ArrayList<cClothing> items) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
         this.name = name;
         this.items = items;
+        this.category = category;
     }
 
     public String getOutfitID() {
@@ -56,4 +59,8 @@ public class cOutfits {
     public void setItems(ArrayList<cClothing> items) {
         this.items = items;
     }
+
+    public String getCategory() {return category;}
+
+    public void setCategory(String category) {this.category = category;}
 }

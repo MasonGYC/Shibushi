@@ -20,10 +20,12 @@ import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Models.cOutfits;
+import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.FeedParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.annotations.Nullable;
@@ -81,9 +83,9 @@ public class FeedActivity extends AppCompatActivity {
 
         ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
         cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList);
+                "outfitID1", "timestamp1", "userID1", "outfitname1","cat1", cClothingList);
         cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList);
+                "outfitID2", "timestamp2", "userID2", "outfitname2","cat1", cClothingList);
         cOutfitsList.add(cOutfits1);
         cOutfitsList.add(cOutfits2);
 
@@ -130,10 +132,9 @@ public class FeedActivity extends AppCompatActivity {
         fab_outfit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Add new outfit page
-                Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
-                // Intent intent = new Intent(mContext, NewOutfit.class);
-                // startActivity(intent);
+                //Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, ViewWardrobeActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -182,11 +183,9 @@ public class FeedActivity extends AppCompatActivity {
     // Select Image method
     public void importClothing(int PICK_IMAGE_REQUEST) {
         // Defining Implicit Intent to mobile gallery
-        Intent selectIntent = new Intent();
-        selectIntent.setType("image/*");
-        selectIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
-    }
+        Intent selectIntent = new Intent(FeedActivity.this, CropActivity.class);
+        startActivity(selectIntent);
+   }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

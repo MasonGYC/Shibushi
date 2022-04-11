@@ -1,28 +1,33 @@
 package com.example.shibushi.Wardrobe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ViewWardrobeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,6 +42,14 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     ImageView side_bar_others;
     ImageView current_view;
 
+    // Create outfit
+    Button create_outfit_button;
+    Button create_cancel_button;
+    Bundle bundle = new Bundle();
+    public static boolean isChoosing = false;
+    ImageView basket;
+
+
     // Fragment & ViewPage
     private ViewPager2 viewPager;
 
@@ -45,9 +58,11 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_wardrobe);
 
+        isChoosing = false;
         // Set up bottom navigation bar
         setupBottomNavigationView();
 
+        initCreateOutfitFunction();
         initPage();
         initTabView();
     }
@@ -151,6 +166,61 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         changeTab(view.getId());
+    }
+
+    // Whether it's choosing
+    public void setState(boolean b) {
+        isChoosing = b;
+        if (b) {
+            create_outfit_button.setVisibility(View.VISIBLE);
+            create_cancel_button.setVisibility(View.VISIBLE);
+        } else {
+            create_outfit_button.setVisibility(View.GONE);
+            create_cancel_button.setVisibility(View.GONE);
+        }
+    }
+
+    public void initCreateOutfitFunction(){
+        // outfit button
+        create_outfit_button = findViewById(R.id.buttonCreateOutfit);
+        create_outfit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // init intent
+                Intent intent = new Intent(mContext, ViewOutfitsParentActivity.class);
+                String category = "Spring"; //TODO: create a new page top input category and name
+                String name = "KoolGuy";
+                isChoosing = false;
+                // process data
+                bundle.putStringArrayList(ViewOutfitsParentActivity.KEY_OUTFIT_URIS,imageAdapter.selectedItems); //Bundle cat and uris
+                bundle.putString(ViewOutfitsParentActivity.KEY_OUTFIT_CAT,category);
+                bundle.putString(ViewOutfitsParentActivity.KEY_OUTFIT_NAME,name);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        // cancel button
+        create_cancel_button = findViewById(R.id.buttonCancelCreate);
+        create_cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isChoosing = false;
+                setState(isChoosing);
+            }
+        });
+
+        // basket icon
+        basket = findViewById(R.id.wardrobe_basket);
+        basket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isChoosing = true;
+                setState(isChoosing);
+            }
+        });
+
+        setState(isChoosing);
     }
 }
 
