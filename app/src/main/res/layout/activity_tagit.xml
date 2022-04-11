@@ -1,93 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/tagPhoto"
-        android:layout_width="@dimen/tagItImage"
-        android:layout_height="@dimen/tagItImage"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.515"
-        android:contentDescription="@string/tagitimage" />
-
-    <Spinner
-        android:id="@+id/spinnerColor"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="440dp"
-        android:entries="@array/spinnerColor"
-        android:minHeight="48dp"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/spinnerCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:entries="@array/spinnerCategory"
-        android:minHeight="48dp"
-        android:prompt="@string/Category"
-        android:spinnerMode="dropdown"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerColor"
-        tools:layout_editor_absoluteX="0dp" />
+        <ImageView
+            android:id="@+id/tagPhoto"
+            android:layout_width="@dimen/tagItImage"
+            android:layout_height="@dimen/tagItImage"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.515"
+            android:contentDescription="@string/tagitimage" />
 
-    <Spinner
-        android:id="@+id/spinnerOccasion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:entries="@array/spinnerOccasion"
-        android:minHeight="48dp"
-        android:prompt="@string/Occasion"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
-        tools:layout_editor_absoluteX="0dp" />
+        <Spinner
+            android:id="@+id/spinnerColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="440dp"
+            android:entries="@array/spinnerColor"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:entries="@array/spinnerCategory"
+            android:minHeight="48dp"
+            android:prompt="@string/Category"
+            android:spinnerMode="dropdown"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerColor"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Spinner
+            android:id="@+id/spinnerOccasion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:entries="@array/spinnerOccasion"
+            android:minHeight="48dp"
+            android:prompt="@string/Occasion"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
+            tools:layout_editor_absoluteX="0dp" />
 
 
-    <Spinner
-        android:id="@+id/spinnerSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:entries="@array/spinnerSize"
-        android:minHeight="48dp"
-        android:prompt="@string/Size"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
-        tools:layout_editor_absoluteX="0dp" />
+        <Spinner
+            android:id="@+id/spinnerSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:entries="@array/spinnerSize"
+            android:minHeight="48dp"
+            android:prompt="@string/Size"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
+            tools:layout_editor_absoluteX="0dp" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/privacySwitch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:checked="true"
-        android:minHeight="48dp"
-        android:textOff="Public"
-        android:textOn="Private"
-        android:gravity="start"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerSize"
-        tools:layout_editor_absoluteX="0dp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/privacySwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:textOff="Public"
+            android:textOn="Private"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerSize"
+            tools:layout_editor_absoluteX="0dp" />
 
-    <Button
-        android:id="@+id/buttonTagIt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:text="@string/tag_it"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
-        app:layout_constraintVertical_bias="1.0" />
+        <Button
+            android:id="@+id/buttonTagIt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="@string/tag_it"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
+            app:layout_constraintVertical_bias="1.0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.shibushi.PhotoProcess.ResultActivity;
 import com.example.shibushi.Utils.FirestoreMethods;
@@ -31,7 +31,7 @@ public class TagIt extends AppCompatActivity {
     Spinner spinnerCategory;
     Spinner spinnerOccasion;
     Spinner spinnerSize;
-    Switch switchPrivacy;
+    SwitchCompat switchPrivacy;
     FirebaseStorage storage;
     StorageReference storageReference;
 
