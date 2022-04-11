@@ -154,7 +154,6 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
         uCrop = uCrop.withAspectRatio(1, 1);
 
         //MODIFIED: CHANGE TO 300DP*300DP
-        // TODO: IS IT DP OR PX?
         uCrop = uCrop.withMaxResultSize(300, 300);
         return uCrop;
     }
