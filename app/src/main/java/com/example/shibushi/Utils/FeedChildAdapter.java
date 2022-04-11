@@ -16,8 +16,8 @@ import java.util.Collections;
 
 public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.FeedChildViewHolder> {
 
-    private ArrayList<cClothing> cClothesList;
-    public void setChildItemList(ArrayList<cClothing> cClothesList){
+    private ArrayList<String> cClothesList;
+    public void setChildItemList(ArrayList<String> cClothesList){
         this.cClothesList = cClothesList;
 
         this.cClothesList.removeAll(Collections.singleton(null));
@@ -33,7 +33,7 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
 
     @Override
     public void onBindViewHolder(@NonNull FeedChildViewHolder holder, int position) {
-        cClothing cClothes = cClothesList.get(position);
+        String imageName = cClothesList.get(position);
 
         String image = "https://i.pinimg.com/originals/03/d1/7b/03d17b74083eab433ea19b6be067d1c5.jpg";
 

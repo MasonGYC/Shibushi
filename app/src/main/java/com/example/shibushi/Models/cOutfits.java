@@ -1,20 +1,25 @@
 package com.example.shibushi.Models;
 
+import com.google.firebase.Timestamp;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class cOutfits {
 
-    String outfitID, timeStamp, userID, name;
-    ArrayList<cClothing> items;
+    String outfitID, userID, name;
+    Timestamp timeStamp;
+    ArrayList<String> img_names;
 
     public cOutfits(){}
 
-    public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<cClothing> items) {
+    public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, ArrayList<String> img_names) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
         this.name = name;
-        this.items = items;
+        this.img_names = img_names;
     }
 
     public String getOutfitID() {
@@ -25,11 +30,11 @@ public class cOutfits {
         this.outfitID = outfitID;
     }
 
-    public String getTimeStamp() {
+    public Timestamp getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(Timestamp timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -49,11 +54,11 @@ public class cOutfits {
         this.name = name;
     }
 
-    public ArrayList<cClothing> getItems() {
-        return items;
+    public ArrayList<String> getImg_names() {
+        return img_names;
     }
 
-    public void setItems(ArrayList<cClothing> items) {
-        this.items = items;
+    public void setImg_names(ArrayList<String> img_names) {
+        this.img_names = img_names;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.shibushi.Utils;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -21,10 +29,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileParentAdapter extends RecyclerView.Adapter<ProfileParentAdapter.ProfileParentViewHolder> {
 
+    private final String TAG = "ProfileParentAdapter";
     ArrayList<cOutfits> cOutfitsList;
 
     public void setcOutfitsList(ArrayList<cOutfits> cOutfitsList) {
         this.cOutfitsList = cOutfitsList;
+    }
+
+    public ProfileParentAdapter(ArrayList<cOutfits> cOutfitsArrayList) {
+        this.cOutfitsList = cOutfitsArrayList;
     }
 
     @NonNull
@@ -37,49 +50,23 @@ public class ProfileParentAdapter extends RecyclerView.Adapter<ProfileParentAdap
 
     @Override
     public void onBindViewHolder(@NonNull ProfileParentViewHolder holder, int position) {
-        cOutfits cOutfits = cOutfitsList.get(position);
-        // TODO: fetch data from firestore and set the views
+        Log.d(TAG, "onBindViewHolder: setting up viewholder on position " + position);
+        cOutfits cOutfit = cOutfitsList.get(position);
 
-        /* METHOD 1 - FOLLOWING
-        1. Get the currentUser userID from firebase auth
-        2. Get a list of userID that the currentUser is following
-        3. For each userID:
-        4.      loop through the cOutfits collection
-        5.          if userID in cOutfits && privacy == false
-        6.              add the metadata: list "items" into cOutfitsList
-        7. Order the outfits in cOutfitsList by timestamp
-        8. for each position in RV:
-        9.      get the img_name/url of each outfit
-        10.     Create a
-         */
-
-        /* METHOD 2 - ALL OUTFITS IN FIRESTORE
-        1. Order the Outfits by timestamp
-         */
-
-        // Firebase authentication
-        FirebaseAuth mAuth= FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String userID = cOutfits.getUserID();
-
-        holder.outfitNameTV.setText(cOutfits.getName());
-        // Glide.with(holder.itemView.getContext()).load(profile_photo).into(holder.profilePhotoCIV);
+        holder.outfitNameTV.setText(cOutfit.getName());
 
         holder.clothesRecyclerView.setHasFixedSize(true);
         holder.clothesRecyclerView.setLayoutManager(
                 new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        ProfileChildAdapter profileChildAdapter = new ProfileChildAdapter();
-        // TODO: TAKE NOTE MIGHT HAVE ISSUES
-        // Array in cOutfit.items in firestore is a reference to a clothes document
-        // Might still need to retrieve the image from the clothes
-        profileChildAdapter.setChildItemList(cOutfits.getItems());
+
+        ProfileChildAdapter profileChildAdapter = new ProfileChildAdapter(cOutfit.getImg_names());
         holder.clothesRecyclerView.setAdapter(profileChildAdapter);
         profileChildAdapter.notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return cOutfitsList.size();
+        return this.cOutfitsList.size();
     }
 
     public class ProfileParentViewHolder extends RecyclerView.ViewHolder {
