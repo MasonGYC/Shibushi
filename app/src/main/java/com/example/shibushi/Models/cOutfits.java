@@ -1,24 +1,26 @@
 package com.example.shibushi.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-public class cOutfits {
+public class cOutfits implements Serializable {
 
-    String outfitID, timeStamp, userID, name;
+    String outfitID, timeStamp, userID, name, category;
     ArrayList<cClothing> items;
     // empty constructor for recycler view
     public cOutfits(){}
 
     // constructor for new outfits
-    public cOutfits(String userID, String name, ArrayList<cClothing> items) {
+    public cOutfits(String userID, String name, String category, ArrayList<cClothing> items) {
         Date timestamp = new Date();
         this.outfitID = UUID.randomUUID().toString();
-        this.timeStamp = timeStamp.toString();
+        this.timeStamp = timestamp.toString();
         this.userID = userID;
         this.name = name;
         this.items = items;
+        this.category = category;
 
     }
 

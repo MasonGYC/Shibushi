@@ -1,6 +1,11 @@
 package com.example.shibushi.Models;
 
-public class cClothing {
+import android.net.Uri;
+
+import java.io.Serializable;
+import java.net.URL;
+
+public class cClothing implements Serializable {
     String userid, category, color, occasion, size, img_name, url;
 
     public cClothing(){}
@@ -13,6 +18,11 @@ public class cClothing {
         this.size = size;
         this.img_name = img_name;
         this.url = url;
+    }
+
+    //for retrival
+    public cClothing(String img_name){
+        this.img_name = img_name;
     }
 
     public String getUserid() {

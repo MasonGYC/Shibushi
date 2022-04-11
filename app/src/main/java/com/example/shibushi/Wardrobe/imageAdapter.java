@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +34,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     LayoutInflater inflater;
     Model.DataSource dataSource;
     int width;
-    public static ArrayList<String> selectedItems = new ArrayList<>();
+    public static ArrayList<cClothing> selectedItems = new ArrayList<>();
 
     public imageAdapter(Context context, Model.DataSource dataSource, int width){
         this.width = width;
@@ -65,9 +67,9 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
                 Log.i("onBindVH",view.getContext().toString());
                 ViewWardrobeActivity.isChoosing = true;
                 if (view.getTag(R.id.imageView_tag_uri) != null){
-                    String  uri =  (String) view.getTag(R.id.imageView_tag_uri);
-                    Log.i("selcted",uri );
-                    selectedItems.add(uri);
+                    cClothing clothes =  (cClothing) view.getTag(R.id.imageView_tag_uri);
+                    Log.i("selcted", String.valueOf(clothes));
+                    selectedItems.add(clothes);
 
                 }
                 return true;
@@ -98,7 +100,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 //                            Picasso.get().load(cUri.get()).into(holder.imageView);
 //                            holder.imageView.setImageBitmap(cBitmap.get());
                             holder.imageView.setMaxWidth(width);
-                            holder.imageView.setTag(R.id.imageView_tag_uri, cUri.get());
+                            holder.imageView.setTag(R.id.imageView_tag_uri, new cClothing(cUri.get())); //todo: image_name string
 //                            holder.imageView.setMaxHeight(width);
 //                            holder.imageViewLayout.setMinimumHeight(width);
 //                            holder.imageViewLayout.setMinimumWidth(width);

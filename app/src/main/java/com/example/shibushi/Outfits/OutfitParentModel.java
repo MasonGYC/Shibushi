@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OutfitParentModel {
+    // multiple outfits, one category
     public static class ParentDataSource {
         List<OutfitChildModel.ChildDataSource> data = new ArrayList<OutfitChildModel.ChildDataSource>();
         String category;
