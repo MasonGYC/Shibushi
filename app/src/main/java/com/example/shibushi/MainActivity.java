@@ -22,7 +22,6 @@ import com.example.shibushi.Login.Login;
 import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.testing.firestoreUpload;
-import com.example.shibushi.testing.imgviewer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -120,10 +119,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(cropIntent);
                 break;
             case R.id.bTakePhoto:
-                dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
+
+                //dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
-                startActivity(new Intent(MainActivity.this, imgviewer.class));
+                startActivity(new Intent(MainActivity.this, TagIt.class));
                 //goFirestore();
                 break;
             default:
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this,"Cannot create files for photos",Toast.LENGTH_SHORT).show();
                 //Log.i("TakePicture: ","Cannot create files for photos");
             }
+            Log.d(TAG,"We got this far!");
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()),
