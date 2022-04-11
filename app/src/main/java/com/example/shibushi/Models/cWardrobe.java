@@ -5,11 +5,12 @@ import android.util.Log;
 import com.example.shibushi.Utils.FirestoreMethods;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class cWardrobe {
-    private ArrayList<cClothing> wardrobeClothing = new ArrayList<>();
-    private ArrayList<cOutfits> wardrobeOutfit = new ArrayList<>();
+    private HashMap<String, cClothing> wardrobeClothing = new HashMap();
+    private HashMap<String, cOutfits> wardrobeOutfit = new HashMap();
     private int clothing_count = 0;
     private int outfit_count = 0;
 
@@ -28,8 +29,9 @@ public class cWardrobe {
         for (Map<String,Object> clothing : clothing_map){
             String img_name = clothing.get("img_name").toString();
             // If it clothing object does not exist
-            if (!wardrobeClothing.contains(img_name)){
-                new cClothing(clothing, img_name);
+            if (!wardrobeClothing.containsKey(img_name)){
+                cClothing c1 = new cClothing(clothing, img_name);
+                wardrobeClothing.put(img_name,c1);
             }
         }
         clothing_count = wardrobeClothing.size();
@@ -47,8 +49,9 @@ public class cWardrobe {
             ArrayList<String> items =  (ArrayList<String>) outfit.get("items");
             ArrayList<String> clothings =  (ArrayList<String>) outfit.get("img_names");
             // If it clothing object does not exist
-            if (!wardrobeOutfit.contains(outfitID)){
-                new cOutfits(outfitID, timeStamp, timeStamp, userID, outfit_name, items, clothings);
+            if (!wardrobeOutfit.containsKey(outfitID)){
+                cOutfits o1 = new cOutfits(outfitID, timeStamp, timeStamp, userID, outfit_name, items, clothings);
+                wardrobeOutfit.put(outfitID,o1);
             }
         }
         outfit_count = wardrobeOutfit.size();
