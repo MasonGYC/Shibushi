@@ -126,9 +126,9 @@ public class Profile extends AppCompatActivity {
 
         ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
         cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", "timestamp1", "userID1", "outfitname1","cat1", cClothingList);
+                "outfitID1", "timestamp1", "userID1", "outfitname1",cClothingList);
         cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", "timestamp2", "userID2", "outfitname2","cat1", cClothingList);
+                "outfitID2", "timestamp2", "userID2", "outfitname2",cClothingList);
         cOutfitsList.add(cOutfits1);
         cOutfitsList.add(cOutfits2);
 
