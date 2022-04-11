@@ -103,8 +103,6 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        // TODO: Utilise firestore methods
-        // Firestore
         setupRecyclerViews(current_UserID);
     }
 
@@ -114,6 +112,7 @@ public class Profile extends AppCompatActivity {
      */
     private void setupRecyclerViews(String current_UserID) {
         mDatabase.collection("cOutfits")
+                .orderBy("timeStamp", Query.Direction.ASCENDING)
                 .whereEqualTo("userID", current_UserID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

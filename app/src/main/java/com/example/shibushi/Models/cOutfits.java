@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.Date;
 
-public class cOutfits {
+public class cOutfits implements Comparable<cOutfits> {
 
     String outfitID, userID, name;
     Timestamp timeStamp;
@@ -73,5 +73,10 @@ public class cOutfits {
 
     public void setImg_names(ArrayList<String> img_names) {
         this.img_names = img_names;
+    }
+
+    @Override
+    public int compareTo(cOutfits cOutfits) {
+        return this.timeStamp.compareTo(cOutfits.getTimestamp());
     }
 }

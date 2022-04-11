@@ -32,9 +32,6 @@ public class ProfileParentAdapter extends RecyclerView.Adapter<ProfileParentAdap
     private final String TAG = "ProfileParentAdapter";
     ArrayList<cOutfits> cOutfitsList;
 
-    public void setcOutfitsList(ArrayList<cOutfits> cOutfitsList) {
-        this.cOutfitsList = cOutfitsList;
-    }
 
     public ProfileParentAdapter(ArrayList<cOutfits> cOutfitsArrayList) {
         this.cOutfitsList = cOutfitsArrayList;

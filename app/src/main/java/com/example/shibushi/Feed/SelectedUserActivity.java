@@ -96,6 +96,7 @@ public class SelectedUserActivity extends AppCompatActivity {
 
     private void setupRecyclerViews(String current_UserID) {
         mDatabase.collection("cOutfits")
+                .orderBy("timeStamp", Query.Direction.ASCENDING)
                 .whereEqualTo("userID", current_UserID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
