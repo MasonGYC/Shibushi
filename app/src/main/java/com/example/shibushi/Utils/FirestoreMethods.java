@@ -51,13 +51,14 @@ public class FirestoreMethods {
     /*
      * Takes in an image and uploads it to Cloud Storage
      * */
-    public static void addClothes(HashMap<String, Object> map , Uri filePath){
-        Date date=new java.util.Date();
+    public static String addClothes(HashMap<String, Object> map , Uri filePath){
+        Date date = new java.util.Date();
         String img_name = uploadImage(filePath);
         map.put("img_name", img_name);
         map.put("userid", userID);
         map.put("creation_time", date.toString());
         metadataUpload(map, img_name);
+        return img_name;
     }
 
     private static String uploadImage(Uri filePath) {
