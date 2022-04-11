@@ -56,7 +56,6 @@ public class Profile extends AppCompatActivity {
     private TextView mEditProfile;
     private ProgressBar mProgressBar;
     private Toolbar toolbar;
-    private GridView mGridView;
     private ImageView profilePhoto;
     // RCViews
     private RecyclerView parentRecyclerView;

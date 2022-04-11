@@ -223,8 +223,6 @@ public class FirestoreMethods {
                 }
             }
         });
-
-
     }
 
     public static void initialise_cUser(FirebaseUser currentUser) {

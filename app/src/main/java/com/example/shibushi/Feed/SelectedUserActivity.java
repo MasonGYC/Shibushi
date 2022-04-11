@@ -16,11 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Feed.Profile.AccountSettingsActivity;
 import com.example.shibushi.Feed.Profile.EditProfileActivity;
 import com.example.shibushi.Feed.Profile.Profile;
+import com.example.shibushi.Models.cClothing;
+import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
@@ -32,11 +35,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SelectedUserActivity extends AppCompatActivity {
 
@@ -81,6 +90,38 @@ public class SelectedUserActivity extends AppCompatActivity {
         setupToolBar(user);
         setupUserDetails(user);
 
+        parentRecyclerView = findViewById(R.id.profile_outfit_RV);
+        parentRecyclerView.setHasFixedSize(true);
+        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        profileParentAdapter = new ProfileParentAdapter();
+        parentRecyclerView.setAdapter(profileParentAdapter);
+
+        // TODO: Utilise firestore methods
+        // DUMMY DATA
+        ArrayList<cClothing> cClothingList = new ArrayList<>();
+        cClothing cClothing1 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing2 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing3 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing4 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+        cClothing cClothing5 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
+
+        cClothingList.add(cClothing1);
+        cClothingList.add(cClothing2);
+        cClothingList.add(cClothing3);
+        cClothingList.add(cClothing4);
+        cClothingList.add(cClothing5);
+
+        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
+        cOutfits cOutfits1 = new cOutfits(
+                "outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList);
+        cOutfits cOutfits2 = new cOutfits(
+                "outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList);
+        cOutfitsList.add(cOutfits1);
+        cOutfitsList.add(cOutfits2);
+
+        profileParentAdapter.setcOutfitsList(cOutfitsList);
+        profileParentAdapter.notifyDataSetChanged();
+
     }
 
     /**
@@ -112,24 +153,50 @@ public class SelectedUserActivity extends AppCompatActivity {
     private void setupUserDetails(cUsers user) {
         Log.d(TAG, "setupUserDetails: setting user details");
 
-        setProfileImage(user);
-
-        getOutfitCount(user);
-
-        // TODO: Search if user is in current user's followings --> Change mFollowStatus to Following, Else Follow
         TextView mFollowStatus = findViewById(R.id.textEditProfile);
-        mFollowStatus.setOnClickListener(new View.OnClickListener() {
+        String selected_userID = user.getUserID();
+        String current_userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DocumentReference docRef = mDatabase.collection("cUsers").document(current_userID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Follow/ Unfollow");
-                // SETUP FOLLOW STATUS
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        cUsers currentUser = document.toObject(cUsers.class);
+                        if (currentUser.getFollowing().contains(selected_userID)) {
+                            // Update follow status to following
+                            mFollowStatus.setText("Following");
+                        } else {
+                            // Update follow status to not following
+                            mFollowStatus.setText("Follow");
+                        }
+
+                        setProfileImage(user);
+                        getOutfitCount(user);
+
+                        mFollowStatus.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.d(TAG, "onClick: Follow/ Unfollow");
+                                // TODO: FOLLOW / UNFOLLOW
+                            }
+                        });
+
+                        mFollowers.setText(String.valueOf(user.getFollowers().size()));
+                        mFollowing.setText(String.valueOf(user.getFollowing().size()));
+                        mBio.setText(user.getBio());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
         });
-
-        mFollowers.setText(String.valueOf(user.getFollowers().size()));
-        mFollowing.setText(String.valueOf(user.getFollowing().size()));
-        mBio.setText(user.getBio());
-
     }
 
     /**
