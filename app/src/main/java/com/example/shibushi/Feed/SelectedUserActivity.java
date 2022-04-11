@@ -91,35 +91,41 @@ public class SelectedUserActivity extends AppCompatActivity {
 
         setupToolBar(user);
         setupUserDetails(user);
+        setupRecyclerViews(user.getUserID());
+    }
 
-//        parentRecyclerView = findViewById(R.id.profile_outfit_RV);
-//        parentRecyclerView.setHasFixedSize(true);
-//        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        profileParentAdapter = new ProfileParentAdapter();
-//        parentRecyclerView.setAdapter(profileParentAdapter);
-//
-//        // TODO: Utilise firestore methods
-//        // DUMMY DATA
-//        ArrayList<String> cClothingList = new ArrayList<>();
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//
-//
-//        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
-//
-//        cOutfits cOutfits1 = new cOutfits(
-//                "outfitID1", Timestamp.now(), "userID1", "outfitname1", cClothingList);
-//        cOutfits cOutfits2 = new cOutfits(
-//                "outfitID2", Timestamp.now(), "userID2", "outfitname2", cClothingList);
-//
-//        cOutfitsList.add(cOutfits1);
-//        cOutfitsList.add(cOutfits2);
-//
-//        profileParentAdapter.setcOutfitsList(cOutfitsList);
-//        profileParentAdapter.notifyDataSetChanged();
+    private void setupRecyclerViews(String current_UserID) {
+        mDatabase.collection("cOutfits")
+                .whereEqualTo("userID", current_UserID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // set outfit count textview
+                            mOutfits.setText(String.valueOf(task.getResult().size()));
+                            ArrayList<cOutfits> cOutfitsArrayList = new ArrayList<>();
 
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                // Change document into class
+                                cOutfits outfit = document.toObject(cOutfits.class);
+                                cOutfitsArrayList.add(outfit);
+                                Log.e(TAG, String.valueOf(cOutfitsArrayList.size()));
+                            }
+
+                            // Recycler Views and Adapters
+                            parentRecyclerView = findViewById(R.id.profile_outfit_RV);
+                            parentRecyclerView.setHasFixedSize(true);
+                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(SelectedUserActivity.this));
+                            profileParentAdapter = new ProfileParentAdapter(cOutfitsArrayList);
+                            parentRecyclerView.setAdapter(profileParentAdapter);
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**

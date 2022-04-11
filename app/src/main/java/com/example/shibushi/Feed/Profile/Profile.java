@@ -108,6 +108,10 @@ public class Profile extends AppCompatActivity {
         setupRecyclerViews(current_UserID);
     }
 
+    /**
+     * To populate the nested recycler view of current user
+     * @param current_UserID UserID of the profile to display
+     */
     private void setupRecyclerViews(String current_UserID) {
         mDatabase.collection("cOutfits")
                 .whereEqualTo("userID", current_UserID)
@@ -123,11 +127,7 @@ public class Profile extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 // Change document into class
-
                                 cOutfits outfit = document.toObject(cOutfits.class);
-                                Log.d(TAG, "onComplete: " + document.get("img_names"));
-                                Log.d(TAG, "onComplete: " + outfit.getName());
-                                Log.d(TAG, "onComplete: " + outfit.getImg_names());
                                 cOutfitsArrayList.add(outfit);
                                 Log.e(TAG, String.valueOf(cOutfitsArrayList.size()));
                             }
