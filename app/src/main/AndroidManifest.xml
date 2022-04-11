@@ -32,9 +32,7 @@
         android:roundIcon="@mipmap/ic_shibushi_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
-        <activity
-            android:name=".cam.TakePhoto"
-            android:exported="false" />
+
         <activity
             android:name=".Wardrobe.ViewWardrobeActivity"
             android:exported="true" />
@@ -100,7 +98,15 @@
         <activity
             android:name=".Outfits.ViewOutfitsParentActivity"
             android:exported="true" />
-
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.shibushi.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="@string/file_provider_authorities"
@@ -110,15 +116,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.shibushi.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
+
     </application>
 
 </manifest>

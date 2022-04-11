@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bTakePhoto:
 
-                //dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
+                dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
                 startActivity(new Intent(MainActivity.this, TagIt.class));
@@ -149,11 +148,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG,"We got this far!");
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                photoURI = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()),
-                        BuildConfig.APPLICATION_ID + ".provider",
+                photoURI = FileProvider.getUriForFile(this,
+                        "com.example.shibushi.fileprovider",
                         photoFile);
 
-
+                Log.d("ronda2", currentPhotoPath);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
             }
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "Shibushi_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -184,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         selectIntent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
+
 
     // TODO: remove
     private void logOut() {
