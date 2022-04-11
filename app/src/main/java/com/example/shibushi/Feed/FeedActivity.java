@@ -62,33 +62,33 @@ public class FeedActivity extends AppCompatActivity {
         setupBottomNavigationView(); //Setup bottom navigation bar
         setup_FAB(); //Setup floating action button
 
-//        parentRecyclerView = findViewById(R.id.feed_parent_RV);
-//        parentRecyclerView.setHasFixedSize(true);
-//        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        feedParentAdapter = new FeedParentAdapter();
-//        parentRecyclerView.setAdapter(feedParentAdapter);
-//
-//        // TODO: Utilise firestore methods
-//        // DUMMY DATA
-//        ArrayList<String> cClothingList = new ArrayList<>();
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//
-//
-//        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
-//
-//        cOutfits cOutfits1 = new cOutfits(
-//                "outfitID1", Timestamp.now(), "userID1", "outfitname1", cClothingList);
-//        cOutfits cOutfits2 = new cOutfits(
-//                "outfitID2", Timestamp.now(), "userID2", "outfitname2", cClothingList);
-//
-//        cOutfitsList.add(cOutfits1);
-//        cOutfitsList.add(cOutfits2);
-//
-//        feedParentAdapter.setcOutfitsList(cOutfitsList);
-//        feedParentAdapter.notifyDataSetChanged();
+        parentRecyclerView = findViewById(R.id.feed_parent_RV);
+        parentRecyclerView.setHasFixedSize(true);
+        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        feedParentAdapter = new FeedParentAdapter();
+        parentRecyclerView.setAdapter(feedParentAdapter);
+
+        // TODO: Utilise firestore methods
+        // DUMMY DATA
+        ArrayList<String> cClothingList = new ArrayList<>();
+        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
+        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
+        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
+        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
+
+
+        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
+
+        cOutfits cOutfits1 = new cOutfits(
+                "outfitID1", Timestamp.now(), "userID1", "outfitname1", cClothingList);
+        cOutfits cOutfits2 = new cOutfits(
+                "outfitID2", Timestamp.now(), "userID2", "outfitname2", cClothingList);
+
+        cOutfitsList.add(cOutfits1);
+        cOutfitsList.add(cOutfits2);
+
+        feedParentAdapter.setcOutfitsList(cOutfitsList);
+        feedParentAdapter.notifyDataSetChanged();
     }
 
     /**
