@@ -40,11 +40,11 @@ public class cClothing {
     }
 
     public String getOccation() {
-        return occation;
+        return occasion;
     }
 
     public void setOccation(String occation) {
-        this.occation = occation;
+        this.occasion = occasion;
     }
 
     public String getSize() {

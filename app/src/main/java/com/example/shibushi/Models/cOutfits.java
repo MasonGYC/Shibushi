@@ -1,14 +1,28 @@
 package com.example.shibushi.Models;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 public class cOutfits {
 
     String outfitID, timeStamp, userID, name;
     ArrayList<cClothing> items;
-
+    // empty constructor for recycler view
     public cOutfits(){}
 
+    // constructor for new outfits
+    public cOutfits(String userID, String name, ArrayList<cClothing> items) {
+        Date timestamp = new Date();
+        this.outfitID = UUID.randomUUID().toString();
+        this.timeStamp = timeStamp.toString();
+        this.userID = userID;
+        this.name = name;
+        this.items = items;
+
+    }
+
+    // constructor for outfits from firestore
     public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<cClothing> items) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
