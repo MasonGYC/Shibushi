@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outfitChildCardView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/ard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/outfitName"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Spring"
+            android:layout_below="@+id/outfitImageButton"
+            android:gravity="center_horizontal"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/outfitImageButton"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="outfitimage">
+
+
+
+        </ImageButton>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+
