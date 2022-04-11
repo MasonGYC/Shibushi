@@ -171,7 +171,7 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
         options.setCompressionQuality(100);
         options.setHideBottomControls(false);
-        options.setFreeStyleCropEnabled(true);
+        options.setFreeStyleCropEnabled(false);
         options.setMaxBitmapSize(640);
 
 
@@ -353,5 +353,17 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
             removeFragmentFromScreen();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.i("cropAct","onDestroy");
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.i("cropAct","onStop");
     }
 }

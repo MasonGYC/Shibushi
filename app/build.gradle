@@ -83,5 +83,7 @@ dependencies {
     //implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
     implementation 'com.google.firebase:firebase-core:20.1.2'
+    //jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
 
 }

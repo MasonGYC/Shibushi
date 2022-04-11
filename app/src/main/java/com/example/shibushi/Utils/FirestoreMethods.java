@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -43,16 +44,21 @@ public class FirestoreMethods {
     private static DocumentReference mDocRef;
     private static final CollectionReference mUsersRef= mFirestoreDB.collection("cUsers");
     private static final CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
+    private static final CollectionReference outfitsRef = mFirestoreDB.collection("cOutfits");
+
 
 
     /*
      * Takes in an image and uploads it to Cloud Storage
      * */
-    public static void addClothes(HashMap<String, Object> map , Uri filePath){
+    public static String addClothes(HashMap<String, Object> map , Uri filePath){
+        Date date = new java.util.Date();
         String img_name = uploadImage(filePath);
         map.put("img_name", img_name);
         map.put("userid", userID);
+        map.put("creation_time", date.toString());
         metadataUpload(map, img_name);
+        return img_name;
     }
 
     private static String uploadImage(Uri filePath) {
@@ -94,10 +100,10 @@ public class FirestoreMethods {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Log.d(TAG, "Document was saved!");
+                    Log.d(TAG, "Clothes metadata was saved!");
                 }
                 else{
-                    Log.w(TAG, "Document was not saved!");
+                    Log.w(TAG, "Clothes metadata was not saved!");
                 }
             }
         });
@@ -105,11 +111,9 @@ public class FirestoreMethods {
     /*
     * Deleting methods
     * */
-    public static void deleteClothes(){
-        String img_name="";
-        String document_name="";
+    public static void deleteClothes(String img_name){
         deleteImage(img_name);
-        deleteMetadata(document_name);
+        deleteMetadata(img_name);
     }
     private static void deleteMetadata(String name){
         mDocRef = clothesRef.document(name);
@@ -117,10 +121,10 @@ public class FirestoreMethods {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Log.d(TAG, "Document was deleted!");
+                    Log.d(TAG, "Clothes metadata was deleted!");
                 }
                 else{
-                    Log.w(TAG, "Document was not deleted!");
+                    Log.w(TAG, "Clothes metadata was not deleted!");
                 }
             }
         });
@@ -165,10 +169,50 @@ public class FirestoreMethods {
         return url[0];
     }
 
+    /**
+     * Method that gets url from img_name
+     * @param img_name
+     * @return
+     */
+    public static void getDownloadURL(String img_name) {
+        mStorageReference.child("images").child(img_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Glide.with(context).load(uri.toString()).into(holder.clothingIV);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+    }
+    public static void editClothes(String img_name, HashMap<String, Object> map ){
+        mDocRef = clothesRef.document(img_name);
+        try{
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                mDocRef.update(entry.getKey(), entry.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "1/? Clothes metadata was updated!");
+                    }
+                });
+                Log.d(TAG, "All clothes metadata was updated!");
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Clothes metadata was not updated!");
+        }
+
+
+    }
+
+
+
     // Query clothes
 //    public static ArrayList<String> getmyClothes(String userID){
 //        ArrayList<String> clothes_Array = new ArrayList<>();
-//        CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
 //        Query myClothes = clothesRef.whereEqualTo("userid", userID);
 //        myClothes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 //            @Override
@@ -188,7 +232,67 @@ public class FirestoreMethods {
 //        });
 //        return clothes_Array;
 //    }
+    /*
+    * Create outfit
+    * */
+    public static void addOutfit(Object obj, String outfitName){
+        ObjectMapper mapObject = new ObjectMapper();
+        Map < String, Object > map = mapObject.convertValue(obj, Map.class);
 
+        if (map == null){
+            Log.d(TAG, "addOutfit(): map is empty");
+            return ;
+        }
+        mDocRef = outfitsRef.document(outfitName);
+        mDocRef.set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Log.d(TAG, "addOutfit(): Outfit was saved!");
+                }
+                else{
+                    Log.w(TAG, "addOutfit(): Outfit was not saved!");
+                }
+            }
+        });
+
+    }
+    /*
+     * Delete outfit
+     * */
+    public static void deleteOutfit(String outfitName){
+        mDocRef = outfitsRef.document(outfitName);
+        mDocRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Log.d(TAG, "addOutfit(): Outfit was deleted!");
+                }
+                else{
+                    Log.w(TAG, "addOutfit(): Outfit was not deleted!");
+                }
+            }
+        });
+    }
+
+    public static void editOutfit(String outfitName, HashMap<String, Object> map ){
+        mDocRef = outfitsRef.document(outfitName);
+        try{
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                mDocRef.update(entry.getKey(), entry.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "1/? Outfit metadata was updated!");
+                    }
+                });
+                Log.d(TAG, "All outfit metadata was updated!");
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Outfit metadata was not updated!");
+        }
+
+
+    }
 
 
     // For User followers and followings
@@ -197,7 +301,7 @@ public class FirestoreMethods {
         getmyFollowers(userID);
     }
     private static void getmyFollowers(String userID){
-        DocumentReference docRef = mFirestoreDB.collection("cUsers").document(userID);
+        DocumentReference docRef = mUsersRef.document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

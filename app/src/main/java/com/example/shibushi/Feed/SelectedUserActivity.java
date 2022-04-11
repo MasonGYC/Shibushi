@@ -70,6 +70,7 @@ public class SelectedUserActivity extends AppCompatActivity {
 
     private FirebaseFirestore mDatabase;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

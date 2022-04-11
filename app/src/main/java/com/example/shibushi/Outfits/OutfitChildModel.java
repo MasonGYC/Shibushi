@@ -18,11 +18,13 @@ public class OutfitChildModel {
     }
 
     public static class SingleOutfit {
-        public Uri image;
+        public Uri coverImage;
         public String name;
-        public SingleOutfit(Uri image,String name) {
-            this.image = image;
+        public ArrayList<Uri> clothes_uri;
+        public SingleOutfit(Uri coverImage, String name, ArrayList<Uri> clothes_uri) {
+            this.coverImage = coverImage;
             this.name = name;
+            this.clothes_uri = clothes_uri;
         }
     }
 }

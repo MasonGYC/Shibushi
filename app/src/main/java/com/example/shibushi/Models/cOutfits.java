@@ -1,6 +1,8 @@
 package com.example.shibushi.Models;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 public class cOutfits {
 
@@ -10,6 +12,7 @@ public class cOutfits {
 
     public cOutfits(){}
 
+    // constructor for pull from firestore
     public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<String> items,ArrayList<String> img_names ) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
@@ -17,6 +20,16 @@ public class cOutfits {
         this.name = name;
         this.items = items;
         this.img_names = img_names;
+    }
+    // constructor for new outfits
+    public cOutfits(String userID, String name, ArrayList<cClothing> items) {
+        Date timestamp = new Date();
+        this.outfitID = UUID.randomUUID().toString();
+        this.timeStamp = timeStamp.toString();
+        this.userID = userID;
+        this.name = name;
+        this.items = items;
+
     }
 
     public String getOutfitID() {
