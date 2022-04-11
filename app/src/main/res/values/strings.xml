@@ -59,6 +59,7 @@
     <string name="Size" translatable="false">SIZE</string>
     <string name="create_new_tag" translatable="false">My tags</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="my_outfits" translatable="false">My Outfits</string>
 
 </resources>

@@ -29,7 +29,7 @@ public class OutfitParentAdapter extends RecyclerView.Adapter<OutfitParentAdapte
     @NonNull
     @Override
     public OutfitParentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View outfitParentView = inflater.inflate(R.layout.activity_viewoutfits_parent_main, parent, false);
+        View outfitParentView = inflater.inflate(R.layout.snippet_viewoutfits_parent_main, parent, false);
         return new OutfitParentViewHolder(outfitParentView);
     }
 

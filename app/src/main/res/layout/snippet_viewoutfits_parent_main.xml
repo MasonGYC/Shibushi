@@ -3,20 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:context=".Outfits.ViewOutfitsParentActivity">
+    android:layout_height="wrap_content">
 
-    <!-- topbar -->
-    <include layout="@layout/snippet_viewoutfits_toolbar"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/categoryTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/outfitParentRecyclerView"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -33,9 +27,5 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-    </RelativeLayout>
 
-
-
-    <!-- bottom bar -->
 </androidx.constraintlayout.widget.ConstraintLayout>

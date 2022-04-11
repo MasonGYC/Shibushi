@@ -2,6 +2,7 @@ package com.example.shibushi.Outfits;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,12 +37,14 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewoutfits_parent_main);
+        setContentView(R.layout.activity_viewoutfits);
 
         // Set up bottom navigation bar
-        //setupBottomNavigationView();
+        setupBottomNavigationView();
 
-        // todo: get data from other intent
+        // todo: query old and get new outfit data
+        Intent intent = getIntent();
+
 
         // create new category
 //        createNewCat = findViewById(R.id.snippet_viewoutfit_toolbar_create);
@@ -74,11 +77,8 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         return imageUri;
     }
 
-
+    // dummy
     public List<OutfitChildModel.ChildDataSource> dataInit(){
-        // String[] category, Map<String,ArrayList<Uri>> clothes_cat_uris
-        // todo: query old and get new outfit data
-        // todo: define input: Datasource and dummy Category data
 
         // init new child datas
         List<OutfitChildModel.ChildDataSource> datas = new ArrayList<>();
@@ -108,6 +108,27 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         datas.add(childDataSource);
         datas.add(childDataSource1);
         parentDataSource = new OutfitParentModel.ParentDataSource(datas);
+        return datas;
+    }
+
+    // real fetch data
+    public List<OutfitChildModel.ChildDataSource> dataInit(Map<String,ArrayList<Uri>> clothes_cat_uris){
+
+        // init new child datas
+        List<OutfitChildModel.ChildDataSource> datas = new ArrayList<>();
+
+        // get uris for a single outfit
+
+        for (Map.Entry<String,ArrayList<Uri>> entry: clothes_cat_uris.entrySet()){
+            List<OutfitChildModel.SingleOutfit> data = new ArrayList<>();
+            ArrayList<Uri> uris = entry.getValue();
+            String cat = entry.getKey();
+            for (Uri uri: uris){
+                data.add(new OutfitChildModel.SingleOutfit(uri,cat));
+            }
+            datas.add(new OutfitChildModel.ChildDataSource(data));
+        }
+        //parentDataSource = new OutfitParentModel.ParentDataSource(datas);
         return datas;
     }
 

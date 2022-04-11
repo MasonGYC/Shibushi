@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-
 import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
