@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
 
@@ -38,8 +39,8 @@ public class ProfileChildAdapter extends RecyclerView.Adapter<ProfileChildAdapte
         String image = "https://i.pinimg.com/originals/03/d1/7b/03d17b74083eab433ea19b6be067d1c5.jpg";
 
         // TODO: fetch image from firestore
-        // Glide.with(holder.itemView.getContext()).load(image).into(holder.clothingIV);
-        holder.clothingIV.setImageResource(R.drawable.sampleclothing);
+        Glide.with(holder.itemView.getContext()).load(image).into(holder.clothingIV);
+        // holder.clothingIV.setImageResource(R.drawable.sampleclothing);
     }
 
     @Override

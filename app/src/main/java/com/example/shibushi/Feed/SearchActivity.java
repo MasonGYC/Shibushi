@@ -8,108 +8,59 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shibushi.Models.User;
+import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
-import com.example.shibushi.Utils.UserListAdapter;
+import com.example.shibushi.Utils.cUsersAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements cUsersAdapter.UserClickListener {
     private static final String TAG = "SearchActivity";
     private static final int b_menu_ACTIVTY_NUM = 1;
     private Context mContext = SearchActivity.this;
 
     // Widgets
     private EditText etSearch;
-    private ListView mListView;
-    private ImageView backImageView;
 
     // Variables
-    private List<User> mUserlist;
-    private UserListAdapter mUserListAdapter;
+    private cUsersAdapter mAdapter;
+
+    // Firestore
+    private final FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         Log.d(TAG, "onCreate: started");
+        this.setTitle("Search Users");
 
         etSearch = findViewById(R.id.snippet_seachbar_etSearch);
-        mListView = findViewById(R.id.activity_search_listView);
-        backImageView = findViewById(R.id.backArrow);
+        RecyclerView recyclerView = findViewById(R.id.activity_search_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setupBottomNavigationView(); //Setup bottom navigation bar
-        setupBackArrow(); // Set up back arrow
-        hideSoftKeyboard(); // Hides keyboard when first visited
-        initTextListener(); // Init text change listener
 
-    }
+        // Search stuffs
+        Query query = mDatabase.collection("cUsers");
+        FirestoreRecyclerOptions<cUsers> options = new FirestoreRecyclerOptions.Builder<cUsers>()
+                .setQuery(query, cUsers.class)
+                .build();
+        mAdapter = new cUsersAdapter(options, this::onSelectedUser);
+        recyclerView.setAdapter(mAdapter);
 
-    private void searchForMatch(String keyword) {
-        Log.d(TAG, "searchForMatch: Searching for a match");
-        mUserlist.clear();
-
-        if (keyword.length() == 0) {
-        } else {
-            DatabaseReference mRef = FirebaseDatabase.getInstance("https://shibushi-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-            Query query = mRef.child("users").orderByChild("username").equalTo(keyword);
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                        mUserlist.add(singleSnapshot.getValue(User.class));
-                        updateUsersList();
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-    }
-
-    private void updateUsersList() {
-        Log.d(TAG, "updateUsersList: Updating user list");
-
-        mUserListAdapter = new UserListAdapter(SearchActivity.this, R.layout.layout_user_list_item, mUserlist);
-        mListView.setAdapter(mUserListAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick: " + mUserlist.get(i).toString());
-
-                // TODO: Navigate to profile activity
-            }
-        });
-    }
-
-
-    private void initTextListener() {
-        mUserlist = new ArrayList<>();
+        // Listens for any change in edit text field
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -122,30 +73,33 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                String text = etSearch.getText().toString().toLowerCase(Locale.getDefault());
-                searchForMatch(text);
+            public void afterTextChanged(Editable keyword) {
+                Log.d(TAG, "onCreate: Searchbox has been changed to " + keyword.toString());
+                Query query;
+                if (keyword.toString().isEmpty()) {
+                    query = mDatabase.collection("cUsers");
+                } else {
+                    query = mDatabase.collection("cUsers")
+                            .whereEqualTo("username", keyword.toString());
+                }
+                FirestoreRecyclerOptions<cUsers> options = new FirestoreRecyclerOptions.Builder<cUsers>()
+                        .setQuery(query, cUsers.class)
+                        .build();
+                mAdapter.updateOptions(options);
+                mAdapter.notifyDataSetChanged();
             }
         });
+
     }
 
-    // Setup back arrow to go back to feed page
-    private void setupBackArrow() {
-        backImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, FeedActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    // Hides the keyboard on start
-    private void hideSoftKeyboard(){
-        if(getCurrentFocus() != null){
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
+    /**
+     * When we select a user, navigate to their profile page
+     * @param user
+     */
+    @Override
+    public void onSelectedUser(cUsers user) {
+        Intent intent = new Intent(mContext, SelectedUserActivity.class).putExtra("data", user);
+        startActivity(intent);
     }
 
     // BottomNavigationView setup
@@ -160,4 +114,19 @@ public class SearchActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAdapter != null) {
+            mAdapter.stopListening();
+        }
+    }
+
 }

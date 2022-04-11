@@ -105,12 +105,14 @@ public class FeedActivity extends AppCompatActivity {
     // Floating action button
     private void setup_FAB() {
         Log.d(TAG, "setupFloatingActionButton: Setting up FAB menu");
-
+        // new outfit
         FloatingActionButton fab_outfit = findViewById(R.id.community_feed_fab_outfit);
+        //new clothing
         FloatingActionButton fab_hanger = findViewById(R.id.community_feed_fab_hanger);
-        FloatingActionButton fab_edit = findViewById(R.id.community_feed_fab_edit);
+        //share outfit
+        FloatingActionButton fab_share = findViewById(R.id.community_feed_fab_share);
 
-        fab_edit.setOnClickListener(new View.OnClickListener() {
+        fab_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: Add new post page

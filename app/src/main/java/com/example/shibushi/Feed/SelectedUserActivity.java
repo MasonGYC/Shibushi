@@ -1,4 +1,4 @@
-package com.example.shibushi.Feed.Profile;
+package com.example.shibushi.Feed;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,95 +13,83 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shibushi.Feed.FeedActivity;
+import com.example.shibushi.Feed.Profile.AccountSettingsActivity;
+import com.example.shibushi.Feed.Profile.EditProfileActivity;
+import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
-//import com.example.shibushi.Utils.GridImageAdapter;
 import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Profile extends AppCompatActivity {
+public class SelectedUserActivity extends AppCompatActivity {
 
-    private static final String TAG = "ProfileActivity";
-    private Context mContext = Profile.this;
+    private static final String TAG = "SelectedUserActivity";
+    private Context mContext = SelectedUserActivity.this;
     private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
-    private TextView mFollowers;
-    private TextView mFollowing;
-    private TextView mUsername;
-    private TextView mOutfits;
-    private TextView mBio;
-    private TextView mEditProfile;
+
+    // Widgets
+    private TextView mOutfits, mFollowers, mFollowing, mUsername, mBio;
+    private TextView mToFollow;
     private ProgressBar mProgressBar;
     private Toolbar toolbar;
     private ImageView profilePhoto;
+
     // RCViews
     private RecyclerView parentRecyclerView;
     private ProfileParentAdapter profileParentAdapter;
 
-    // Firestore
-    private FirebaseFirestore mDatabase;
-    private DocumentReference docRef;
-    private String current_UserID;
-
-    // Model
+    // Data from previous intent
     private cUsers user;
+    Intent intent;
+
+    private FirebaseFirestore mDatabase;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_profile);
-        Log.d(TAG, "onCreate: started");
+        setContentView(R.layout.activity_other_profile);
+
+        mDatabase = FirebaseFirestore.getInstance();
+
+        intent = getIntent();
+
+        if (intent != null ) {
+            user = (cUsers) intent.getSerializableExtra("data");
+        }
 
         setupActivityWidgets();
-        setupToolBar();
         initImageLoader();
         setupBottomNavigationView();
 
-        // Firestore
-        mDatabase = FirebaseFirestore.getInstance();
-        current_UserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d(TAG, current_UserID);
-        docRef = mDatabase.collection("cUsers").document(current_UserID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        user = document.toObject(cUsers.class);
-                        setupUserDetails(user);
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+        setupToolBar(user);
+        setupUserDetails(user);
 
         parentRecyclerView = findViewById(R.id.profile_outfit_RV);
         parentRecyclerView.setHasFixedSize(true);
@@ -126,9 +114,9 @@ public class Profile extends AppCompatActivity {
 
         ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
         cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", "timestamp1", "userID1", "outfitname1","cat1", cClothingList);
+                "outfitID1", "timestamp1", "userID1", "outfitname1", cClothingList);
         cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", "timestamp2", "userID2", "outfitname2","cat1", cClothingList);
+                "outfitID2", "timestamp2", "userID2", "outfitname2", cClothingList);
         cOutfitsList.add(cOutfits1);
         cOutfitsList.add(cOutfits2);
 
@@ -141,7 +129,6 @@ public class Profile extends AppCompatActivity {
      * Method to make it cleaner in onCreate
      */
     private void setupActivityWidgets() {
-        Log.d(TAG, "setupActivityWidgets: started");
         // Progress bar
         mProgressBar = findViewById(R.id.profile_progress_bar);
         mProgressBar.setVisibility(View.GONE);
@@ -167,37 +154,50 @@ public class Profile extends AppCompatActivity {
     private void setupUserDetails(cUsers user) {
         Log.d(TAG, "setupUserDetails: setting user details");
 
-        setProfileImage(user);
-
-        getOutfitCount(user);
-
-        // TODO: Search if user is in current user's followings --> Change mFollowStatus to Following, Else Follow
         TextView mFollowStatus = findViewById(R.id.textEditProfile);
-        mFollowStatus.setOnClickListener(new View.OnClickListener() {
+        String selected_userID = user.getUserID();
+        String current_userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DocumentReference docRef = mDatabase.collection("cUsers").document(current_userID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Follow/ Unfollow");
-                // SETUP FOLLOW STATUS
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        cUsers currentUser = document.toObject(cUsers.class);
+                        if (currentUser.getFollowing().contains(selected_userID)) {
+                            // Update follow status to following
+                            mFollowStatus.setText("Following");
+                        } else {
+                            // Update follow status to not following
+                            mFollowStatus.setText("Follow");
+                        }
+
+                        setProfileImage(user);
+                        getOutfitCount(user);
+
+                        mFollowStatus.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.d(TAG, "onClick: Follow/ Unfollow");
+                                // TODO: FOLLOW / UNFOLLOW
+                            }
+                        });
+
+                        mFollowers.setText(String.valueOf(user.getFollowers().size()));
+                        mFollowing.setText(String.valueOf(user.getFollowing().size()));
+                        mBio.setText(user.getBio());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
         });
-
-        mFollowers.setText(String.valueOf(user.getFollowers().size()));
-        mFollowing.setText(String.valueOf(user.getFollowing().size()));
-        mBio.setText(user.getBio());
-
-    }
-
-    /**
-     * Profile Image setup
-     */
-    private void setProfileImage(cUsers user) {
-        Log.d(TAG, "setProfileImage: setting profile image");
-
-        //     java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.shibushi/com.example.shibushi.Feed.Profile.Profile}: java.lang.NullPointerException:
-        //     Attempt to invoke virtual method 'java.lang.String com.example.shibushi.Models.cUsers.getProfile_photo()' on a null object reference
-        String imgURL = user.getProfile_photo();
-        Log.d(TAG, "setProfileImage: " + imgURL);
-        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "");
     }
 
     /**
@@ -205,8 +205,6 @@ public class Profile extends AppCompatActivity {
      * @param user
      */
     private void getOutfitCount(cUsers user) {
-        Log.d(TAG, "getOutfitCount: Getting user's outfit count");
-
         mDatabase.collection("cOutfits")
                 .whereEqualTo("userID", user.getUserID())
                 .get()
@@ -226,52 +224,33 @@ public class Profile extends AppCompatActivity {
     }
 
     /**
+     * Profile Image setup
+     */
+    private void setProfileImage(cUsers user) {
+        Log.d(TAG, "setProfileImage: setting profile image");
+        String imgURL = user.getProfile_photo();
+        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "");
+    }
+
+    /**
      * Top toolbar setup
      */
-    private void setupToolBar() {
-        Log.d(TAG, "setupToolBar: Setting up toolbar");
-
-        Toolbar toolbar = findViewById(R.id.snippet_profile_toolbar);
+    private void setupToolBar(cUsers user) {
+        Log.d(TAG, "setupToolBar: setting toolbar");
+        toolbar = findViewById(R.id.snippet_profile_toolbar);
         setSupportActionBar(toolbar);
 
-        ImageView mysettings = findViewById(R.id.snippet_profile_top_toolbar_settings);
-        ImageView back = findViewById(R.id.snippet_profile_top_toolbar_back);
-        TextView tvUsername = findViewById(R.id.snippet_profile_top_toolbar_username);
+        ImageView back = findViewById(R.id.snippet_other_profile_top_toolbar_back);
+        TextView tvUsername = findViewById(R.id.snippet_other_profile_top_toolbar_username);
 
-        TextView mEditProfile = findViewById(R.id.textEditProfile);
-
-        // Firebase authentication
-        FirebaseAuth mAuth= FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        // Set username on toolbar
-        String username = currentUser.getDisplayName();
-        if (username != null) {
-            tvUsername.setText(username);}
-
-        mysettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Navigating to account settings");
-                Intent intent = new Intent(mContext, AccountSettingsActivity.class);
-                startActivity(intent);
-            }
-        });
+        tvUsername.setText(user.getUsername());
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: Navigating back to feed");
-                Intent intent = new Intent(mContext, FeedActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: navigating to edit profile");
-                Intent intent = new Intent(mContext, EditProfileActivity.class);
+                Log.d(TAG, "onClick: Navigating back to SearchActivity");
+                Intent intent = new Intent(mContext, SearchActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
@@ -299,5 +278,14 @@ public class Profile extends AppCompatActivity {
         Menu menu = bottom_navbar_view.getMenu();
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d(TAG, "onBackPressed: Navigating back to SearchActivity");
+        Intent intent = new Intent(mContext, SearchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

@@ -36,6 +36,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: starting");
         setContentView(R.layout.activity_edit_profile);
+        this.setTitle("Edit Profile");
 
         // Firebase
         mAuth = FirebaseAuth.getInstance();

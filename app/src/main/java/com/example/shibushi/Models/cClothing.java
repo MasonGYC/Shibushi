@@ -1,15 +1,15 @@
 package com.example.shibushi.Models;
 
 public class cClothing {
-    String userid, category, color, occation, size, img_name, url;
+    String userid, category, color, occasion, size, img_name, url;
 
     public cClothing(){}
 
-    public cClothing(String userid, String category, String color, String occation, String size, String img_name, String url) {
+    public cClothing(String userid, String category, String color, String occasion, String size, String img_name, String url) {
         this.userid = userid;
         this.category = category;
         this.color = color;
-        this.occation = occation;
+        this.occasion = occasion;
         this.size = size;
         this.img_name = img_name;
         this.url = url;
@@ -40,11 +40,11 @@ public class cClothing {
     }
 
     public String getOccation() {
-        return occation;
+        return occasion;
     }
 
     public void setOccation(String occation) {
-        this.occation = occation;
+        this.occasion = occasion;
     }
 
     public String getSize() {

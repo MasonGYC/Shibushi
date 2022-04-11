@@ -58,6 +58,10 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 
+    // Firestore UI for recyclerViews
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
+    implementation 'com.firebaseui:firebase-ui-storage:8.0.0'
+
     // Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
@@ -75,8 +79,11 @@ dependencies {
 
     //crop
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
+
     //implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
     implementation 'com.google.firebase:firebase-core:20.1.2'
+    //jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
 
 }

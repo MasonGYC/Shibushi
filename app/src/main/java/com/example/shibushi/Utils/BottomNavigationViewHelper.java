@@ -40,10 +40,8 @@ public class BottomNavigationViewHelper {
                         break;
 
                     case R.id.ic_community_feed: // b_menu_ACTIVTY_NUM = 1
-                        if (view.getSelectedItemId()!=R.id.ic_community_feed) {
-                            Intent intent_community_feed = new Intent(context, FeedActivity.class);
-                            context.startActivity(intent_community_feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                        }
+                        Intent intent_community_feed = new Intent(context, FeedActivity.class);
+                        context.startActivity(intent_community_feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
 
                     case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 2

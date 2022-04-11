@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
 import com.example.shibushi.R;
+import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,8 +41,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     private DatabaseReference dReference;
     private static final FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
     private static final String TAG = "EmailPassword";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,15 +140,18 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser currentUser = mAuth.getCurrentUser();
-                            String UserID = currentUser.getUid();
-                            Map<String, Object> foll = new HashMap<>();
-                            foll.put("following", Arrays.asList());
-                            foll.put("follower", Arrays.asList());
-                            mFirestoreDB.collection("cUsers").document(UserID).set(foll);FirebaseUser user = mAuth.getCurrentUser();
+//                            String UserID = currentUser.getUid();
+//                            Map<String, Object> foll = new HashMap<>();
+//                            foll.put("following", Arrays.asList());
+//                            foll.put("follower", Arrays.asList());
+//                            mFirestoreDB.collection("cUsers").document(UserID).set(foll);
+
+                            FirebaseUser user = mAuth.getCurrentUser();
 
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(username)
                                     .build();
+
 
                             user.updateProfile(profileUpdates)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -157,13 +159,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                                         public void onComplete(Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 Log.d(TAG, "User profile updated.");
+                                                FirestoreMethods.initialise_cUser(user);
                                             }
                                         }
                                     });
-                            // update RTDB: See FirebaseMethods class
+                            //update RTDB
                             dReference.child("users").child("idToken").setValue(username);
-                            // firebaseMethods.addNewUser(email, username, "");
-
                             /*user.getIdToken(true)
                                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                                         public void onComplete(@NonNull Task<GetTokenResult> task) {

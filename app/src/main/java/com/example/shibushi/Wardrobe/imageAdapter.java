@@ -79,23 +79,23 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                final Container<Bitmap> cBitmap = new Container<Bitmap>();
+                final Container<Bitmap> cBitmap = new Container<>();
                 final Container<String> cUri = new Container<>();
                 try {
                     URL url = new URL(url_s);
                     Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
                     cBitmap.set(bitmap);
                     cUri.set(url_s);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (cBitmap.get() != null) {
-                            Picasso.get().load(cUri.get()).into(holder.imageView);
+                            Picasso.get().load(cUri.get()).resize(width, width).centerCrop().into(holder.imageView);
+//                            Picasso.get().load(cUri.get()).into(holder.imageView);
 //                            holder.imageView.setImageBitmap(cBitmap.get());
                             holder.imageView.setMaxWidth(width);
                             holder.imageView.setTag(R.id.imageView_tag_uri, cUri.get());
@@ -118,7 +118,6 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 
     public static class imageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        LinearLayout imageViewLayout;
         public imageViewHolder(@NonNull View itemView, int width) {
             super(itemView);
             imageView = itemView.findViewById(R.id.wardrobe_image);
@@ -129,7 +128,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
         }
     }
 
-    class Container<T>{
+    static class Container<T>{
         T value;
         Container(){this.value=null;}
         void set(T x){this.value=x;}

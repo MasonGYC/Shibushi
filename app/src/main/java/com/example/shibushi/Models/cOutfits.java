@@ -1,23 +1,34 @@
 package com.example.shibushi.Models;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 public class cOutfits {
 
-    String outfitID, timeStamp, userID, name, category;
+    String outfitID, timeStamp, userID, name;
     ArrayList<cClothing> items;
-
+    // empty constructor for recycler view
     public cOutfits(){}
 
+    // constructor for new outfits
+    public cOutfits(String userID, String name, ArrayList<cClothing> items) {
+        Date timestamp = new Date();
+        this.outfitID = UUID.randomUUID().toString();
+        this.timeStamp = timeStamp.toString();
+        this.userID = userID;
+        this.name = name;
+        this.items = items;
 
+    }
 
-    public cOutfits(String outfitID, String timeStamp, String userID, String name, String category, ArrayList<cClothing> items) {
+    // constructor for outfits from firestore
+    public cOutfits(String outfitID, String timeStamp, String userID, String name, ArrayList<cClothing> items) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
         this.name = name;
         this.items = items;
-        this.category = category;
     }
 
     public String getOutfitID() {
@@ -59,8 +70,4 @@ public class cOutfits {
     public void setItems(ArrayList<cClothing> items) {
         this.items = items;
     }
-
-    public String getCategory() {return category;}
-
-    public void setCategory(String category) {this.category = category;}
 }
