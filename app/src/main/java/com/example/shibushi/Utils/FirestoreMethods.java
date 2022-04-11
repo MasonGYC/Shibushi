@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +44,8 @@ public class FirestoreMethods {
     private static DocumentReference mDocRef;
     private static final CollectionReference mUsersRef= mFirestoreDB.collection("cUsers");
     private static final CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
+    private static final CollectionReference outfitsRef = mFirestoreDB.collection("cOutfits");
+
 
 
     /*
@@ -96,10 +99,10 @@ public class FirestoreMethods {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Log.d(TAG, "Document was saved!");
+                    Log.d(TAG, "Metadata was saved!");
                 }
                 else{
-                    Log.w(TAG, "Document was not saved!");
+                    Log.w(TAG, "Metadata was not saved!");
                 }
             }
         });
@@ -107,11 +110,9 @@ public class FirestoreMethods {
     /*
     * Deleting methods
     * */
-    public static void deleteClothes(){
-        String img_name="";
-        String document_name="";
+    public static void deleteClothes(String img_name){
         deleteImage(img_name);
-        deleteMetadata(document_name);
+        deleteMetadata(img_name);
     }
     private static void deleteMetadata(String name){
         mDocRef = clothesRef.document(name);
@@ -191,7 +192,6 @@ public class FirestoreMethods {
     // Query clothes
     public static ArrayList<String> getmyClothes(String userID){
         ArrayList<String> clothes_Array = new ArrayList<>();
-        CollectionReference clothesRef = mFirestoreDB.collection("cClothes");
         Query myClothes = clothesRef.whereEqualTo("userid", userID);
         myClothes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -211,7 +211,48 @@ public class FirestoreMethods {
         });
         return clothes_Array;
     }
+    /*
+    * Create outfit
+    * */
+    public static void addOutfit(Object obj, String outfitName){
+        ObjectMapper mapObject = new ObjectMapper();
+        Map < String, Object > map = mapObject.convertValue(obj, Map.class);
 
+        if (map == null){
+            Log.d(TAG, "addOutfit(): map is empty");
+            return ;
+        }
+        mDocRef = outfitsRef.document(outfitName);
+        mDocRef.set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Log.d(TAG, "addOutfit(): Outfit was saved!");
+                }
+                else{
+                    Log.w(TAG, "addOutfit(): Outfit was not saved!");
+                }
+            }
+        });
+
+    }
+    /*
+     * Delete outfit
+     * */
+    public static void deleteOutfit(String outfitName){
+        mDocRef = outfitsRef.document(outfitName);
+        mDocRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Log.d(TAG, "addOutfit(): Outfit was deleted!");
+                }
+                else{
+                    Log.w(TAG, "addOutfit(): Outfit was not deleted!");
+                }
+            }
+        });
+    }
 
 
     // For User followers and followings
@@ -220,7 +261,7 @@ public class FirestoreMethods {
         getmyFollowers(userID);
     }
     private static void getmyFollowers(String userID){
-        DocumentReference docRef = mFirestoreDB.collection("cUsers").document(userID);
+        DocumentReference docRef = mUsersRef.document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
