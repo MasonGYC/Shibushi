@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,10 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shibushi.Feed.Profile.AccountSettingsActivity;
-import com.example.shibushi.Feed.Profile.EditProfileActivity;
-import com.example.shibushi.Feed.Profile.Profile;
-import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
@@ -32,21 +28,16 @@ import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SelectedUserActivity extends AppCompatActivity {
 
@@ -158,7 +149,7 @@ public class SelectedUserActivity extends AppCompatActivity {
     private void setupUserDetails(cUsers user) {
         Log.d(TAG, "setupUserDetails: setting user details");
 
-        TextView mFollowStatus = findViewById(R.id.textEditProfile);
+        Button mFollowStatus = findViewById(R.id.buttonFollowStatus);
         String selected_userID = user.getUserID();
         String current_userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
