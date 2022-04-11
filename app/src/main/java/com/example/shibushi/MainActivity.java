@@ -19,18 +19,19 @@ import androidx.core.content.FileProvider;
 
 import com.example.shibushi.Feed.Profile.ChangePassword;
 import com.example.shibushi.Login.Login;
+import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.testing.firestoreUpload;
 import com.example.shibushi.testing.imgviewer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.shibushi.PhotoProcess.CropActivity;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -74,8 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         //Welcome message
-        //Obviously we don't have to include this but its an option to display the username somewhere
-        //somehow
         String username = currentUser.getDisplayName();
         if (username != null){
             welcome = "Welcome, " + currentUser.getDisplayName();
@@ -135,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //take picture
     public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -148,9 +148,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
+                photoURI = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()),
+                        BuildConfig.APPLICATION_ID + ".provider",
                         photoFile);
+
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
             }
