@@ -21,6 +21,22 @@ public class cWardrobe {
     public void updateWardrobe(){
 
     }
+    public void addClothing(Map clothing_map, String img_name){
+        cClothing c = new cClothing(clothing_map, img_name);
+        wardrobeClothing.put(img_name, c);
+    }
+    // outfit-name get from userinput, img_names list of clothong to add in.
+    public void addOutfit(String outfit_name, ArrayList<String> img_names){
+        // add string "/cOutfit/" + img_names, for each
+        ArrayList<String> items = img_names;
+        String userid = FirestoreMethods.getUserID();
+        cOutfits o = new cOutfits(userid, outfit_name, items, img_names);
+        wardrobeOutfit.put(outfit_name, o);
+        FirestoreMethods.addOutfit(o,outfit_name);
+    }
+
+
+
     // get clothing documents from firestore, create clothing object for each, and add clothing object into wardrobe array
     public void updateClothing(){
         ArrayList<Map> clothing_map;

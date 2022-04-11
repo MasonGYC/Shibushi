@@ -102,6 +102,7 @@ public class TagIt extends AppCompatActivity {
                 }
                 // UPLOAD IMAGE AND TAGS
                 FirestoreMethods.addClothes(map, photoURI);
+                // ^^ need to return img_name and userid, both add to the map.
                 // go back to MainActivity
                 Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TagIt.this, MainActivity.class);

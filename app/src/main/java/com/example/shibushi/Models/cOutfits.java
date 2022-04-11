@@ -22,7 +22,7 @@ public class cOutfits {
         this.img_names = img_names;
     }
     // constructor for new outfits
-    public cOutfits(String userID, String name, ArrayList<String> items) {
+    public cOutfits(String userID, String name, ArrayList<String> img_names) {
         Date timestamp = new Date();
         this.outfitID = UUID.randomUUID().toString();
         this.timeStamp = timeStamp.toString();

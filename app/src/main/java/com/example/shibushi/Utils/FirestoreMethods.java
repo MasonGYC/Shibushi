@@ -420,4 +420,8 @@ public class FirestoreMethods {
         });
         return outfits_Array;
     }
+
+    public static String getUserID(){
+        return mAuth.getCurrentUser().getUid();
+    }
 }
