@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,9 +26,16 @@ import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class SelectedUserActivity extends AppCompatActivity {
@@ -51,10 +59,15 @@ public class SelectedUserActivity extends AppCompatActivity {
     private cUsers user;
     Intent intent;
 
+    private FirebaseFirestore mDatabase;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_profile);
+
+        mDatabase = FirebaseFirestore.getInstance();
+
         intent = getIntent();
 
         if (intent != null ) {
@@ -66,7 +79,7 @@ public class SelectedUserActivity extends AppCompatActivity {
         setupBottomNavigationView();
 
         setupToolBar(user);
-        setProfileImage(user);
+        setupUserDetails(user);
 
     }
 
@@ -93,8 +106,57 @@ public class SelectedUserActivity extends AppCompatActivity {
     }
 
     /**
+     * Setup user details: followStatus, OutfitsCount, Following, Followers
+     * and update the UI respectively
+     */
+    private void setupUserDetails(cUsers user) {
+        Log.d(TAG, "setupUserDetails: setting user details");
+
+        setProfileImage(user);
+
+        getOutfitCount(user);
+
+        // TODO: Search if user is in current user's followings --> Change mFollowStatus to Following, Else Follow
+        TextView mFollowStatus = findViewById(R.id.textEditProfile);
+        mFollowStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Follow/ Unfollow");
+                // SETUP FOLLOW STATUS
+            }
+        });
+
+        mFollowers.setText(String.valueOf(user.getFollowers().size()));
+        mFollowing.setText(String.valueOf(user.getFollowing().size()));
+        mBio.setText(user.getBio());
+
+    }
+
+    /**
+     * Method to search through cOutfits collection and returning the count
+     * @param user
+     */
+    private void getOutfitCount(cUsers user) {
+        mDatabase.collection("cOutfits")
+                .whereEqualTo("userID", user.getUserID())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            mOutfits.setText(String.valueOf(task.getResult().size()));
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    /**
      * Profile Image setup
-     * TODO: Obtain image from firebase, currently dummy image
      */
     private void setProfileImage(cUsers user) {
         Log.d(TAG, "setProfileImage: setting profile image");
@@ -113,12 +175,7 @@ public class SelectedUserActivity extends AppCompatActivity {
         ImageView back = findViewById(R.id.snippet_other_profile_top_toolbar_back);
         TextView tvUsername = findViewById(R.id.snippet_other_profile_top_toolbar_username);
 
-        TextView mFollowStatus = findViewById(R.id.textEditProfile);
-
-        // TODO: Change username
         tvUsername.setText(user.getUsername());
-
-        // TODO: Search if user is in current user's followings --> Change mFollowStatus to Following, Else Follow
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,14 +184,6 @@ public class SelectedUserActivity extends AppCompatActivity {
                 Intent intent = new Intent(mContext, SearchActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
-        });
-
-        mFollowStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Follow/ Unfollow");
-                // SETUP FOLLOW STATUS
             }
         });
     }
@@ -163,4 +212,12 @@ public class SelectedUserActivity extends AppCompatActivity {
         menuItem.setChecked(true);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d(TAG, "onBackPressed: Navigating back to SearchActivity");
+        Intent intent = new Intent(mContext, SearchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }
