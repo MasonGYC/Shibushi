@@ -130,10 +130,10 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
         }
     }
 
-    static class Container<T>{
+    public static class Container<T>{
         T value;
-        Container(){this.value=null;}
-        void set(T x){this.value=x;}
-        T get(){return this.value;}
+        public Container(){this.value=null;}
+        public void set(T x){this.value=x;}
+        public T get(){return this.value;}
     }
 }

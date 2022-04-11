@@ -30,7 +30,7 @@ public class cOutfits implements Serializable {
     }
 
     // constructor for pull from firestore
-    public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, ArrayList<String> img_names) {
+    public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, String category , ArrayList<String> img_names) {
         this.outfitID = outfitID;
         this.timeStamp = timeStamp;
         this.userID = userID;
@@ -86,5 +86,14 @@ public class cOutfits implements Serializable {
 
     public void setItems(ArrayList<cClothing> items) {
         this.items = items;
+    }
+
+
+    public ArrayList<String> getImg_names() {
+        return img_names;
+    }
+
+    public void setImg_names(ArrayList<String> img_names) {
+        this.img_names = img_names;
     }
 }

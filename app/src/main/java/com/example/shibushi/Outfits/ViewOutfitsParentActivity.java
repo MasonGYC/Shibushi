@@ -1,12 +1,15 @@
 package com.example.shibushi.Outfits;
 
-import static com.example.shibushi.Utils.FirestoreMethods.addOutfit;
+import static com.example.shibushi.Utils.FirestoreMethods.getAllOutfits;
+
+import com.example.shibushi.Models.cWardrobe;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +34,9 @@ import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Models.cOutfits;
+import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ViewOutfitsParentActivity extends AppCompatActivity {
@@ -48,8 +53,6 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
     RecyclerView outfitRecyclerView;
     OutfitParentAdapter outfitParentAdapter;
     OutfitParentModel.ParentDataSource parentDataSource;
-    ImageView createNewCat;
-    List<OutfitChildModel.ChildDataSource> datas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,39 +119,91 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         cOutfitsList.add(cOutfits1);
         cOutfitsList.add(cOutfits2);
 
-        OutfitChildModel.ChildDataSource childDataSource = new OutfitChildModel.ChildDataSource(cOutfitsList);
-        OutfitChildModel.ChildDataSource childDataSource1 = new OutfitChildModel.ChildDataSource(cOutfitsList);
+        OutfitChildModel.ChildDataSource childDataSource = new OutfitChildModel.ChildDataSource(cOutfitsList,"cat1");
+        OutfitChildModel.ChildDataSource childDataSource1 = new OutfitChildModel.ChildDataSource(cOutfitsList,"cat2");
         ArrayList<OutfitChildModel.ChildDataSource> cs_list = new ArrayList<OutfitChildModel.ChildDataSource>();
         cs_list.add(childDataSource);
         cs_list.add(childDataSource1);
 
-        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(cs_list,"category");
+        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(cs_list);
         return parentDataSource;
     }
 
     // real fetch data
     public OutfitParentModel.ParentDataSource dataInit(Map<String[],ArrayList<cClothing>> clothes_cat_uris){
 
-        // init new child datas
+        // init new ArrayList<cOutfits>
         List<OutfitChildModel.ChildDataSource> datas = new ArrayList<>();
-        //ArrayList<cOutfits>
 
-        // get uris for a single outfit
-        ArrayList<cOutfits> data = new ArrayList<>();
+        // query old outfits
+        ArrayList<Map> outfit_map;
+        outfit_map = FirestoreMethods.getAllOutfits();
+        Map<String, ArrayList<cOutfits>> cate_map = new HashMap<>();
+        //For each clothing document
+        for (Map<String,Object> outfit : outfit_map){
+            String outfitID = outfit.get("outfitID").toString();
+            Timestamp timeStamp = (Timestamp) outfit.get("timeStamp");
+            String userID = outfit.get("userID").toString();
+            String outfit_name = outfit.get("name").toString();
+            String category = outfit.get("category").toString();
+            ArrayList<String> items =  (ArrayList<String>) outfit.get("items");
+            
+            cOutfits new_outfit =new cOutfits(outfitID, timeStamp, userID, outfit_name, category,items);
+
+            // put into category map
+            if (cate_map.containsKey(category)){
+                ArrayList<cOutfits> temp = cate_map.get(category);
+                temp.add(new_outfit);
+                cate_map.put(category,temp);
+            }
+            else {
+                ArrayList<cOutfits> temp = new ArrayList<>();
+                temp.add(new_outfit);
+                cate_map.put(category,temp);
+            }
+            
+
+        }
+
+        //debug
+        Log.i("oldoutfits",cate_map.toString());
+
+        // for new single outfit
         String category = "default_cat";
         String name = "default_name";
         for (Map.Entry<String[],ArrayList<cClothing>> entry: clothes_cat_uris.entrySet()){
             ArrayList<cClothing> clothings = entry.getValue();
             category = entry.getKey()[0];
             name = entry.getKey()[1];
-            cOutfits outfits = new cOutfits(userID,name,category,clothings);
-            data.add(outfits);
-            //upload outfit
-            addOutfit(outfits,outfits.getName());
+            cOutfits outfit = new cOutfits(userID,name,category,clothings);
+
+            // put into category map
+            if (cate_map.containsKey(category)){
+                ArrayList<cOutfits> temp = cate_map.get(category);
+                temp.add(outfit);
+                cate_map.put(category,temp);
+            }
+            else {
+                ArrayList<cOutfits> temp = new ArrayList<>();
+                temp.add(outfit);
+                cate_map.put(category,temp);
+            }
+
+            //upload outfit to firebase
+            ArrayList<String> img_names = new ArrayList<>();
+            for (cClothing clothing:clothings){
+                img_names.add(clothing.getImg_name());
+            }
+            new cWardrobe().addOutfit(name, img_names);
 
         }
-        datas.add(new OutfitChildModel.ChildDataSource(data));
-        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(datas,category);
+        for (Map.Entry<String,ArrayList<cOutfits>> entry: cate_map.entrySet()){
+            datas.add(new OutfitChildModel.ChildDataSource(entry.getValue(), entry.getKey()));
+        }
+
+
+
+        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(datas);
         return parentDataSource;
     }
 

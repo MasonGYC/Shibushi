@@ -4,7 +4,12 @@ import static com.example.shibushi.Utils.FirestoreMethods.getDownloadUrlString;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +18,19 @@ import android.widget.TextView;
 
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
+import com.example.shibushi.Wardrobe.UtilsFetchBitmap;
+import com.example.shibushi.Wardrobe.imageAdapter;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.OutfitChildViewHolder>{
 
@@ -45,10 +57,47 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
         //todo: scale image to 150*150
         String name = this.datasource.get(position).getName();
         ArrayList<cClothing> items =  this.datasource.get(position).getItems();
-        //get imageuri
+
+        //get imageuri and set to widges
+
         String cover = this.datasource.get(position).getItems().get(0).getImg_name();
-        Uri imageuri = Uri.parse(getDownloadUrlString(cover));
-        holder.outfitImageButton.setImageURI(imageuri);
+        Log.i("onBVH",cover);
+        //Uri imageuri = Uri.parse(getDownloadUrlString(cover)); //real method
+        //dummy method since the url is not from firebase
+
+        ExecutorService executor;
+        executor = Executors.newSingleThreadExecutor();
+        final Handler handler = new Handler(Looper.myLooper());
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                final imageAdapter.Container<Bitmap> cBitmap = new imageAdapter.Container<>();
+                final imageAdapter.Container<String> cUri = new imageAdapter.Container<>();
+                try {
+                    URL url = new URL(cover);
+                    Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
+                    ( cBitmap).set(bitmap);
+                    ( cUri).set(cover);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if ((cBitmap).get() != null) {
+                            Picasso.get().load(( cUri).get()).resize(400,400).centerCrop().into(holder.outfitImageButton);
+//                            Picasso.get().load(cUri.get()).into(holder.imageView);
+//                            holder.imageView.setImageBitmap(cBitmap.get());
+
+                            executor.shutdown();
+                        }
+                    }
+                });
+            }
+        });
+
+//        holder.outfitImageButton.setImageBitmap(bitmap);
         holder.outfitName.setText(this.datasource.get(position).getName());
         holder.outfitImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -80,9 +80,9 @@ public class FeedActivity extends AppCompatActivity {
         ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
 
         cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", Timestamp.now(), "userID1", "outfitname1", cClothingList);
+                "outfitID1", Timestamp.now(), "userID1", "outfitname1","cat1", cClothingList);
         cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", Timestamp.now(), "userID2", "outfitname2", cClothingList);
+                "outfitID2", Timestamp.now(), "userID2", "outfitname2", "cat2",cClothingList);
 
         cOutfitsList.add(cOutfits1);
         cOutfitsList.add(cOutfits2);
