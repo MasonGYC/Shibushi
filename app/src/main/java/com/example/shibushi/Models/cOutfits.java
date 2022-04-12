@@ -57,14 +57,6 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
         this.outfitID = outfitID;
     }
 
-    public Timestamp getTimestamp() {
-        return timeStamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timeStamp = timestamp;
-    }
-
     public String getUserID() {
         return userID;
     }
@@ -94,12 +86,28 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
         return img_names;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Timestamp getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Timestamp timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     public void setImg_names(ArrayList<String> img_names) {
         this.img_names = img_names;
     }
 
     @Override
     public int compareTo(cOutfits cOutfits) {
-        return this.timeStamp.compareTo(cOutfits.getTimestamp());
+        return this.timeStamp.compareTo(cOutfits.getTimeStamp());
     }
 }

@@ -59,7 +59,7 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
         FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
         String userID = cOutfit.getUserID();
 
-        mDatabase.collection("cOutfits")
+        mDatabase.collection("cUsers")
                 .whereEqualTo("userID", userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -67,7 +67,6 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QueryDocumentSnapshot document = task.getResult().iterator().next();
-                            Log.d(TAG, document.getId() + " => " + document.getData());
                             cUsers user = document.toObject(cUsers.class);
 
                             String username = user.getUsername();
@@ -77,20 +76,21 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
 
                             holder.outfitNameTV.setText(cOutfit.getName());
                             holder.usernameTV.setText(username);
+                            Log.d("FeedParentAdapter", cOutfit.toString());
 
                             // Set profile image
                             mStorageReference.child("images").child(profile_photo_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String imageURL = uri.toString();
-                                    UniversalImageLoader.setImage(imageURL, holder.profilePhotoCIV, null, "");
 
-                                    // Glide.with(holder.itemView.getContext()).load(profile_photo).into(holder.profilePhotoCIV);
+                                    Glide.with(holder.itemView.getContext()).load(imageURL).into(holder.profilePhotoCIV);
 
                                     holder.clothesRecyclerView.setHasFixedSize(true);
                                     holder.clothesRecyclerView.setLayoutManager(
                                             new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
+                                    Log.d("FeedParentAdapter", cOutfit.toString());
                                     FeedChildAdapter feedChildAdapter = new FeedChildAdapter(cOutfit.getImg_names());
                                     holder.clothesRecyclerView.setAdapter(feedChildAdapter);
                                     feedChildAdapter.notifyDataSetChanged();
