@@ -54,7 +54,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     public imageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         selectedItems.clear();
         View imgView = inflater.inflate(R.layout.card_wd_image_layout, parent, false);
-        return new imageViewHolder(imgView, width);
+        return new imageViewHolder(imgView);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 
     public static class imageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        public imageViewHolder(@NonNull View itemView, int width) {
+        public imageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.wardrobe_image);
             imageView.setLongClickable(true);
