@@ -16,15 +16,9 @@
                     android:id="@+id/singleoutfitImageview"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:id="@+id/clothingName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:text="imagename"
-                    android:visibility="visible" />
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"/>
+
 
 
         </LinearLayout>

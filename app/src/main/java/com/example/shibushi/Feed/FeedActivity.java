@@ -47,7 +47,6 @@ public class FeedActivity extends AppCompatActivity {
     private FeedParentAdapter feedParentAdapter;
 
     // For TagIt
-    public static final String KEY_FEED_PHOTO = "KEY_FEED_PHOTO";
     Uri imageUri;
 
 
@@ -125,7 +124,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
-                importClothing(MainActivity.PICK_IMAGE_REQUEST);
+                importClothing();
             }
         });
 
@@ -181,8 +180,9 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     // Select Image method
-    public void importClothing(int PICK_IMAGE_REQUEST) {
+    public void importClothing() {
         // Defining Implicit Intent to mobile gallery
+        CropActivity.isTakingPhoto = false;
         Intent selectIntent = new Intent(FeedActivity.this, CropActivity.class);
         startActivity(selectIntent);
    }

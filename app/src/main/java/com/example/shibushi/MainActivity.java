@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int PICK_IMAGE_REQUEST = 2;
     static final String KEY_PHOTO = "PHOTO";
+    public static final String PHOTO_TAKEN = "TAKEN_PHOTON";
     Uri photoURI;
     String currentPhotoPath;
 
@@ -113,12 +114,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changePassword();
                 break;
             case R.id.bImportClothing:
-                //SelectImage(PICK_IMAGE_REQUEST);
+                CropActivity.isTakingPhoto = false;
                 Intent cropIntent = new Intent(MainActivity.this, CropActivity.class);
                 startActivity(cropIntent);
                 break;
             case R.id.bTakePhoto:
-
+                CropActivity.isTakingPhoto = true;
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
-    //Methods below better not put in a separate file, due to pass-by-reference i guess
+
     //take picture
     public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -175,15 +176,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return image;
     }
 
-    // Select Image method
-    public void SelectImage(int PICK_IMAGE_REQUEST) {
-        // Defining Implicit Intent to mobile gallery
-        Intent selectIntent = new Intent();
-        selectIntent.setType("image/*");
-        selectIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        if (resultCode == REQUEST_IMAGE_CAPTURE){
+            Intent intent = new Intent(MainActivity.this,CropActivity.class);
+            intent.putExtra(PHOTO_TAKEN,currentPhotoPath);
+            startActivity(intent);
+        }
     }
-
 
     // TODO: remove
     private void logOut() {

@@ -48,11 +48,9 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SingleOutfitViewHolder holder, int position) {
-        String name = this.datasource.get(position).getImg_name();
-        holder.clothingName.setText(name);
+        // imga_name -> uri
         String url_s = this.datasource.get(position).getImg_name();
-        // todo: if no url then what?
-        // todo: this is dummy method
+
         // bind image
         Log.i("imgname",this.datasource.get(position).getImg_name());
 
@@ -71,15 +69,12 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
                 e.printStackTrace();
             }
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (cBitmap.get() != null) {
-                        Picasso.get().load(cUri.get()).resize(600,600).centerCrop().into(holder.outfitImageView);
-                        holder.outfitImageView.setMaxWidth(600);
-                        Log.i("post_imagename",cUri.get());
-                        executor.shutdown();
-                    }
+            handler.post(() -> {
+                if (cBitmap.get() != null) {
+                    Picasso.get().load(cUri.get()).resize(600,600).centerCrop().into(holder.outfitImageView);
+                    holder.outfitImageView.setMaxWidth(600);
+                    Log.i("post_imagename",cUri.get());
+                    executor.shutdown();
                 }
             });
         });
@@ -95,11 +90,9 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
 
     public static class SingleOutfitViewHolder extends RecyclerView.ViewHolder{
         ImageView outfitImageView;
-        TextView clothingName;
         SingleOutfitViewHolder(View view){
             super(view);
             outfitImageView = view.findViewById(R.id.singleoutfitImageview);
-            clothingName= view.findViewById(R.id.clothingName);
 
         }
     }
