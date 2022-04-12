@@ -90,7 +90,7 @@ public class WardrobeFragment extends Fragment {
                 public void run() {
                     if (recyclerView.getWidth() != 0) {
                         Container.w = recyclerView.getWidth();
-                        Log.i("Wardrobe fragment width", String.valueOf(width_container.get()));
+                        Log.i("Wardrobe fragment width", String.valueOf(width_container.w));
                     }
                     imageAdapter = new imageAdapter(recyclerView.getContext(), dataSource, Container.w);
                     recyclerView.setAdapter(imageAdapter);
