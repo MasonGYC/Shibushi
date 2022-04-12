@@ -166,6 +166,7 @@ public class SelectedUserActivity extends AppCompatActivity {
         String current_userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DocumentReference docRef = mDatabase.collection("cUsers").document(current_userID);
+        DocumentReference docRef_selected_user = mDatabase.collection("cUsers").document(selected_userID);
         DocumentReference selUserRef = userRef.document(selected_userID);
 
 
@@ -210,9 +211,15 @@ public class SelectedUserActivity extends AppCompatActivity {
                 // TODO: FOLLOW / UNFOLLOW
                 if (mFollowStatus.getText().toString().equals("FOLLOWING")) {
                     // Unfollow - Remove userID from current user's following
-                    Map<String, Object> remove_hashMap = new HashMap<>();
-                    remove_hashMap.put("following", FieldValue.arrayRemove(selected_userID));
-                    docRef.update(remove_hashMap);
+                    Map<String, Object> remove_hashMap_following = new HashMap<>();
+                    remove_hashMap_following.put("following", FieldValue.arrayRemove(selected_userID));
+
+                    Map<String, Object> remove_hashMap_followers = new HashMap<>();
+                    remove_hashMap_followers.put("followers", FieldValue.arrayRemove(selected_userID));
+
+                    docRef.update(remove_hashMap_following);
+                    docRef_selected_user.update(remove_hashMap_followers);
+
                     mFollowStatus.setText("FOLLOW");
                     // hardcoded method
                     follower_count[0]--;
@@ -221,9 +228,14 @@ public class SelectedUserActivity extends AppCompatActivity {
 
                 } else {
                     // Follow - Add userID to current user's following
-                    Map<String, Object> add_hashMap = new HashMap<>();
-                    add_hashMap.put("following", FieldValue.arrayUnion(selected_userID));
-                    docRef.update(add_hashMap);
+                    Map<String, Object> add_hashMap_following = new HashMap<>();
+                    add_hashMap_following.put("following", FieldValue.arrayUnion(selected_userID));
+
+                    Map<String, Object> add_hashMap_followers = new HashMap<>();
+                    add_hashMap_followers.put("followers", FieldValue.arrayUnion(selected_userID));
+                    docRef.update(add_hashMap_following);
+                    docRef_selected_user.update(add_hashMap_followers);
+
                     mFollowStatus.setText("FOLLOWING");
                     // hardcoded method
                     follower_count[0]++;
