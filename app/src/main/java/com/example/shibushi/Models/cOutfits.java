@@ -9,19 +9,20 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.Date;
 
-public class cOutfits implements Serializable {
+public class cOutfits implements Serializable, Comparable<cOutfits> {
 
     String outfitID, userID, name, category;
     ArrayList<cClothing> items;
     Timestamp timeStamp;
     ArrayList<String> img_names;
+
     // empty constructor for recycler view
     public cOutfits(){}
 
-    // constructor for new outfits
+    // constructor for new outfits (YC)
     public cOutfits(String userID, String name, String category, ArrayList<cClothing> items) {
         this.outfitID = UUID.randomUUID().toString();
-        this.timeStamp = timeStamp;
+        this.timeStamp = getTimeStamp();
         this.userID = userID;
         this.name = name;
         this.items = items;
@@ -38,7 +39,7 @@ public class cOutfits implements Serializable {
         this.img_names = img_names;
     }
 
-    // constructor for new outfits
+    // constructor for new outfits (Samuel)
     public cOutfits(String userID, String name, ArrayList<String> img_names) {
         this.outfitID = UUID.randomUUID().toString();
         this.timeStamp = Timestamp.now();
@@ -54,14 +55,6 @@ public class cOutfits implements Serializable {
 
     public void setOutfitID(String outfitID) {
         this.outfitID = outfitID;
-    }
-
-    public Timestamp getTimestamp() {
-        return timeStamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timeStamp = timestamp;
     }
 
     public String getUserID() {
@@ -80,6 +73,14 @@ public class cOutfits implements Serializable {
         this.name = name;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public ArrayList<cClothing> getItems() {
         return items;
     }
@@ -88,6 +89,13 @@ public class cOutfits implements Serializable {
         this.items = items;
     }
 
+    public Timestamp getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Timestamp timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public ArrayList<String> getImg_names() {
         return img_names;
@@ -95,5 +103,10 @@ public class cOutfits implements Serializable {
 
     public void setImg_names(ArrayList<String> img_names) {
         this.img_names = img_names;
+    }
+
+    @Override
+    public int compareTo(cOutfits cOutfits) {
+        return this.timeStamp.compareTo(cOutfits.getTimeStamp());
     }
 }

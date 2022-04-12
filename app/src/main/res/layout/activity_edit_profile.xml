@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/snippet_edit_profile_center"/>
+            <include layout="@layout/snippet_edit_profile_center" />
 
         </RelativeLayout>
 

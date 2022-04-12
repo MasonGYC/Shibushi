@@ -3,9 +3,15 @@ package com.example.shibushi.Wardrobe;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,27 +60,29 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     @Override
     public void onBindViewHolder(@NonNull imageViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String url_s = this.dataSource.get(position).url;
-        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (NotificationManagerCompat.from(view.getContext()).areNotificationsEnabled() ){
-                    Toast.makeText(view.getContext(),"Selected",Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Log.i("noti","notification unabled");
-                }
 
-                Log.i("onBindVH",view.getContext().toString());
-                ViewWardrobeActivity.isChoosing = true;
-                if (view.getTag(R.id.imageView_tag_uri) != null){
-                    cClothing clothes =  (cClothing) view.getTag(R.id.imageView_tag_uri);
-                    Log.i("selcted", String.valueOf(clothes));
-                    selectedItems.add(clothes);
+//        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                if (NotificationManagerCompat.from(view.getContext()).areNotificationsEnabled() ){
+//                    Toast.makeText(view.getContext(),"Selected",Toast.LENGTH_LONG).show();
+//                }
+//                else {
+//                    Log.i("noti","notification unabled");
+//                }
+//
+//                Log.i("onBindVH",view.getContext().toString());
+//                ViewWardrobeActivity.isChoosing = true;
+//                if (view.getTag(R.id.imageView_tag_uri) != null){
+//                    cClothing clothes =  (cClothing) view.getTag(R.id.imageView_tag_uri);
+//                    Log.i("selcted", String.valueOf(clothes));
+//                    selectedItems.add(clothes);
+//
+//                }
+//                return true;
+//            }
+//        });
 
-                }
-                return true;
-            }
-        });
         ExecutorService executor;
         executor = Executors.newSingleThreadExecutor();
         final Handler handler = new Handler(Looper.myLooper());
@@ -127,6 +135,44 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 //            imageViewLayout = itemView.findViewById(R.id.wardrobe_image);
 //            imageView.setMinimumWidth(width);
 //            imageView.setMaxWidth(width);
+            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
+                        return false;
+                    }
+                    else {
+                        ViewWardrobeActivity.isChoosing = true;
+                        cClothing clothes = (cClothing) view.getTag(R.id.imageView_tag_uri);
+                        Log.i("selcted", String.valueOf(clothes));
+                        selectedItems.add(clothes);
+                        Toast.makeText(imageView.getContext(), "Selected", Toast.LENGTH_SHORT).show();
+
+                        Drawable selected_clothes = imageView.getDrawable();
+                        selected_clothes.setColorFilter(Color.argb(180, 240, 240, 240), PorterDuff.Mode.MULTIPLY);
+                        return true;
+                    }
+                }
+            });
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
+                        return;
+                    }
+                    else{
+                        cClothing clothes = (cClothing) view.getTag(R.id.imageView_tag_uri);
+                        selectedItems.remove(clothes);
+                        Drawable selected_clothes = imageView.getDrawable();
+                        selected_clothes.setColorFilter(null);
+                        Toast.makeText(imageView.getContext(), "Unselected", Toast.LENGTH_SHORT).show();
+                        Log.i("unselected", String.valueOf(clothes));
+                    }
+                    if (selectedItems.size()==0){
+                        ViewWardrobeActivity.isChoosing = false;
+                    }
+                }
+            });
         }
     }
 

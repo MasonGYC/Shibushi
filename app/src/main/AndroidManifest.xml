@@ -65,7 +65,9 @@
             android:parentActivityName=".Feed.FeedActivity"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".Feed.ViewOutfitPostActivity" /> <!-- PROFILE -->
-        <activity android:name=".Feed.Profile.Profile" />
+        <activity android:name=".Feed.Profile.Profile"
+            android:parentActivityName=".Feed.FeedActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".Feed.SelectedUserActivity" /> <!-- ACCOUNT SETTINGS -->
         <activity
             android:name=".Feed.Profile.AccountSettingsActivity"
@@ -111,8 +113,6 @@
         <activity
             android:name=".Outfits.ViewOutfitsParentActivity"
             android:exported="true" />
-        <activity android:name=".Outfits.SingleOutfit"
-            android:exported="true"/>
 
 
         <!-- File Providers-->

@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,10 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shibushi.Feed.Profile.AccountSettingsActivity;
-import com.example.shibushi.Feed.Profile.EditProfileActivity;
-import com.example.shibushi.Feed.Profile.Profile;
-import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
@@ -32,21 +28,16 @@ import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SelectedUserActivity extends AppCompatActivity {
 
@@ -91,35 +82,42 @@ public class SelectedUserActivity extends AppCompatActivity {
 
         setupToolBar(user);
         setupUserDetails(user);
+        setupRecyclerViews(user.getUserID());
+    }
 
-//        parentRecyclerView = findViewById(R.id.profile_outfit_RV);
-//        parentRecyclerView.setHasFixedSize(true);
-//        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        profileParentAdapter = new ProfileParentAdapter();
-//        parentRecyclerView.setAdapter(profileParentAdapter);
-//
-//        // TODO: Utilise firestore methods
-//        // DUMMY DATA
-//        ArrayList<String> cClothingList = new ArrayList<>();
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-//
-//
-//        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
-//
-//        cOutfits cOutfits1 = new cOutfits(
-//                "outfitID1", Timestamp.now(), "userID1", "outfitname1", cClothingList);
-//        cOutfits cOutfits2 = new cOutfits(
-//                "outfitID2", Timestamp.now(), "userID2", "outfitname2", cClothingList);
-//
-//        cOutfitsList.add(cOutfits1);
-//        cOutfitsList.add(cOutfits2);
-//
-//        profileParentAdapter.setcOutfitsList(cOutfitsList);
-//        profileParentAdapter.notifyDataSetChanged();
+    private void setupRecyclerViews(String current_UserID) {
+        mDatabase.collection("cOutfits")
+                .orderBy("timeStamp", Query.Direction.ASCENDING)
+                .whereEqualTo("userID", current_UserID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // set outfit count textview
+                            mOutfits.setText(String.valueOf(task.getResult().size()));
+                            ArrayList<cOutfits> cOutfitsArrayList = new ArrayList<>();
 
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                // Change document into class
+                                cOutfits outfit = document.toObject(cOutfits.class);
+                                cOutfitsArrayList.add(outfit);
+                                Log.e(TAG, String.valueOf(cOutfitsArrayList.size()));
+                            }
+
+                            // Recycler Views and Adapters
+                            parentRecyclerView = findViewById(R.id.profile_outfit_RV);
+                            parentRecyclerView.setHasFixedSize(true);
+                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(SelectedUserActivity.this));
+                            profileParentAdapter = new ProfileParentAdapter(cOutfitsArrayList);
+                            parentRecyclerView.setAdapter(profileParentAdapter);
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**
@@ -151,7 +149,7 @@ public class SelectedUserActivity extends AppCompatActivity {
     private void setupUserDetails(cUsers user) {
         Log.d(TAG, "setupUserDetails: setting user details");
 
-        TextView mFollowStatus = findViewById(R.id.textEditProfile);
+        Button mFollowStatus = findViewById(R.id.buttonFollowStatus);
         String selected_userID = user.getUserID();
         String current_userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

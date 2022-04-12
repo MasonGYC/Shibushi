@@ -80,7 +80,7 @@
 
                 <!-- Edit Description -->
                 <EditText
-                    android:id="@+id/snippet_edit_profile_center_etDescr"
+                    android:id="@+id/snippet_edit_profile_center_etBio"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="40dp"

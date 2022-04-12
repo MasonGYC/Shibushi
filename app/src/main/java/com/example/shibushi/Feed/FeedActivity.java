@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,20 +21,36 @@ import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Models.cOutfits;
+import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.FeedParentAdapter;
+import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -49,6 +66,10 @@ public class FeedActivity extends AppCompatActivity {
     // For TagIt
     Uri imageUri;
 
+    // Firestore
+    public static final FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
+    public static final String currentUserID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,33 +82,48 @@ public class FeedActivity extends AppCompatActivity {
         setupBottomNavigationView(); //Setup bottom navigation bar
         setup_FAB(); //Setup floating action button
 
-        parentRecyclerView = findViewById(R.id.feed_parent_RV);
-        parentRecyclerView.setHasFixedSize(true);
-        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        feedParentAdapter = new FeedParentAdapter();
-        parentRecyclerView.setAdapter(feedParentAdapter);
+        // RecyclerView
+        mDatabase.collection("cUsers").document(currentUserID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                cUsers cUser_current = task.getResult().toObject(cUsers.class);
+                ArrayList following = cUser_current.getFollowing();
 
-        // TODO: Utilise firestore methods
-        // DUMMY DATA
-        ArrayList<String> cClothingList = new ArrayList<>();
-        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
-        cClothingList.add("https://media.istockphoto.com/photos/mens-shirt-picture-id488160041?k=20&m=488160041&s=612x612&w=0&h=OH_-skyES8-aeTvDQHdVDZ6GKLsqp6adFJC8u6O6_UY=");
+                setupRecyclerViews(following);
+            }
+        });
 
+    }
 
-        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
+    private void setupRecyclerViews(ArrayList<String> current_UserID_ArrayList) {
+        ArrayList<cOutfits> cOutfitsArrayList = new ArrayList<>();
 
-        cOutfits cOutfits1 = new cOutfits(
-                "outfitID1", Timestamp.now(), "userID1", "outfitname1","cat1", cClothingList);
-        cOutfits cOutfits2 = new cOutfits(
-                "outfitID2", Timestamp.now(), "userID2", "outfitname2", "cat2",cClothingList);
+        for (String userID_i : current_UserID_ArrayList) {
+            mDatabase.collection("cOutfits")
+                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+                    .whereEqualTo("userID", userID_i)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-        cOutfitsList.add(cOutfits1);
-        cOutfitsList.add(cOutfits2);
+                            // iterate through user i's outfit
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                cOutfits user_i_cOutfit = document.toObject(cOutfits.class);
+                                cOutfitsArrayList.add(user_i_cOutfit);
+                            }
 
-        feedParentAdapter.setcOutfitsList(cOutfitsList);
-        feedParentAdapter.notifyDataSetChanged();
+                            Collections.sort(cOutfitsArrayList);
+
+                            // Recycler Views and Adapters
+                            parentRecyclerView = findViewById(R.id.feed_parent_RV);
+                            parentRecyclerView.setHasFixedSize(true);
+                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
+                            feedParentAdapter = new FeedParentAdapter(cOutfitsArrayList);
+                            parentRecyclerView.setAdapter(feedParentAdapter);
+                        }
+                    });
+        }
     }
 
     /**

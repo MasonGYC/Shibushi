@@ -26,6 +26,7 @@ public class ProfileChildAdapter extends RecyclerView.Adapter<ProfileChildAdapte
 
     private final String TAG = "ProfileChildAdapter";
     private ArrayList<String> cClothesList;
+
     public void setChildItemList(ArrayList<String> cClothesList){
         this.cClothesList = cClothesList;
 
