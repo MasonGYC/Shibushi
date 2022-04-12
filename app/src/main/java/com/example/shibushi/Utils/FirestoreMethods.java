@@ -368,7 +368,7 @@ public class FirestoreMethods {
 
         // TODO: Update when url is working
         Map<String, Object> profile_photo = new HashMap<>();
-        profile_photo.put("profile_photo", "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png");
+        profile_photo.put("profile_photo", "d_profilepic.jfif");
         mFirestoreDB.collection("cUsers").document(userID).update(profile_photo);
 
     }
