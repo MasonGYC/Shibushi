@@ -73,5 +73,4 @@ public class cWardrobe {
         }
         outfit_count = wardrobeOutfit.size();
     }
-
 }
