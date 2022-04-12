@@ -5,6 +5,7 @@ import static com.example.shibushi.Outfits.OutfitChildAdapter.KEY_SINGLE_OUTFIT_
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,12 +47,29 @@ public class SingleOutfit extends AppCompatActivity {
          SingleOutfit.this.finish();
         });
 
-        //set recycler view
         singleoutfitRecyclerView = findViewById(R.id.layout_single_outfit_recyclerView);
-        singleoutfitRecyclerView.setLayoutManager(new LinearLayoutManager(SingleOutfit.this));
-        singleOutfitAdapter = new SingleOutfitAdapter(SingleOutfit.this, clothings);
-        singleoutfitRecyclerView.setAdapter(singleOutfitAdapter);
+        //set recycler view
+        singleoutfitRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if(singleoutfitRecyclerView.getWidth()!=0){
+                    Container.w = singleoutfitRecyclerView.getWidth();
+                    Log.i("SingleOutfit width", String.valueOf(Container.w));
+                }
+                singleOutfitAdapter = new SingleOutfitAdapter(singleoutfitRecyclerView.getContext(), clothings, Container.w);
+                singleoutfitRecyclerView.setAdapter(singleOutfitAdapter);
+                singleoutfitRecyclerView.setLayoutManager(new LinearLayoutManager(SingleOutfit.this));
+            }
+        });
+//        singleoutfitRecyclerView = findViewById(R.id.layout_single_outfit_recyclerView);
+//        singleoutfitRecyclerView.setLayoutManager(new LinearLayoutManager(SingleOutfit.this));
+//        singleOutfitAdapter = new SingleOutfitAdapter(SingleOutfit.this, clothings);
+//        singleoutfitRecyclerView.setAdapter(singleOutfitAdapter);
 
 
+    }
+
+    static class Container{
+        static int w;
     }
 }

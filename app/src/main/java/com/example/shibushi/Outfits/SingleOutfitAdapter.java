@@ -31,11 +31,13 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
     Context context;
     LayoutInflater inflater;
     ArrayList<cClothing> datasource;
+    int width;
 
 
-    public SingleOutfitAdapter(Context context, ArrayList<cClothing> datasource) {
+    public SingleOutfitAdapter(Context context, ArrayList<cClothing> datasource, int width) {
         this.context = context;
         this.datasource = datasource;
+        this.width = width;
         inflater = LayoutInflater.from(context);
     }
 
@@ -71,8 +73,9 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
 
             handler.post(() -> {
                 if (cBitmap.get() != null) {
-                    Picasso.get().load(cUri.get()).resize(600,600).centerCrop().into(holder.outfitImageView);
-                    holder.outfitImageView.setMaxWidth(600);
+                    Picasso.get().load(cUri.get()).resize(width,width).centerCrop().into(holder.outfitImageView);
+                    holder.outfitImageView.setMaxWidth(width);
+                    holder.outfitImageView.setMinimumWidth(width);
                     Log.i("post_imagename",cUri.get());
                     executor.shutdown();
                 }
