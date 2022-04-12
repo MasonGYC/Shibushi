@@ -75,6 +75,8 @@
             android:layout_marginTop="32dp"
             android:checked="true"
             android:minHeight="48dp"
+            android:showText="true"
+            android:text = "Privacy"
             android:textOff="Public"
             android:textOn="Private"
             android:gravity="start"
@@ -89,9 +91,9 @@
             android:text="@string/tag_it"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerOccasion"
+            app:layout_constraintTop_toBottomOf="@+id/privacySwitch"
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
