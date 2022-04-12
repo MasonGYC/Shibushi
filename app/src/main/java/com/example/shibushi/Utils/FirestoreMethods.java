@@ -5,11 +5,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.shibushi.Models.cOutfits;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -236,15 +238,23 @@ public class FirestoreMethods {
     * Create outfit
     * TODO: FIx bug - Creates a hashmap for timestamp instead of a Timestamp Datatype
     * */
-    public static void addOutfit(Object obj, String outfitName){
+    public static void addOutfit(cOutfits obj, String outfitID){
+        ArrayList<String> img_names = obj.img_names;
+        Timestamp timeStamp = obj.timeStamp;
+        String userID = obj.userID;
+        String name = obj.name;
+        String category = obj.category;
+
         ObjectMapper mapObject = new ObjectMapper();
         Map < String, Object > map = mapObject.convertValue(obj, Map.class);
+        map.remove("timeStamp");
+        map.put("timeStamp", obj.timeStamp);
 
         if (map == null){
             Log.d(TAG, "addOutfit(): map is empty");
             return ;
         }
-        mDocRef = outfitsRef.document(outfitName);
+        mDocRef = outfitsRef.document(outfitID);
         mDocRef.set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

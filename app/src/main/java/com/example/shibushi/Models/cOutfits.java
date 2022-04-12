@@ -11,10 +11,11 @@ import java.util.Date;
 
 public class cOutfits implements Serializable, Comparable<cOutfits> {
 
-    String outfitID, userID, name, category;
-    ArrayList<cClothing> items;
-    Timestamp timeStamp;
-    ArrayList<String> img_names;
+    public String outfitID, userID, name, category;
+    public ArrayList<cClothing> items;
+    public Timestamp timeStamp;
+    public ArrayList<String> img_names;
+
 
     // empty constructor for recycler view
     public cOutfits(){}
