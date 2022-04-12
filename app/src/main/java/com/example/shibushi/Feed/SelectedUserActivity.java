@@ -21,7 +21,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
@@ -34,6 +33,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -45,7 +45,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,6 +71,7 @@ public class SelectedUserActivity extends AppCompatActivity {
     Intent intent;
 
     private FirebaseFirestore mDatabase;
+    private static CollectionReference userRef;
 
 
     @Override
@@ -80,6 +80,7 @@ public class SelectedUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_other_profile);
 
         mDatabase = FirebaseFirestore.getInstance();
+        userRef = mDatabase.collection("cUsers");
 
         intent = getIntent();
 
@@ -165,6 +166,10 @@ public class SelectedUserActivity extends AppCompatActivity {
         String current_userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DocumentReference docRef = mDatabase.collection("cUsers").document(current_userID);
+        DocumentReference selUserRef = userRef.document(selected_userID);
+
+
+        //check if current user is already following the selected user
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -182,71 +187,6 @@ public class SelectedUserActivity extends AppCompatActivity {
                             mFollowStatus.setText("FOLLOW");
                         }
 
-                        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
-
-                        mStorageReference.child("images").child(user.getProfile_photo()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                // Got the download URL for 'users/me/profile.png'
-                                String imageURL = uri.toString();
-                                UniversalImageLoader.setImage(imageURL, profilePhoto, mProgressBar, "");
-
-                                // Updates selected user details
-                                getOutfitCount(user);
-                                mFollowers.setText(String.valueOf(user.getFollowers().size()));
-                                mFollowing.setText(String.valueOf(user.getFollowing().size()));
-                                mBio.setText(user.getBio());
-
-                                // When current user clicks follow
-                                mFollowStatus.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Log.d(TAG, "onClick: Follow/ Unfollow");
-                                        // TODO: FOLLOW / UNFOLLOW
-                                        if (mFollowStatus.getText().toString().equals("FOLLOWING")) {
-                                            // Unfollow - Remove userID from current user's following
-                                            FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
-                                            Map<String, Object> remove_hashMap = new HashMap<>();
-                                            remove_hashMap.put("following", FieldValue.arrayRemove(selected_userID));
-                                            mFirestoreDB.collection("cUsers").document(current_userID).update(remove_hashMap);
-                                            mFollowStatus.setText("FOLLOW");
-                                            // hardcoded method
-                                            int follower_count = user.getFollowers().size() - 1;
-//                                            int follower_count =
-//                                                    mDatabase.collection("cUsers").document(selected_userID).get().getResult().toObject(cUsers.class).getFollowers().size();
-                                            mFollowers.setText(String.valueOf(follower_count));
-                                            Toast.makeText(mContext, "Unfollowed!", Toast.LENGTH_SHORT).show();
-
-                                        } else {
-                                            // Follow - Add userID to current user's following
-                                            FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
-                                            Map<String, Object> add_hashMap = new HashMap<>();
-                                            add_hashMap.put("following", FieldValue.arrayUnion(selected_userID));
-                                            mFirestoreDB.collection("cUsers").document(current_userID).update(add_hashMap);
-                                            mFollowStatus.setText("FOLLOWING");
-                                            // hardcoded method
-                                            int follower_count = user.getFollowers().size() + 1;
-
-//                                            int follower_count =
-//                                                    mDatabase.collection("cUsers").document(selected_userID).get().getResult().toObject(cUsers.class).getFollowers().size();
-                                            mFollowers.setText(String.valueOf(follower_count));
-                                            mFollowers.setText(String.valueOf(follower_count));
-                                            Toast.makeText(mContext, "Followed!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
-
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                            }
-                        });
-
-
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -255,6 +195,61 @@ public class SelectedUserActivity extends AppCompatActivity {
                 }
             }
         });
+        // Updates selected user details
+        getOutfitCount(user);
+        mFollowers.setText(String.valueOf(user.getFollowers().size()));
+        mFollowing.setText(String.valueOf(user.getFollowing().size()));
+        mBio.setText(user.getBio());
+        final int[] follower_count = {user.getFollowers().size()};
+        // When current user clicks follow
+        mFollowStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.d(TAG, "onClick: Follow/ Unfollow");
+                // TODO: FOLLOW / UNFOLLOW
+                if (mFollowStatus.getText().toString().equals("FOLLOWING")) {
+                    // Unfollow - Remove userID from current user's following
+                    Map<String, Object> remove_hashMap = new HashMap<>();
+                    remove_hashMap.put("following", FieldValue.arrayRemove(selected_userID));
+                    docRef.update(remove_hashMap);
+                    mFollowStatus.setText("FOLLOW");
+                    // hardcoded method
+                    follower_count[0]--;
+                    mFollowers.setText(String.valueOf(follower_count[0]));
+                    Toast.makeText(mContext, "Unfollowed!", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    // Follow - Add userID to current user's following
+                    Map<String, Object> add_hashMap = new HashMap<>();
+                    add_hashMap.put("following", FieldValue.arrayUnion(selected_userID));
+                    docRef.update(add_hashMap);
+                    mFollowStatus.setText("FOLLOWING");
+                    // hardcoded method
+                    follower_count[0]++;
+                    mFollowers.setText(String.valueOf(follower_count[0]));
+                    mFollowers.setText(String.valueOf(follower_count[0]));
+                    Toast.makeText(mContext, "Followed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+
+        mStorageReference.child("images").child(user.getProfile_photo()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                String imageURL = uri.toString();
+                UniversalImageLoader.setImage(imageURL, profilePhoto, mProgressBar, "");
+                            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+
     }
 
     /**
