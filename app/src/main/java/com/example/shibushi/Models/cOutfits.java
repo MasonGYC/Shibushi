@@ -22,7 +22,7 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
     // constructor for new outfits (YC)
     public cOutfits(String userID, String name, String category, ArrayList<cClothing> items) {
         this.outfitID = UUID.randomUUID().toString();
-        this.timeStamp = timeStamp;
+        this.timeStamp = getTimeStamp();
         this.userID = userID;
         this.name = name;
         this.items = items;
@@ -73,19 +73,6 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
         this.name = name;
     }
 
-    public ArrayList<cClothing> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<cClothing> items) {
-        this.items = items;
-    }
-
-
-    public ArrayList<String> getImg_names() {
-        return img_names;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -94,12 +81,24 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
         this.category = category;
     }
 
+    public ArrayList<cClothing> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<cClothing> items) {
+        this.items = items;
+    }
+
     public Timestamp getTimeStamp() {
         return timeStamp;
     }
 
     public void setTimeStamp(Timestamp timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public ArrayList<String> getImg_names() {
+        return img_names;
     }
 
     public void setImg_names(ArrayList<String> img_names) {

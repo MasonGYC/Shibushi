@@ -123,8 +123,8 @@ public class Profile extends AppCompatActivity {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 // Change document into class
                                 cOutfits outfit = document.toObject(cOutfits.class);
+                                Log.e(TAG, "WORKINGIGNIGN "+ outfit);
                                 cOutfitsArrayList.add(outfit);
-                                Log.e(TAG, String.valueOf(cOutfitsArrayList.size()));
                             }
 
                             // Recycler Views and Adapters

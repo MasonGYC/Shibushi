@@ -118,9 +118,9 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
         public FeedParentViewHolder(@NonNull View itemView) {
             super(itemView);
             usernameTV = itemView.findViewById(R.id.feed_each_outfit_username_TV);
-            outfitNameTV = itemView.findViewById(R.id.profile_each_outfit_TV);
+            outfitNameTV = itemView.findViewById(R.id.feed_each_outfit_TV);
             profilePhotoCIV = itemView.findViewById(R.id.feed_each_outfit_profile_photo_CIV);
-            clothesRecyclerView = itemView.findViewById(R.id.profile_clothing_RV);
+            clothesRecyclerView = itemView.findViewById(R.id.feed_clothing_RV);
         }
     }
 }

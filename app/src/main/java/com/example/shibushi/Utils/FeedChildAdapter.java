@@ -25,10 +25,11 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
 
     private final String TAG = "FeedChildAdapter";
     private ArrayList<String> cClothesList;
+
     public void setChildItemList(ArrayList<String> cClothesList){
         this.cClothesList = cClothesList;
 
-        // this.cClothesList.removeAll(Collections.singleton(null));
+        this.cClothesList.removeAll(Collections.singleton(null));
     }
 
     public FeedChildAdapter(ArrayList<String> cClothesArrayList) {
@@ -78,7 +79,7 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
         public FeedChildViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            clothingIV = itemView.findViewById(R.id.profile_each_child_clothing_IV);
+            clothingIV = itemView.findViewById(R.id.feed_each_child_clothing_IV);
         }
     }
 }
