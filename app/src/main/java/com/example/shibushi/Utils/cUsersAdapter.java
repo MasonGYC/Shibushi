@@ -1,5 +1,6 @@
 package com.example.shibushi.Utils;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -51,17 +57,34 @@ public class cUsersAdapter extends FirestoreRecyclerAdapter<cUsers, cUsersAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.username.setText(user.getUsername());
-        UniversalImageLoader.setImage(user.getProfile_photo(), holder.profile_photo, null, "");
 
-        if (userClickListener != null) {
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    userClickListener.onSelectedUser(user);
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
+        mStorageReference.child("images").child(user.getProfile_photo()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                String imageURL = uri.toString();
+                Glide.with(holder.itemView.getContext()).load(imageURL).into(holder.profile_photo);
+
+                // When user selects a user
+                if (userClickListener != null) {
+                    holder.view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            userClickListener.onSelectedUser(user);
+
+                        }
+                    });
                 }
-            });
-        }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     // Create new views (invoked by the layout manager)
