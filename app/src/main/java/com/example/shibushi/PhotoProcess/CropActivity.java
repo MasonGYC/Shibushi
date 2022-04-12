@@ -26,6 +26,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.example.shibushi.MainActivity;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropFragment;
 import com.yalantis.ucrop.UCropFragmentCallback;
@@ -40,9 +41,9 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
 
     private static final String TAG = "CropActivity";
 
-    private static final int REQUEST_SELECT_PICTURE = 0x01;
-    private static final int REQUEST_SELECT_PICTURE_FOR_FRAGMENT = 0x02;
     private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage";
+
+    public static boolean isTakingPhoto = false;
 
     private Toolbar toolbar;
     private ScrollView settingsView;
@@ -57,16 +58,28 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
     @DrawableRes
     private int mToolbarCropDrawable;
     // Enables dynamic coloring
-    private int mToolbarColor;
-    private int mStatusBarColor;
     private int mToolbarWidgetColor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_sample);
         //setupUI();
-        pickFromGallery();
+        if (!isTakingPhoto){
+            pickFromGallery();
+        }
+        else{
+            Intent intent = getIntent();
+            Uri selectedUri = Uri.parse(intent.getStringExtra(MainActivity.PHOTO_TAKEN));
+            if (selectedUri != null) {
+                startCrop(selectedUri);
+            } else {
+                Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_selected_image, Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
     }
 
     @Override
@@ -89,22 +102,8 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
         }
     }
 
-    /*
-    @SuppressWarnings("ConstantConditions")
-    private void setupUI() {
-        findViewById(R.id.button_crop).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickFromGallery();
-            }
-        });
 
-        //MODIFIED:NO NEED RANDOM CROP
-        //settingsView = findViewById(R.id.settings);
 
-    }
-
-     */
 
     private void pickFromGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
