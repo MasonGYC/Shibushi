@@ -212,7 +212,13 @@ public class SelectedUserActivity extends AppCompatActivity {
                     // Unfollow - Remove userID from current user's following
                     Map<String, Object> remove_hashMap = new HashMap<>();
                     remove_hashMap.put("following", FieldValue.arrayRemove(selected_userID));
-                    docRef.update(remove_hashMap);
+                    docRef.update(remove_hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "Following now!");
+                        }
+                    });
+
                     mFollowStatus.setText("FOLLOW");
                     // hardcoded method
                     follower_count[0]--;
@@ -223,7 +229,13 @@ public class SelectedUserActivity extends AppCompatActivity {
                     // Follow - Add userID to current user's following
                     Map<String, Object> add_hashMap = new HashMap<>();
                     add_hashMap.put("following", FieldValue.arrayUnion(selected_userID));
-                    docRef.update(add_hashMap);
+                    docRef.update(add_hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "No longer following!");
+                        }
+                    });
+                    ;
                     mFollowStatus.setText("FOLLOWING");
                     // hardcoded method
                     follower_count[0]++;
