@@ -2,6 +2,7 @@ package com.example.shibushi.Feed.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +28,8 @@ import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +40,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -60,6 +65,7 @@ public class Profile extends AppCompatActivity {
     private ProfileParentAdapter profileParentAdapter;
 
     // Firestore
+    StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
     private FirebaseFirestore mDatabase;
     private String current_UserID;
 
@@ -193,10 +199,22 @@ public class Profile extends AppCompatActivity {
      */
     private void setProfileImage(cUsers user) {
         Log.d(TAG, "setProfileImage: setting profile image");
+        String profile_photo = user.getProfile_photo();
 
-        String imgURL = user.getProfile_photo();
-        Log.d(TAG, "setProfileImage: " + imgURL);
-        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "");
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+        mStorageReference.child("images").child(profile_photo).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Glide.with(context).load(uri.toString()).into(holder.clothingIV);
+                UniversalImageLoader.setImage(uri.toString(), profilePhoto, mProgressBar, "");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     /**
