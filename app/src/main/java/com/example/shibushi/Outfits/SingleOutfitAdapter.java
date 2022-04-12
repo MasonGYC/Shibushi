@@ -2,6 +2,9 @@ package com.example.shibushi.Outfits;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
 import com.example.shibushi.Wardrobe.UtilsFetchBitmap;
+import com.example.shibushi.Wardrobe.imageAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapter.SingleOutfitViewHolder>{
 
@@ -36,7 +42,7 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
     @NonNull
     @Override
     public SingleOutfitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View contactView = inflater.inflate(R.layout.singleoutfit_relativeview, parent, false);
+        View contactView = inflater.inflate(R.layout.singleoutfit_cardview, parent, false);
         return new SingleOutfitViewHolder(contactView);
     }
 
@@ -44,17 +50,39 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
     public void onBindViewHolder(@NonNull SingleOutfitViewHolder holder, int position) {
         String name = this.datasource.get(position).getImg_name();
         holder.clothingName.setText(name);
-        URL url = null;
+        String url_s = this.datasource.get(position).getImg_name();
         // todo: if no url then what?
-        try {
-            url = new URL(this.datasource.get(position).getUrl());
-            Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
-            holder.outfitImageView.setImageBitmap(bitmap);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // todo: this is dummy method
+        // bind image
+        Log.i("imgname",this.datasource.get(position).getImg_name());
+
+        ExecutorService executor;
+        executor = Executors.newSingleThreadExecutor();
+        final Handler handler = new Handler(Looper.myLooper());
+        executor.execute(() -> {
+            final imageAdapter.Container<Bitmap> cBitmap = new imageAdapter.Container<>();
+            final imageAdapter.Container<String> cUri = new imageAdapter.Container<>();
+            try {
+                URL url = new URL(url_s);
+                Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
+                cBitmap.set(bitmap);
+                cUri.set(url_s);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (cBitmap.get() != null) {
+                        Picasso.get().load(cUri.get()).resize(600,600).centerCrop().into(holder.outfitImageView);
+                        holder.outfitImageView.setMaxWidth(600);
+                        Log.i("post_imagename",cUri.get());
+                        executor.shutdown();
+                    }
+                }
+            });
+        });
 
 
 
