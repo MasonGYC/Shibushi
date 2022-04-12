@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,26 +7,38 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <!-- View outfit toolbar -->
-    <include layout="@layout/snippet_view_outfit_toolbar" />
-
-    <TextView
-        android:id="@+id/tvOutfitName"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text="Outfit name"
-        android:layout_centerHorizontal="true"
-        android:textSize="20sp"
-        android:background="@drawable/grey_border_bottom"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/layout_single_outfit_recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- View outfit toolbar -->
+        <include layout="@layout/snippet_view_outfit_toolbar" />
 
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <TextView
+            android:id="@+id/tvOutfitName"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/grey_border_bottom"
+            android:layout_below="@layout/snippet_viewoutfits_toolbar"
+            android:layout_marginTop="20dp"
+            android:text="Outfit name"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp" />
 
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/layout_single_outfit_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

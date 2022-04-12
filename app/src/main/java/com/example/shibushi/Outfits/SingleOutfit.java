@@ -5,6 +5,8 @@ import static com.example.shibushi.Outfits.OutfitChildAdapter.KEY_SINGLE_OUTFIT_
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -23,6 +25,7 @@ public class SingleOutfit extends AppCompatActivity {
     TextView outfitNameText;
     RecyclerView singleoutfitRecyclerView;
     SingleOutfitAdapter singleOutfitAdapter;
+    ImageView backArrow;
 
 
     @Override
@@ -37,6 +40,11 @@ public class SingleOutfit extends AppCompatActivity {
         // bind widgets
         outfitNameText = findViewById(R.id.tvOutfitName);
         outfitNameText.setText(outfitname);
+
+        backArrow = findViewById(R.id.snippet_view_outfit_toolbar_back);
+        backArrow.setOnClickListener(view -> {
+         SingleOutfit.this.finish();
+        });
 
         //set recycler view
         singleoutfitRecyclerView = findViewById(R.id.layout_single_outfit_recyclerView);
