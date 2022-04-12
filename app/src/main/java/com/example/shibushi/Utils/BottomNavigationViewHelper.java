@@ -6,12 +6,11 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-
 import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.MainActivity;
+import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
 import com.example.shibushi.R;
-import com.example.shibushi.ViewOutfitsActivity;
-import com.example.shibushi.ViewWardrobeActivity;
+import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.google.android.material.navigation.NavigationBarView;
 
 // A Helper class to organise implementation of Bottom Navigation Bar which applies to all screens
@@ -41,10 +40,8 @@ public class BottomNavigationViewHelper {
                         break;
 
                     case R.id.ic_community_feed: // b_menu_ACTIVTY_NUM = 1
-                        if (view.getSelectedItemId()!=R.id.ic_community_feed) {
-                            Intent intent_community_feed = new Intent(context, FeedActivity.class);
-                            context.startActivity(intent_community_feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                        }
+                        Intent intent_community_feed = new Intent(context, FeedActivity.class);
+                        context.startActivity(intent_community_feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
 
                     case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 2
@@ -56,7 +53,7 @@ public class BottomNavigationViewHelper {
 
                     case R.id.ic_outfits: // b_menu_ACTIVTY_NUM = 3
                         if (view.getSelectedItemId()!=R.id.ic_outfits) {
-                            Intent intent_outfits = new Intent(context, ViewOutfitsActivity.class);
+                            Intent intent_outfits = new Intent(context, ViewOutfitsParentActivity.class);
                             context.startActivity(intent_outfits.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                         }
                         break;

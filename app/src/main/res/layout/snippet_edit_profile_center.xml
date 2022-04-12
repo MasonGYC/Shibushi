@@ -6,7 +6,7 @@
     <ScrollView
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="20dp">
 
         <RelativeLayout
@@ -59,7 +59,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="45dp"
                     android:text="@string/username"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
@@ -80,13 +80,13 @@
 
                 <!-- Edit Description -->
                 <EditText
-                    android:id="@+id/snippet_edit_profile_center_etDescr"
+                    android:id="@+id/snippet_edit_profile_center_etBio"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="40dp"
                     android:hint="Bio"
                     android:inputType="textNoSuggestions"
-                    android:textSize="20sp"/>
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
@@ -125,7 +125,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="45dp"
                     android:text="email@email.com"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 

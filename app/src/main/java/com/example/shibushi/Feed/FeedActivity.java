@@ -11,19 +11,46 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
+import com.example.shibushi.Models.cClothing;
+import com.example.shibushi.Models.cOutfits;
+import com.example.shibushi.Models.cUsers;
+import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
-import com.example.shibushi.TagIt;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.example.shibushi.Utils.FeedParentAdapter;
+import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -32,8 +59,16 @@ public class FeedActivity extends AppCompatActivity {
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
 
-    public static final String KEY_FEED_PHOTO = "KEY_FEED_PHOTO";
+    // Feed
+    private RecyclerView parentRecyclerView;
+    private FeedParentAdapter feedParentAdapter;
+
+    // For TagIt
     Uri imageUri;
+
+    // Firestore
+    public static final FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
+    public static final String currentUserID= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
     @Override
@@ -47,8 +82,49 @@ public class FeedActivity extends AppCompatActivity {
         setupBottomNavigationView(); //Setup bottom navigation bar
         setup_FAB(); //Setup floating action button
 
+        // RecyclerView
+        mDatabase.collection("cUsers").document(currentUserID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                cUsers cUser_current = task.getResult().toObject(cUsers.class);
+                ArrayList following = cUser_current.getFollowing();
+
+                setupRecyclerViews(following);
+            }
+        });
+
     }
 
+    private void setupRecyclerViews(ArrayList<String> current_UserID_ArrayList) {
+        ArrayList<cOutfits> cOutfitsArrayList = new ArrayList<>();
+
+        for (String userID_i : current_UserID_ArrayList) {
+            mDatabase.collection("cOutfits")
+                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+                    .whereEqualTo("userID", userID_i)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                            // iterate through user i's outfit
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                cOutfits user_i_cOutfit = document.toObject(cOutfits.class);
+                                cOutfitsArrayList.add(user_i_cOutfit);
+                            }
+
+                            Collections.sort(cOutfitsArrayList);
+
+                            // Recycler Views and Adapters
+                            parentRecyclerView = findViewById(R.id.feed_parent_RV);
+                            parentRecyclerView.setHasFixedSize(true);
+                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
+                            feedParentAdapter = new FeedParentAdapter(cOutfitsArrayList);
+                            parentRecyclerView.setAdapter(feedParentAdapter);
+                        }
+                    });
+        }
+    }
 
     /**
      * Initialise ImageLoader
@@ -62,12 +138,14 @@ public class FeedActivity extends AppCompatActivity {
     // Floating action button
     private void setup_FAB() {
         Log.d(TAG, "setupFloatingActionButton: Setting up FAB menu");
-
+        // new outfit
         FloatingActionButton fab_outfit = findViewById(R.id.community_feed_fab_outfit);
+        //new clothing
         FloatingActionButton fab_hanger = findViewById(R.id.community_feed_fab_hanger);
-        FloatingActionButton fab_edit = findViewById(R.id.community_feed_fab_edit);
+        //share outfit
+        FloatingActionButton fab_share = findViewById(R.id.community_feed_fab_share);
 
-        fab_edit.setOnClickListener(new View.OnClickListener() {
+        fab_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: Add new post page
@@ -82,17 +160,16 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
-                importClothing(MainActivity.PICK_IMAGE_REQUEST);
+                importClothing();
             }
         });
 
         fab_outfit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Add new outfit page
-                Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
-                // Intent intent = new Intent(mContext, NewOutfit.class);
-                // startActivity(intent);
+                //Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, ViewWardrobeActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -104,11 +181,22 @@ public class FeedActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ImageView myprofile = findViewById(R.id.community_feed_top_toolbar_profile);
+        ImageView searchBar = findViewById(R.id.community_feed_top_toolbar_search);
+
         myprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Navigating to my profile");
                 Intent intent = new Intent(mContext, Profile.class);
+                startActivity(intent);
+            }
+        });
+
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Navigating to search");
+                Intent intent = new Intent(mContext, SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -128,13 +216,12 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     // Select Image method
-    public void importClothing(int PICK_IMAGE_REQUEST) {
+    public void importClothing() {
         // Defining Implicit Intent to mobile gallery
-        Intent selectIntent = new Intent();
-        selectIntent.setType("image/*");
-        selectIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
-    }
+        CropActivity.isTakingPhoto = false;
+        Intent selectIntent = new Intent(FeedActivity.this, CropActivity.class);
+        startActivity(selectIntent);
+   }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -142,9 +229,12 @@ public class FeedActivity extends AppCompatActivity {
         if (requestCode == MainActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (intent.getData() != null) {
                 imageUri = intent.getData();
-                Intent tagItIntent = new Intent(mContext, TagIt.class);
-                tagItIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());
-                startActivity(tagItIntent);
+                /*
+                Intent cropIntent = new Intent(mContext, Crop.class);
+                cropIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());
+                startActivity(cropIntent);
+
+                 */
 
             }
 

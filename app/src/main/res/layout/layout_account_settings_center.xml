@@ -5,15 +5,14 @@
         android:layout_width="match_parent"
         android:padding="20dp">
 
-        <!-- Implement a underline of this text -->
-        <!-- android:background="@drawable/grey_border_bottom" -->
         <TextView
             android:id="@+id/layout_account_settings_center_text_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Account Settings"
             android:textSize="35dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/grey_border_bottom"/>
 
         <ListView
             android:id="@+id/layout_account_settings_center_listView"

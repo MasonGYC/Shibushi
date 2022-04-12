@@ -12,7 +12,8 @@
             android:layout_height="match_parent"
             android:background="@color/grey"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_navbar">
+            app:menu="@menu/bottom_navbar"
+            android:theme="@style/Theme.AppCompat.DayNight">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 

@@ -1,7 +1,5 @@
 package com.example.shibushi;
 
-import static com.example.shibushi.Feed.FeedActivity.KEY_FEED_PHOTO;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,9 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.shibushi.PhotoProcess.ResultActivity;
 import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,11 +30,17 @@ public class TagIt extends AppCompatActivity {
     Spinner spinnerColor;
     Spinner spinnerCategory;
     Spinner spinnerOccasion;
-    final float scale = 0.7f; //scale factor for bitmap display
+    Spinner spinnerSize;
+    SwitchCompat switchPrivacy;
     FirebaseStorage storage;
     StorageReference storageReference;
-    public Uri filePath;
-    String photoURIString;
+
+    //TAGS
+    public final static String COLOR = "color";
+    public final static String OCCASION = "occasion";
+    public final static String SIZE = "size";
+    public final static String CATEGORY = "category";
+    public final static String PRIVACY = "privacy";
 
 
     @Override
@@ -41,11 +48,7 @@ public class TagIt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tagit);
 
-        //dummy hashmap
         HashMap<String, Object> map = new HashMap<>();
-        map.put("color", "red");
-        map.put("size", "M");
-        map.put("Category", "Shirt");
 
         // get the Firebase  storage reference
         storage = FirebaseStorage.getInstance();
@@ -57,89 +60,57 @@ public class TagIt extends AppCompatActivity {
         spinnerColor = findViewById(R.id.spinnerColor);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         spinnerOccasion = findViewById(R.id.spinnerOccasion);
+        spinnerSize = findViewById(R.id.spinnerSize);
+
+        switchPrivacy = findViewById(R.id.privacySwitch);
+        switchPrivacy.setChecked(true);
+        switchPrivacy.setTextOn("Private"); // displayed text of the Switch whenever it is in checked or on state
+        switchPrivacy.setTextOff("Public"); // displayed text of the Switch whenever it is in unchecked i.e. off state
+
+
 
         //get intent to set image
         Intent bitmapIntent = getIntent();
-        if (bitmapIntent.getStringExtra(KEY_FEED_PHOTO) != null){
-            photoURIString= bitmapIntent.getStringExtra(KEY_FEED_PHOTO);
-        }
-        else if (bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO) != null){
-            photoURIString = bitmapIntent.getStringExtra(MainActivity.KEY_PHOTO);
-            }
 
-        Uri photoURI = Uri.parse(photoURIString);
+        Uri photoURI = Uri.parse(bitmapIntent.getStringExtra(ResultActivity.KEY_PHOTO));
 
         try {
-            Bitmap bitmapfull = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
-            Bitmap bitmap = Bitmap.createScaledBitmap(bitmapfull,
-                    (int)(bitmapfull.getWidth()*scale),
-                    (int)(bitmapfull.getHeight()*scale),
-                    true); //bilinear filtering
+            //Toast.makeText(TagIt.this,photoURI.toString(),Toast.LENGTH_LONG).show();
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
             imageViewBitmap.setImageBitmap(bitmap);
-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getWidth()*scale));
-            Log.i("imageViewBitmap", String.valueOf(bitmapfull.getHeight()*scale));
+
         } catch (IOException e) {
-            Log.i("tagit","NO imgUri");
+            Log.i("tagit", "NO imgUri");
         }
 
         buttonTagIt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirestoreMethods.addClothes(map,photoURI);
-                Intent intent = new Intent(TagIt.this,MainActivity.class);
+                // store tags info
+                map.put(COLOR, spinnerColor.getSelectedItem().toString());
+                map.put(SIZE, spinnerSize.getSelectedItem().toString());
+                map.put(CATEGORY, spinnerCategory.getSelectedItem().toString());
+                map.put(OCCASION, spinnerOccasion.getSelectedItem().toString());
+
+                Boolean switchState = switchPrivacy.isChecked();
+                if (switchState){
+                    //private
+                    map.put(PRIVACY, "private");
+                }
+                else{
+                    map.put(PRIVACY, "public");
+                }
+                // UPLOAD IMAGE AND TAGS
+                FirestoreMethods.addClothes(map, photoURI);
+                // ^^ need to return img_name and userid, both add to the map.
+                // go back to MainActivity
+                Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(TagIt.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
     }
-
-    /*public void uploadImage() {
-        if (filePath != null) {
-
-            // Code for showing progressDialog while uploading
-            ProgressDialog progressDialog
-                    = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            // Defining the child of storageReference
-            StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // Image uploaded successfully
-                    // Dismiss dialog
-                    progressDialog.dismiss();
-                    Toast.makeText(TagIt.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                }
-            })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Error, Image not uploaded
-                            progressDialog.dismiss();
-                            Toast.makeText(TagIt.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(
-                            new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                // Progress Listener for loading
-                                // percentage on the dialog box
-                                @Override
-                                public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot) {
-                                    double progress
-                                            = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                                    progressDialog.setMessage("Uploaded " + (int)progress + "%");
-                                }
-                            });
-        }
-    }*/
-
 
 
 }

@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:text="20"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="100"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -74,31 +74,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:text="250"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textEditProfile"
+        <Button
+            android:id="@+id/buttonFollowStatus"
             android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/edit_profile_fragment"
-            android:textColor="@color/dark_grey"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:background="@drawable/grey_border"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:text="FOLLOW"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textFollowers"
-            app:layout_constraintVertical_bias="0.014" />
+            app:layout_constraintTop_toBottomOf="@+id/textFollowers" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

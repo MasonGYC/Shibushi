@@ -17,9 +17,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.example.shibushi.Login.ChangePassword;
+import com.example.shibushi.Feed.Profile.ChangePassword;
 import com.example.shibushi.Login.Login;
+import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.example.shibushi.testing.firestoreUpload;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,8 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int PICK_IMAGE_REQUEST = 2;
     static final String KEY_PHOTO = "PHOTO";
+    public static final String PHOTO_TAKEN = "TAKEN_PHOTON";
     Uri photoURI;
     String currentPhotoPath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         //Welcome message
-        //Obviously we don't have to include this but its an option to display the username somewhere
-        //somehow
         String username = currentUser.getDisplayName();
         if (username != null){
             welcome = "Welcome, " + currentUser.getDisplayName();
@@ -112,39 +114,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changePassword();
                 break;
             case R.id.bImportClothing:
-                SelectImage(PICK_IMAGE_REQUEST);
+                CropActivity.isTakingPhoto = false;
+                Intent cropIntent = new Intent(MainActivity.this, CropActivity.class);
+                startActivity(cropIntent);
                 break;
             case R.id.bTakePhoto:
+                CropActivity.isTakingPhoto = true;
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:
-                goFirestore();
+                startActivity(new Intent(MainActivity.this, TagIt.class));
+                //goFirestore();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Log.i("onActivityResult","tagItIntent");
-            Intent tagItIntent = new Intent(MainActivity.this,TagIt.class);
-            tagItIntent.putExtra(KEY_PHOTO, photoURI.toString());
-            startActivity(tagItIntent);
-        }
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK  && intent != null && intent.getData() != null) {
-            Uri filePath = intent.getData();
-            Intent tagItIntent = new Intent(MainActivity.this, TagIt.class);
-            tagItIntent.putExtra(KEY_PHOTO, filePath.toString());
-            startActivity(tagItIntent);
-        }
-    }
 
-    //Methods below better not put in a separate file, due to pass-by-reference i guess
     //take picture
     public void dispatchTakePictureIntent(int REQUEST_IMAGE_CAPTURE) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -156,14 +146,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this,"Cannot create files for photos",Toast.LENGTH_SHORT).show();
                 //Log.i("TakePicture: ","Cannot create files for photos");
             }
+            Log.d(TAG,"We got this far!");
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
+                        "com.example.shibushi.fileprovider",
                         photoFile);
+
+                Log.d("ronda2", currentPhotoPath);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
-
             }
         }
     }
@@ -172,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "Shibushi_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -184,13 +176,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return image;
     }
 
-    // Select Image method
-    public void SelectImage(int PICK_IMAGE_REQUEST) {
-        // Defining Implicit Intent to mobile gallery
-        Intent selectIntent = new Intent();
-        selectIntent.setType("image/*");
-        selectIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(selectIntent, "Select Image from here..."), PICK_IMAGE_REQUEST);
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        if (resultCode == REQUEST_IMAGE_CAPTURE){
+            Intent intent = new Intent(MainActivity.this,CropActivity.class);
+            intent.putExtra(PHOTO_TAKEN,currentPhotoPath);
+            startActivity(intent);
+        }
     }
 
     // TODO: remove
@@ -199,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user != null){
             mAuth.signOut();
             Toast.makeText(this, user.getEmail()+ "is logged out!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Login.class));
+            startActivity(new Intent(this, Login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }else{
             Toast.makeText(this, "You aren't logged in yet!", Toast.LENGTH_SHORT).show();
         }
@@ -207,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void changePassword() {
         startActivity(new Intent(MainActivity.this, ChangePassword.class));
     }
+
+    //No need
     public void goFirestore() {
         startActivity(new Intent(MainActivity.this, firestoreUpload.class));
     }

@@ -2,39 +2,75 @@ package com.example.shibushi.Feed.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Feed.FeedActivity;
+import com.example.shibushi.Models.cOutfits;
+import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
-import com.example.shibushi.Utils.GridImageAdapter;
+//import com.example.shibushi.Utils.GridImageAdapter;
+import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
 public class Profile extends AppCompatActivity {
 
-    private static final String TAG = "Profile";
+    private static final String TAG = "ProfileActivity";
     private Context mContext = Profile.this;
     private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
-    private static final int NUM_GRID_PER_ROW = 2;
+    private TextView mFollowers;
+    private TextView mFollowing;
+    private TextView mUsername;
+    private TextView mOutfits;
+    private TextView mBio;
+    private Button mEditProfile;
     private ProgressBar mProgressBar;
+    private Toolbar toolbar;
     private ImageView profilePhoto;
+    // RCViews
+    private RecyclerView parentRecyclerView;
+    private ProfileParentAdapter profileParentAdapter;
+
+    // Firestore
+    StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+    private FirebaseFirestore mDatabase;
+    private String current_UserID;
+
+    // Model
+    private cUsers user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,143 +78,207 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.community_profile);
         Log.d(TAG, "onCreate: started");
 
-        init();
+        setupActivityWidgets();
+        setupToolBar();
+        initImageLoader();
+        setupBottomNavigationView();
 
-//        setupToolBar();
-//        setupBottomNavigationView();
-//        setupActivityWidgets();
-//        setProfileImage();
-//        tempGridSetup();
+        // Firestore
+        mDatabase = FirebaseFirestore.getInstance();
+        current_UserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference docRefUser = mDatabase.collection("cUsers").document(current_UserID);
+        docRefUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        user = document.toObject(cUsers.class);
+                        setupUserDetails(user);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        setupRecyclerViews(current_UserID);
     }
 
     /**
-     * To load the profile fragment
+     * To populate the nested recycler view of current user
+     * @param current_UserID UserID of the profile to display
      */
-    private void init() {
-        Log.d(TAG, "init: inflating profile fragment");
+    private void setupRecyclerViews(String current_UserID) {
+        mDatabase.collection("cOutfits")
+                .orderBy("timeStamp", Query.Direction.ASCENDING)
+                .whereEqualTo("userID", current_UserID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // set outfit count textview
+                            mOutfits.setText(String.valueOf(task.getResult().size()));
+                            ArrayList<cOutfits> cOutfitsArrayList = new ArrayList<>();
 
-        ProfileFragment profileFragment = new ProfileFragment();
-        FragmentTransaction fragmentTransaction = Profile.this.getSupportFragmentManager().beginTransaction();
-        // replace the profile container in layout/commmunity_profile with the view for ProfileFragment class
-        fragmentTransaction.replace(R.id.profile_container, profileFragment);
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                // Change document into class
+                                cOutfits outfit = document.toObject(cOutfits.class);
+                                Log.e(TAG, "WORKINGIGNIGN "+ outfit);
+                                cOutfitsArrayList.add(outfit);
+                            }
 
-        // keeping track of fragment stack (order of page when going back)
-        // fragments usually do not keep track of previous fragments visited
-        fragmentTransaction.addToBackStack(getString(R.string.profile_fragment));
-        fragmentTransaction.commit();
+                            // Recycler Views and Adapters
+                            parentRecyclerView = findViewById(R.id.profile_outfit_RV);
+                            parentRecyclerView.setHasFixedSize(true);
+                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(Profile.this));
+                            profileParentAdapter = new ProfileParentAdapter(cOutfitsArrayList);
+                            parentRecyclerView.setAdapter(profileParentAdapter);
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
-//    /**
-//     * Method to make it cleaner in onCreate
-//     */
-//    private void setupActivityWidgets() {
-//        // Progress bar
-//        mProgressBar = findViewById(R.id.community_profile_progress_bar);
-//        mProgressBar.setVisibility(View.GONE);
-//
-//        // Profile photo
-//        profilePhoto = findViewById(R.id.layout_centre_profile_photo);
-//    }
-//
-//    /**
-//     * Temporary grid setup
-//     * TODO: Temporary for testing that this view works, removed later
-//     */
-//    private void tempGridSetup() {
-//        ArrayList<String> imgURLs = new ArrayList<>();
-//        imgURLs.add("https://i.pinimg.com/736x/07/87/ca/0787ca9df636bbbaaca33374cfb24d66.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/76/ab/da/76abda9cd997be17540107d58fa4056b.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/b0/86/06/b08606e424577d699c73d6cdeb8e0811.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/c6/5e/89/c65e89429b2223bd6cc0b1e07386fea4.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/29/8c/bc/298cbc3b1419bfa5d85f91651a9345b2.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/92/97/69/92976925c6dbde908b1c8abc7c6aa5cd.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/f2/db/4d/f2db4d98e7545380407bdd7cdac97407.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/46/7b/e7/467be7dcdfaa8a27222be53990a8e02e.jpg");
-//        imgURLs.add("https://i.pinimg.com/736x/0c/33/80/0c3380fd4133bed5ce50bd196b7732ce.jpg");
-//        imgURLs.add("https://i.pinimg.com/originals/fe/95/07/fe950798e4e0e7ca61cd229d834a0007.png");
-//        imgURLs.add("https://i.pinimg.com/originals/fb/77/d7/fb77d7c7bff424ca0067ded646df9fde.jpg");
-//        imgURLs.add("https://data.whicdn.com/images/162374411/original.jpg");
-//
-//        setupImageGrid(imgURLs);
-//    }
-//
-//    /**
-//     * Posts grid view setup
-//     * TODO: Obtain image URLs from firebase, currently dummy images
-//     */
-//    private void setupImageGrid(ArrayList<String> imgURLs) {
-//        GridView gridView = findViewById(R.id.layout_centre_profile_gridView);
-//
-//        // set the width of each image grid
-//        int gridWidth = getResources().getDisplayMetrics().widthPixels;
-//        int imageWidth = gridWidth/NUM_GRID_PER_ROW;
-//        gridView.setColumnWidth(imageWidth);
-//
-//        GridImageAdapter gridImageAdapter = new GridImageAdapter(mContext, R.layout.layout_profile_grid_imageview, "", imgURLs);
-//        gridView.setAdapter(gridImageAdapter);
-//    }
-//
-//    /**
-//     * Profile Image setup
-//     * TODO: Obtain image from firebase, currently dummy image
-//     */
-//    private void setProfileImage() {
-//        Log.d(TAG, "setProfileImage: setting profile image");
-//        String imgURL = "https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg";
-//        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "");
-//    }
-//
-//    /**
-//     * Top toolbar setup
-//     */
-//    private void setupToolBar() {
-//        Toolbar toolbar = findViewById(R.id.snippet_profile_toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        ImageView mysettings = findViewById(R.id.snippet_profile_top_toolbar_settings);
-//        ImageView back = findViewById(R.id.snippet_profile_top_toolbar_back);
-//        TextView tvUsername = findViewById(R.id.snippet_profile_top_toolbar_username);
-//
-//        // Firebase authentication
-//        FirebaseAuth mAuth= FirebaseAuth.getInstance();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//
-//        // Set username on toolbar
-//        String username = currentUser.getDisplayName();
-//        if (username != null) {
-//            tvUsername.setText(username);}
-//
-//        mysettings.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(TAG, "onClick: Navigating to account settings");
-//                Intent intent = new Intent(mContext, AccountSettings.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(TAG, "onClick: Navigating back to feed");
-//                Intent intent = new Intent(mContext, FeedActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-//
-//    /**
-//     * Bottom navigation bar setup
-//     */
-//    private void setupBottomNavigationView() {
-//        Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
-//        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);
-//        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);
-//        BottomNavigationViewHelper.enableNavigation(mContext, bottom_navbar_view);
-//
-//        // To highlight the correct icon when on correct page
-//        Menu menu = bottom_navbar_view.getMenu();
-//        MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
-//        menuItem.setChecked(true);
-//    }
+    /**
+     * Method to make it cleaner in onCreate
+     */
+    private void setupActivityWidgets() {
+        Log.d(TAG, "setupActivityWidgets: started");
+        // Progress bar
+        mProgressBar = findViewById(R.id.profile_progress_bar);
+        mProgressBar.setVisibility(View.GONE);
+
+        // Profile photo
+        profilePhoto = findViewById(R.id.snippet_centre_profile_photo);
+
+        // TextViews
+        mOutfits = findViewById(R.id.tvOutfits);
+        mFollowers = findViewById(R.id.tvFollowers);
+        mFollowing = findViewById(R.id.tvFollowing);
+        mUsername = findViewById(R.id.snippet_profile_top_toolbar_username);
+        mBio = findViewById(R.id.snippet_centre_profile_bio);
+        mEditProfile = findViewById(R.id.editProfileBUTTON);
+
+        mEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Toolbar
+        toolbar = findViewById(R.id.snippet_profile_toolbar);
+    }
+
+    /**
+     * Setup user details: followStatus, OutfitsCount, Following, Followers
+     * and update the UI respectively
+     */
+    private void setupUserDetails(cUsers user) {
+        Log.d(TAG, "setupUserDetails: setting user details");
+
+        setProfileImage(user);
+
+        mFollowers.setText(String.valueOf(user.getFollowers().size()));
+        mFollowing.setText(String.valueOf(user.getFollowing().size()));
+        mBio.setText(user.getBio());
+
+    }
+
+    /**
+     * Profile Image setup
+     */
+    private void setProfileImage(cUsers user) {
+        Log.d(TAG, "setProfileImage: setting profile image");
+        String profile_photo = user.getProfile_photo();
+
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+        mStorageReference.child("images").child(profile_photo).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Glide.with(context).load(uri.toString()).into(holder.clothingIV);
+                UniversalImageLoader.setImage(uri.toString(), profilePhoto, mProgressBar, "");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+    }
+
+    /**
+     * Top toolbar setup
+     */
+    private void setupToolBar() {
+        Log.d(TAG, "setupToolBar: Setting up toolbar");
+
+        Toolbar toolbar = findViewById(R.id.snippet_profile_toolbar);
+        setSupportActionBar(toolbar);
+
+        ImageView mysettings = findViewById(R.id.snippet_profile_top_toolbar_settings);
+        ImageView back = findViewById(R.id.snippet_profile_top_toolbar_back);
+        TextView tvUsername = findViewById(R.id.snippet_profile_top_toolbar_username);
+
+        // Firebase authentication
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Set username on toolbar
+        String username = currentUser.getDisplayName();
+        if (username != null) {
+            tvUsername.setText(username);}
+
+        mysettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Navigating to account settings");
+                Intent intent = new Intent(mContext, AccountSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Navigating back to feed");
+                Intent intent = new Intent(mContext, FeedActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Initialise ImageLoader
+     * Quick Setup Src- https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Quick-Setup
+     */
+    private void initImageLoader() {
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
+
+    /**
+     * Bottom navigation bar setup
+     */
+    private void setupBottomNavigationView() {
+        Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
+        BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottom_navbar_view);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottom_navbar_view);
+
+        // To highlight the correct icon when on correct page
+        Menu menu = bottom_navbar_view.getMenu();
+        MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
+        menuItem.setChecked(true);
+    }
 }

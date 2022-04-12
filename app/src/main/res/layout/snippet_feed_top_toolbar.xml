@@ -20,43 +20,26 @@
                     android:layout_height="match_parent">
 
                     <!-- following -->
-                    <ImageView
+                    <TextView
                         android:id="@+id/community_feed_top_toolbar_following"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_baseline_people_24" />
-
-                    <!-- discover -->
-                    <ImageView
-                        android:id="@+id/community_feed_top_toolbar_discover"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_toRightOf="@id/community_feed_top_toolbar_following"
-                        android:layout_marginLeft="10dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_baseline_location_city_24"/>
+                        android:text="Feed"
+                        android:textSize="20sp"
+                        android:textStyle="italic"/>
 
                     <!-- search -->
                     <ImageView
                         android:id="@+id/community_feed_top_toolbar_search"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
-                        android:layout_toLeftOf="@+id/community_feed_top_toolbar_bookmarks"
+                        android:layout_toLeftOf="@+id/community_feed_top_toolbar_profile"
                         android:layout_marginLeft="10dp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_baseline_search_24"/>
-
-                    <!-- bookmarks -->
-                    <ImageView
-                        android:id="@+id/community_feed_top_toolbar_bookmarks"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_toLeftOf="@id/community_feed_top_toolbar_profile"
-                        android:layout_marginLeft="10dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_baseline_bookmarks_24" />
 
                     <!-- my profile -->
                     <ImageView

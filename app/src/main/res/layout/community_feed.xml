@@ -25,10 +25,16 @@
             android:id="@+id/community_feed_relLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/community_feed_relLayout1">
+            android:layout_below="@+id/community_feed_relLayout1"
+            android:layout_marginTop="0dp">
 
-            <!-- Middle Section: Posts scroll -->
-            <include layout="@layout/layout_center_viewpager"></include>
+            <!-- Feed Recycler View -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feed_parent_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
             <!-- Floating Action button -->
             <com.getbase.floatingactionbutton.FloatingActionsMenu
@@ -43,16 +49,16 @@
                 app:fab_addButtonPlusIconColor="@color/white"
                 app:fab_labelStyle="@style/customFab">
 
-                <!-- New Post -->
+                <!-- Share new outfit -->
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/community_feed_fab_edit"
+                    android:id="@+id/community_feed_fab_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fab_colorNormal="@color/white"
                     app:fab_colorPressed="@color/grey"
-                    app:fab_icon="@drawable/ic_baseline_edit_24"
+                    app:fab_icon="@drawable/ic_share"
                     app:fab_size="mini"
-                    app:fab_title="New Post" />
+                    app:fab_title="Share New Outfit" />
 
                 <!-- New Clothing -->
                 <com.getbase.floatingactionbutton.FloatingActionButton
@@ -80,7 +86,6 @@
 
         </RelativeLayout>
 
-        <!-- bottom navigation -->
         <include layout="@layout/layout_navbar_bottom"></include>
 
     </RelativeLayout>
