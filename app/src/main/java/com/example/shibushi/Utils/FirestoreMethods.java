@@ -234,6 +234,7 @@ public class FirestoreMethods {
 //    }
     /*
     * Create outfit
+    * TODO: FIx bug - Creates a hashmap for timestamp instead of a Timestamp Datatype
     * */
     public static void addOutfit(Object obj, String outfitName){
         ObjectMapper mapObject = new ObjectMapper();

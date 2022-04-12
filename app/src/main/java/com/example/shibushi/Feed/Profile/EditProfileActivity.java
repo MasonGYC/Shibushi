@@ -13,13 +13,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.UniversalImageLoader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -62,19 +68,39 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // setup profile image
         initImageLoader();
-        setProfileImage();
+        initProfileImage();
 
         // TODO: setup Save Changes to firestore
         setupSaveChangesBUTTON();
     }
 
     // For setting profile image
-    private void setProfileImage() {
+    private void initProfileImage() {
         Log.d(TAG, "setProfileImage: setting profile image");
+        String current_UserID = currentUser.getUid();
+        DocumentReference docRefUser = FirebaseFirestore.getInstance().collection("cUsers").document(current_UserID);
+        docRefUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        cUsers user = document.toObject(cUsers.class);
 
-        // TODO: Set profile image from firebase, currently a dummy image
-        String imgURL = "https://i.pinimg.com/474x/4b/8a/e4/4b8ae452fe3d785f3d15b1fa5b201af3.jpg";
-        UniversalImageLoader.setImage(imgURL, profile_photo_CIV, null, "");
+                        String imgURL = user.getProfile_photo();
+                        Log.d(TAG, "setProfileImage: " + imgURL);
+                        UniversalImageLoader.setImage(imgURL, profile_photo_CIV, null, "");
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
     }
 
     // TODO: To update firestore with changes

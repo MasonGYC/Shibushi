@@ -194,8 +194,6 @@ public class Profile extends AppCompatActivity {
     private void setProfileImage(cUsers user) {
         Log.d(TAG, "setProfileImage: setting profile image");
 
-        //     java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.shibushi/com.example.shibushi.Feed.Profile.Profile}: java.lang.NullPointerException:
-        //     Attempt to invoke virtual method 'java.lang.String com.example.shibushi.Models.cUsers.getProfile_photo()' on a null object reference
         String imgURL = user.getProfile_photo();
         Log.d(TAG, "setProfileImage: " + imgURL);
         UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "");
