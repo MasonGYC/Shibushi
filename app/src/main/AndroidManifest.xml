@@ -76,7 +76,8 @@
         <activity
             android:name=".Feed.Profile.EditProfileActivity"
             android:parentActivityName=".Feed.Profile.Profile"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light"
+            android:exported="true"/>
         <activity
             android:name=".Feed.Profile.ChangePassword"
             android:parentActivityName=".Feed.Profile.AccountSettingsActivity"

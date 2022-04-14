@@ -63,6 +63,13 @@ public class FirestoreMethods {
         return img_name;
     }
 
+    public static void change_profilepic(String userID, Uri filepath) {
+        String profilePic_imgName = uploadImage(filepath);
+        HashMap<String, Object> update_profilePic = new HashMap<>();
+        update_profilePic.put("profile_photo", profilePic_imgName);
+        mFirestoreDB.collection("cUsers").document(userID).update(update_profilePic);
+    }
+
     private static String uploadImage(Uri filePath) {
 
         if (filePath != null) {
@@ -152,45 +159,48 @@ public class FirestoreMethods {
 
     /*
     * Accessing image and metadata methods
+    * UPDATE - DELETE THIS METHOD
     * */
-    public static String getDownloadUrlString(String img_name){
-        StorageReference imgRef = mStorageReference.child("images/" + img_name);
-        final String[] url = {null};
-        imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Log.d("success", uri.toString());
-                url[0] = uri.toString();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-        return url[0];
-    }
+//    public static String getDownloadUrlString(String img_name){
+//        StorageReference imgRef = mStorageReference.child("images/" + img_name);
+//        final String[] url = {null};
+//        imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Log.d("success", uri.toString());
+//                url[0] = uri.toString();
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle any errors
+//            }
+//        });
+//        return url[0];
+//    }
+//
+//    /**
+//     * Method that gets url from img_name
+//     * @param img_name
+//     * @return
+//     */
+//    public static void getDownloadURL(String img_name) {
+//        mStorageReference.child("images").child(img_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                // Got the download URL for 'users/me/profile.png'
+//                // Glide.with(context).load(uri.toString()).into(holder.clothingIV);
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle any errors
+//            }
+//        });
+//    }
 
-    /**
-     * Method that gets url from img_name
-     * @param img_name
-     * @return
-     */
-    public static void getDownloadURL(String img_name) {
-        mStorageReference.child("images").child(img_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
-                // Glide.with(context).load(uri.toString()).into(holder.clothingIV);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-    }
     public static void editClothes(String img_name, HashMap<String, Object> map ){
         mDocRef = clothesRef.document(img_name);
         try{
@@ -234,6 +244,7 @@ public class FirestoreMethods {
 //        });
 //        return clothes_Array;
 //    }
+
     /*
     * Create outfit
     * TODO: FIx bug - Creates a hashmap for timestamp instead of a Timestamp Datatype
