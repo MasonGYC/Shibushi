@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.shibushi.Feed.Profile.EditProfileActivity;
 import com.example.shibushi.TagIt;
 import com.yalantis.ucrop.view.UCropView;
 import com.example.shibushi.R;
@@ -41,6 +42,8 @@ import java.nio.channels.FileChannel;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.xml.transform.Result;
+
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
  */
@@ -51,9 +54,10 @@ public class ResultActivity extends BaseActivity {
     private static final int DOWNLOAD_NOTIFICATION_ID_DONE = 911;
     public static final String KEY_PHOTO = "KEY_PHOTO";
 
-    public static void startWithUri(@NonNull Context context, @NonNull Uri uri) {
+    public static void startWithUri(@NonNull Context context, @NonNull Uri uri, String startingClass) {
         Intent intent = new Intent(context, ResultActivity.class);
         intent.setData(uri);
+        intent.putExtra("startingClass", startingClass);
         context.startActivity(intent);
     }
 
@@ -62,6 +66,7 @@ public class ResultActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         Uri uri = getIntent().getData();
+        String startingClass = getIntent().getStringExtra("startingClass");
         if (uri != null) {
             try {
                 UCropView uCropView = findViewById(R.id.ucrop);
@@ -130,9 +135,18 @@ public class ResultActivity extends BaseActivity {
             if (imageUri != null && imageUri.getScheme().equals("file")) {
                 try {
                     copyFileToDownloads(getIntent().getData());
-                    Intent tagItIntent = new Intent(ResultActivity.this, TagIt.class);
-                    tagItIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
-                    startActivity(tagItIntent);
+
+                    String startingClass = getIntent().getStringExtra("startingClass");
+
+                    if (startingClass.equals(EditProfileActivity.TAG)) {
+                        Intent editProfileIntent = new Intent(ResultActivity.this, EditProfileActivity.class);
+                        editProfileIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
+                        startActivity(editProfileIntent);
+                    } else {
+                        Intent tagItIntent = new Intent(ResultActivity.this, TagIt.class);
+                        tagItIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
+                        startActivity(tagItIntent);
+                    }
                 } catch (Exception e) {
                     Toast.makeText(ResultActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, imageUri.toString(), e);
