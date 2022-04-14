@@ -5,18 +5,21 @@ Shibushi (试不试) is a virtual wardrobe app designed to help you organise you
 ### Features
 
 #### Tag It
-Upload, tag and organise your wardrobe.
-![Tag It feature screencap](error.png)
+Upload, tag and organise your wardrobe.  
+
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/joshua-test-branch/README_img/tag_it.png" width="200">
 
 #### Build Your Fit
 
-Unleash your creativity. Make a moodboard for every vibe!
-![Build Your Fit feature screencap](error.png)
+Unleash your creativity. Make a moodboard for every vibe!  
+
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/joshua-test-branch/README_img/outfit.png" width="200">
 
 #### Community 
 
-Browse and share outfits with friends!
-![Community feature screencap](error.png)
+Browse and share outfits with friends!  
+
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/joshua-test-branch/README_img/feed.png" width="200">
 
 ### Technologies
 - Cloud Firestore
