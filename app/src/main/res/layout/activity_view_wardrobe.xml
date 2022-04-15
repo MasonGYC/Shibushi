@@ -29,6 +29,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent">
+            <EditText
+                android:id="@+id/create_outfit_name"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:autofillHints="category"
+                android:hint="outfit name"
+                android:inputType="text"
+                android:layout_marginHorizontal="20dp"/>
+            <EditText
+                android:id="@+id/create_outfit_category"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_outfit_name"
+                android:hint="outfit category"
+                android:inputType="text"
+                android:importantForAutofill="no"
+                android:layout_marginHorizontal="20dp"/>
 
             <Button
                 android:id="@+id/buttonCreateOutfit"
@@ -38,7 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/create_outfit_category" />
 
             <Button
                 android:id="@+id/buttonCancelCreate"
@@ -50,8 +68,6 @@
                 app:layout_constraintHorizontal_bias="0.75"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     <!-- bottom navigation -->
     <include layout="@layout/layout_navbar_bottom"/>

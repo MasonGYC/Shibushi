@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,8 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     // Create outfit
     Button create_outfit_button;
     Button create_cancel_button;
+    TextView create_outfit_name;
+    TextView create_outfit_category;
     public static boolean isChoosing = false;
     ImageView basket;
 
@@ -172,9 +175,13 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     public void setState(boolean b) {
         isChoosing = b;
         if (b) {
+            create_outfit_name.setVisibility(View.VISIBLE);
+            create_outfit_category.setVisibility(View.VISIBLE);
             create_outfit_button.setVisibility(View.VISIBLE);
             create_cancel_button.setVisibility(View.VISIBLE);
         } else {
+            create_outfit_name.setVisibility(View.GONE);
+            create_outfit_category.setVisibility(View.GONE);
             create_outfit_button.setVisibility(View.GONE);
             create_cancel_button.setVisibility(View.GONE);
         }
@@ -183,19 +190,31 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     public void initCreateOutfitFunction(){
         // outfit button
         create_outfit_button = findViewById(R.id.buttonCreateOutfit);
+        create_outfit_name = findViewById(R.id.create_outfit_name);
+        create_outfit_category = findViewById(R.id.create_outfit_category);
         create_outfit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // init intent
-                Intent intent = new Intent(mContext, ViewOutfitsParentActivity.class);
-                String category = "Spring"; //TODO: create a new page top input category and name
-                String name = "KoolGuy";
-                isChoosing = false;
-                // process data
-                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CREATE,imageAdapter.selectedItems);
-                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CAT,category);
-                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_NAME,name);
-                startActivity(intent);
+                if (create_outfit_name.getText().toString().equals("")){
+                    create_outfit_name.setError("outfit name cannot be empty!");
+                    create_outfit_name.requestFocus();
+                }
+                else if (create_outfit_category.getText().toString().equals("")){
+                    create_outfit_category.setError("outfit category cannot be empty!");
+                    create_outfit_name.requestFocus();
+                }
+                else {
+                    Intent intent = new Intent(mContext, ViewOutfitsParentActivity.class);
+                    String category = create_outfit_category.getText().toString(); //TODO: create a new page top input category and name
+                    String name = create_outfit_name.getText().toString();
+                    isChoosing = false;
+                    // process data
+                    intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CREATE, imageAdapter.selectedItems);
+                    intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CAT, category);
+                    intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_NAME, name);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -33,6 +33,15 @@
 
                     <!-- basket -->
                     <ImageView
+                        android:id="@+id/wardrobe_delete"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toLeftOf="@+id/wardrobe_basket"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_delete_outline_24" />
+
+                    <ImageView
                         android:id="@+id/wardrobe_basket"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
