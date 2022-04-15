@@ -1,7 +1,5 @@
 package com.example.shibushi.Outfits;
 
-import static com.example.shibushi.Utils.FirestoreMethods.getDownloadUrlString;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;

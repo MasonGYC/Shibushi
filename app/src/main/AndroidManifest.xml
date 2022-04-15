@@ -44,7 +44,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -76,7 +75,8 @@
         <activity
             android:name=".Feed.Profile.EditProfileActivity"
             android:parentActivityName=".Feed.Profile.Profile"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light"
+            android:exported="true"/>
         <activity
             android:name=".Feed.Profile.ChangePassword"
             android:parentActivityName=".Feed.Profile.AccountSettingsActivity"

@@ -26,6 +26,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.example.shibushi.Feed.Profile.EditProfileActivity;
 import com.example.shibushi.MainActivity;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropFragment;
@@ -183,7 +184,13 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
     private void handleCropResult(@NonNull Intent result) {
         final Uri resultUri = UCrop.getOutput(result);
         if (resultUri != null) {
-            ResultActivity.startWithUri(CropActivity.this, resultUri);
+            String startingClass = getIntent().getStringExtra("startingClass");
+
+            if (startingClass.equals(EditProfileActivity.TAG)) {
+                ResultActivity.startWithUri(CropActivity.this, resultUri, startingClass);
+            } else {
+                ResultActivity.startWithUri(CropActivity.this, resultUri, "others");
+            }
         } else {
             Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_cropped_image, Toast.LENGTH_SHORT).show();
         }
