@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -51,6 +53,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     TextView create_outfit_category;
     public static boolean isChoosing = false;
     ImageView basket;
+    ImageView delete_cloth_button;
 
 
     // Fragment & ViewPage
@@ -64,7 +67,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         isChoosing = false;
         // Set up bottom navigation bar
         setupBottomNavigationView();
-
+        initDeleteClothFunction();
         initCreateOutfitFunction();
         initPage();
         initTabView();
@@ -186,6 +189,27 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
             create_cancel_button.setVisibility(View.GONE);
         }
     }
+
+
+    public void initDeleteClothFunction(){
+        delete_cloth_button = findViewById(R.id.wardrobe_delete);
+        delete_cloth_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (imageAdapter.selectedItems.size()==0){
+                    LayoutInflater inflater = LayoutInflater.from(getApplication());
+                    View view_pop_out = inflater.inflate(R.layout.pop_out_delete_clothes, null);
+                    AlertDialog.Builder builer = new AlertDialog.Builder(ViewWardrobeActivity.this);
+                    builer.setView(view_pop_out);
+                    AlertDialog dialog = builer.create();
+                    dialog.show();
+                }
+            }
+        }
+        );
+    }
+
+
 
     public void initCreateOutfitFunction(){
         // outfit button
