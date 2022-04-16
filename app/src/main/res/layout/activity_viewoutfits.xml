@@ -9,26 +9,13 @@
     <!-- View outfit toolbar -->
     <include layout="@layout/snippet_viewoutfits_toolbar" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/snippet_viewoutfits_parent_main">
-
-        </include>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/relLayout1">
-
-            <!-- Bottom Navbar -->
-            <include layout="@layout/layout_navbar_bottom" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <include layout="@layout/snippet_viewoutfits_parent_main"/>
+    </LinearLayout>
+    <include layout="@layout/layout_navbar_bottom" />
 
 
 

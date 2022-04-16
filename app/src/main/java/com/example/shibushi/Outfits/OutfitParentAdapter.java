@@ -37,9 +37,7 @@ public class OutfitParentAdapter extends RecyclerView.Adapter<OutfitParentAdapte
 
     @Override
     public void onBindViewHolder(@NonNull OutfitParentViewHolder holder, int position) {
-
         OutfitChildAdapter outfitChildAdapter = new OutfitChildAdapter(context, datas.get(position));
-
         LinearLayoutManager parentlinearLayoutManager = new LinearLayoutManager(context);
         parentlinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.outfitParentRV.setLayoutManager(parentlinearLayoutManager);

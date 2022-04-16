@@ -15,8 +15,8 @@
 
         <TextView
             android:id="@+id/outfitName"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
             android:text="outfitname"
             android:layout_below="@+id/outfitImageButton"
             android:gravity="center_horizontal"
@@ -24,8 +24,8 @@
 
         <ImageButton
             android:id="@+id/outfitImageButton"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
             android:contentDescription="@string/outfitimage">
 
 
