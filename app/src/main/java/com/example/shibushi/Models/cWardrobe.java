@@ -27,11 +27,9 @@ public class cWardrobe {
         wardrobeClothing.put(img_name, c);
     }
     // outfit-name get from userinput, img_names list of clothong to add in.
-    public void addOutfit(String outfit_name, ArrayList<String> img_names){
+    public void addOutfit(String userid, String outfit_name, String category, ArrayList<cClothing> img_names){
         // add string "/cOutfit/" + img_names, for each
-        ArrayList<String> items = img_names;
-        String userid = FirestoreMethods.getUserID();
-        cOutfits o = new cOutfits(userid, outfit_name, img_names);
+        cOutfits o = new cOutfits(userid, outfit_name, category, img_names);
         wardrobeOutfit.put(outfit_name, o);
         FirestoreMethods.addOutfit(o,outfit_name);
     }

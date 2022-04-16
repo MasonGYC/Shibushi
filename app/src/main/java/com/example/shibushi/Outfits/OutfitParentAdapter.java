@@ -1,6 +1,7 @@
 package com.example.shibushi.Outfits;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,6 @@ public class OutfitParentAdapter extends RecyclerView.Adapter<OutfitParentAdapte
             super(view);
             categoryTextView = view.findViewById(R.id.categoryTextView);
             outfitParentRV = view.findViewById(R.id.outfitParentRecyclerView);
-
-
         }
     }
 }

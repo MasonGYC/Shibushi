@@ -240,7 +240,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                 intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CREATE, imageAdapter.selectedItems);
                 intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CAT, category);
                 intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_NAME, name);
-                startActivity(intent);
+                startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 
@@ -257,7 +257,6 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
             isChoosing = true;
             setState(isChoosing);
         });
-
         setState(isChoosing);
     }
 }

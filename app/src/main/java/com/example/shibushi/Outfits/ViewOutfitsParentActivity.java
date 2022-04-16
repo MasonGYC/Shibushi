@@ -35,9 +35,16 @@ import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Utils.FirestoreMethods;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ViewOutfitsParentActivity extends AppCompatActivity {
     private static final String TAG = "ViewOutfits";
@@ -46,6 +53,7 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
     public static final String KEY_OUTFIT_NAME = "KEY_OUTFIT_NAME";
     private Context mContext = ViewOutfitsParentActivity.this;
     public String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();;
+    private static final FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
 
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 3;
@@ -63,148 +71,95 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         setupBottomNavigationView();
 
         // query old and get new outfit data
-        Map<String[], ArrayList<cClothing>> outfitmap = null;
-        try {
-            outfitmap = getNewOutfit();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        if (outfitmap == null || outfitmap.isEmpty()){
-            parentDataSource = dataInit(); //dummy
-        }
-        else {
-            parentDataSource = dataInit(outfitmap);
-        }
-        //set recycler view
-        outfitRecyclerView = findViewById(R.id.outfitParentRecyclerView);
-        outfitRecyclerView.setLayoutManager(new LinearLayoutManager(ViewOutfitsParentActivity.this));
-        outfitParentAdapter = new OutfitParentAdapter(ViewOutfitsParentActivity.this, parentDataSource);
-        outfitRecyclerView.setAdapter(outfitParentAdapter);
-    }
-
-    public static final Uri getUriToDrawable(@NonNull Context context,
-                                             @AnyRes int drawableId) {
-        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                + "://" + context.getResources().getResourcePackageName(drawableId)
-                + '/' + context.getResources().getResourceTypeName(drawableId)
-                + '/' + context.getResources().getResourceEntryName(drawableId) );
-        return imageUri;
-    }
-
-    // dummy
-    public OutfitParentModel.ParentDataSource dataInit(){
-
-        // init new child datas
-        List<OutfitChildModel.ChildDataSource> datas = new ArrayList<>();
-
-        ArrayList<cClothing> cClothingList = new ArrayList<>();
-        cClothing cClothing1 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing2 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing3 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing4 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-        cClothing cClothing5 = new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f");
-
-        cClothingList.add(cClothing1);
-        cClothingList.add(cClothing2);
-        cClothingList.add(cClothing3);
-        cClothingList.add(cClothing4);
-        cClothingList.add(cClothing5);
-
-        ArrayList<cOutfits> cOutfitsList = new ArrayList<>();
-        cOutfits cOutfits1 = new cOutfits(userID,"outfitname1","spring",cClothingList);
-
-        cOutfits cOutfits2 =  new cOutfits(userID,"outfitname2","summer",cClothingList);
-        cOutfitsList.add(cOutfits1);
-        cOutfitsList.add(cOutfits2);
-
-        OutfitChildModel.ChildDataSource childDataSource = new OutfitChildModel.ChildDataSource(cOutfitsList,"cat1");
-        OutfitChildModel.ChildDataSource childDataSource1 = new OutfitChildModel.ChildDataSource(cOutfitsList,"cat2");
-        ArrayList<OutfitChildModel.ChildDataSource> cs_list = new ArrayList<OutfitChildModel.ChildDataSource>();
-        cs_list.add(childDataSource);
-        cs_list.add(childDataSource1);
-
-        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(cs_list);
-        return parentDataSource;
-    }
-
-    // real fetch data
-    public OutfitParentModel.ParentDataSource dataInit(Map<String[],ArrayList<cClothing>> clothes_cat_uris){
+        final Map<String[], ArrayList<cClothing>> outfitmap = getNewOutfit();
 
         // init new ArrayList<cOutfits>
-        List<OutfitChildModel.ChildDataSource> datas = new ArrayList<>();
-
+        List<OutfitChildModel.ChildDataSource> all_outfit_data = new ArrayList<>();
         // query old outfits
-        ArrayList<Map> outfit_map;
-        outfit_map = FirestoreMethods.getAllOutfits();
-        Map<String, ArrayList<cOutfits>> cate_map = new HashMap<>();
-        //For each clothing document
-        for (Map<String,Object> outfit : outfit_map){
-            String outfitID = outfit.get("outfitID").toString();
-            Timestamp timeStamp = (Timestamp) outfit.get("timeStamp");
-            String userID = outfit.get("userID").toString();
-            String outfit_name = outfit.get("name").toString();
-            String category = outfit.get("category").toString();
-            ArrayList<String> items =  (ArrayList<String>) outfit.get("items");
-            
-            cOutfits new_outfit =new cOutfits(outfitID, timeStamp, userID, outfit_name, category,items);
+        ArrayList<Map<String, Object>> outfits_map = new ArrayList<>();
 
-            // put into category map
-            if (cate_map.containsKey(category)){
-                ArrayList<cOutfits> temp = cate_map.get(category);
-                temp.add(new_outfit);
-                cate_map.put(category,temp);
+        CollectionReference outfitRef = mFirestoreDB.collection("cOutfits");
+        Query myOutfits = outfitRef.whereEqualTo("userID", userID);
+        myOutfits.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    // for each clothing as a document, put as a map
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> map = document.getData();
+                        outfits_map.add(map);
+                    }
+                    Map<String, ArrayList<cOutfits>> cate_map = new HashMap<>();
+                    //For each clothing document
+                    for (Map<String,Object> outfit : outfits_map){
+                        String outfitID = outfit.get("outfitID").toString();
+                        Timestamp timeStamp = (Timestamp) outfit.get("timeStamp");
+                        String userID = outfit.get("userID").toString();
+                        String outfit_name = outfit.get("name").toString();
+                        String category = outfit.get("category").toString();
+                        ArrayList<String> names =  (ArrayList<String>) outfit.get("img_names");
+
+                        cOutfits new_outfit =new cOutfits(outfitID, timeStamp, userID, outfit_name, category, names);
+
+                        // put into category map
+                        if (cate_map.containsKey(category)){
+                            ArrayList<cOutfits> temp = cate_map.get(category);
+                            temp.add(new_outfit);
+                            cate_map.put(category,temp);
+                        }
+                        else {
+                            ArrayList<cOutfits> temp = new ArrayList<>();
+                            temp.add(new_outfit);
+                            cate_map.put(category,temp);
+                        }
+                    }
+
+                    // for new single outfit
+                    String category = "default_cat";
+                    String name = "default_name";
+                    for (Map.Entry<String[],ArrayList<cClothing>> entry: outfitmap.entrySet()){
+                        ArrayList<cClothing> clothings = entry.getValue();
+                        category = entry.getKey()[0];
+                        name = entry.getKey()[1];
+                        if (name.equals("default_name")){
+                            continue;
+                        }
+                        cOutfits outfit = new cOutfits(userID,name,category,clothings);
+                        // put into category map
+                        if (cate_map.containsKey(category)){
+                            ArrayList<cOutfits> temp = cate_map.get(category);
+                            temp.add(outfit);
+                            cate_map.put(category,temp);
+                        }
+                        else {
+                            ArrayList<cOutfits> temp = new ArrayList<>();
+                            temp.add(outfit);
+                            cate_map.put(category,temp);
+                        }
+
+                        //upload outfit to firebase
+                        ArrayList<String> img_names = new ArrayList<>();
+                        for (cClothing clothing:clothings){
+                            img_names.add(clothing.getImg_name());
+                        }
+                        new cWardrobe().addOutfit(userID, name, category, clothings);
+                    }
+                    for (Map.Entry<String,ArrayList<cOutfits>> entry: cate_map.entrySet()){
+                        all_outfit_data.add(new OutfitChildModel.ChildDataSource(entry.getValue(), entry.getKey()));
+                    }
+
+                    parentDataSource = new OutfitParentModel.ParentDataSource(all_outfit_data);
+
+                    //set recycler view
+                    outfitRecyclerView = findViewById(R.id.outfitParentRecyclerView);
+                    outfitRecyclerView.setLayoutManager(new LinearLayoutManager(ViewOutfitsParentActivity.this));
+                    outfitParentAdapter = new OutfitParentAdapter(ViewOutfitsParentActivity.this, parentDataSource);
+                    outfitRecyclerView.setAdapter(outfitParentAdapter);
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
             }
-            else {
-                ArrayList<cOutfits> temp = new ArrayList<>();
-                temp.add(new_outfit);
-                cate_map.put(category,temp);
-            }
-            
-
-        }
-
-        //debug
-        Log.i("oldoutfits",cate_map.toString());
-
-        // for new single outfit
-        String category = "default_cat";
-        String name = "default_name";
-        for (Map.Entry<String[],ArrayList<cClothing>> entry: clothes_cat_uris.entrySet()){
-            ArrayList<cClothing> clothings = entry.getValue();
-            category = entry.getKey()[0];
-            name = entry.getKey()[1];
-            cOutfits outfit = new cOutfits(userID,name,category,clothings);
-
-            // put into category map
-            if (cate_map.containsKey(category)){
-                ArrayList<cOutfits> temp = cate_map.get(category);
-                temp.add(outfit);
-                cate_map.put(category,temp);
-            }
-            else {
-                ArrayList<cOutfits> temp = new ArrayList<>();
-                temp.add(outfit);
-                cate_map.put(category,temp);
-            }
-
-            //upload outfit to firebase
-            ArrayList<String> img_names = new ArrayList<>();
-            for (cClothing clothing:clothings){
-                img_names.add(clothing.getImg_name());
-            }
-            new cWardrobe().addOutfit(name, img_names);
-
-        }
-        for (Map.Entry<String,ArrayList<cOutfits>> entry: cate_map.entrySet()){
-            datas.add(new OutfitChildModel.ChildDataSource(entry.getValue(), entry.getKey()));
-        }
-
-
-
-        OutfitParentModel.ParentDataSource parentDataSource = new OutfitParentModel.ParentDataSource(datas);
-        return parentDataSource;
+        });
     }
 
     // BottomNavigationView setup
@@ -220,13 +175,13 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         menuItem.setChecked(true);
     }
 
-    public Map<String[],ArrayList<cClothing>> getNewOutfit() throws MalformedURLException, URISyntaxException {
+    public Map<String[],ArrayList<cClothing>> getNewOutfit(){
         //to get intent data to retrieve new created single outfit
 
         Map<String[],ArrayList<cClothing>> map = new HashMap<>(); //downloaded processed data from firebase
         //default values
         ArrayList<cClothing> array_clothings = new ArrayList<>();
-        array_clothings.add(new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f"));
+//        array_clothings.add(new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f"));
         String category = "default_cat";
         String name = "default_name";
         Intent intent = getIntent();
@@ -248,9 +203,4 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
 
         return map;
     }
-    public Map<String[], ArrayList<String>> getOldOutfit(Map<String[], ArrayList<String>> new_map){
-
-        return new_map;
-    }
-
 }

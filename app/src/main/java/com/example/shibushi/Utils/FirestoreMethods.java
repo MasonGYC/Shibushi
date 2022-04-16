@@ -310,8 +310,6 @@ public class FirestoreMethods {
         } catch (Exception e) {
             Log.d(TAG, "Outfit metadata was not updated!");
         }
-
-
     }
 
 

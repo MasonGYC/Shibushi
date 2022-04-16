@@ -18,6 +18,9 @@ import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
 import com.example.shibushi.Wardrobe.UtilsFetchBitmap;
 import com.example.shibushi.Wardrobe.imageAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -31,6 +34,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.OutfitChildViewHolder>{
+
+    private static final StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
     Context context;
     LayoutInflater inflater;
@@ -55,53 +60,25 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
     public void onBindViewHolder(@NonNull OutfitChildViewHolder holder, int position) {
         //todo: scale image to 150*150
         String name = this.datasource.get(position).getName();
-        ArrayList<cClothing> items =  this.datasource.get(position).getItems();
-
+        ArrayList<String> items =  this.datasource.get(position).getImg_names();
+        Log.i("caicai", String.valueOf(this.datasource.count()));
+        Log.i("caicai", String.valueOf(datasource.get(position).img_names));
         //get imageuri and set to widges
 
-        String cover = this.datasource.get(position).getItems().get(0).getUrl();
-        Log.i("onBVH",cover);
-        //Uri imageuri = Uri.parse(getDownloadUrlString(cover)); //real method
-        //dummy method since the url is not from firebase
-
-        ExecutorService executor;
-        executor = Executors.newSingleThreadExecutor();
-        final Handler handler = new Handler(Looper.myLooper());
-        executor.execute(new Runnable() {
+        String cover = this.datasource.get(position).getImg_names().get(0);
+        mStorageReference.child("images").child(cover).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>(
+        ) {
             @Override
-            public void run() {
-                final imageAdapter.Container<Bitmap> cBitmap = new imageAdapter.Container<>();
-                final imageAdapter.Container<String> cUri = new imageAdapter.Container<>();
-                try {
-                    URL url = new URL(cover);
-                    Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
-                    ( cBitmap).set(bitmap);
-                    ( cUri).set(cover);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if ((cBitmap).get() != null) {
-                            Picasso.get().load(( cUri).get()).resize(400,400).centerCrop().into(holder.outfitImageButton);
-//                            Picasso.get().load(cUri.get()).into(holder.imageView);
-//                            holder.imageView.setImageBitmap(cBitmap.get());
-
-                            executor.shutdown();
-                        }
-                    }
-                });
+            public void onSuccess(Uri uri) {
+                Log.i("onBVH",cover);
+                Picasso.get().load(uri).resize(400,400).centerCrop().into(holder.outfitImageButton);
             }
         });
 
-//        holder.outfitImageButton.setImageBitmap(bitmap);
         holder.outfitName.setText(this.datasource.get(position).getName());
         holder.outfitImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(view.getContext(),"outfitImageButton",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), SingleOutfit.class);
                 // TODO: to start Single outfit page
                 intent.putExtra(KEY_SINGLE_OUTFIT_VIEW_ITEMS,items);
@@ -123,7 +100,6 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
             super(view);
             outfitImageButton = view.findViewById(R.id.outfitImageButton);
             outfitName= view.findViewById(R.id.outfitName);
-
         }
     }
 }

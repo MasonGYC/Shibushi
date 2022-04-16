@@ -2,6 +2,7 @@ package com.example.shibushi.Outfits;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -30,11 +31,11 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
 
     Context context;
     LayoutInflater inflater;
-    ArrayList<cClothing> datasource;
+    ArrayList<Uri> datasource;
     int width;
 
 
-    public SingleOutfitAdapter(Context context, ArrayList<cClothing> datasource, int width) {
+    public SingleOutfitAdapter(Context context, ArrayList<Uri> datasource, int width) {
         this.context = context;
         this.datasource = datasource;
         this.width = width;
@@ -51,11 +52,9 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
     @Override
     public void onBindViewHolder(@NonNull SingleOutfitViewHolder holder, int position) {
         // imga_name -> uri
-        String url_s = this.datasource.get(position).getUrl();
+        String url_s = this.datasource.get(position).toString();
 
         // bind image
-        Log.i("imgname",this.datasource.get(position).getImg_name());
-
         ExecutorService executor;
         executor = Executors.newSingleThreadExecutor();
         final Handler handler = new Handler(Looper.myLooper());
