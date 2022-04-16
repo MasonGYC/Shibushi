@@ -33,16 +33,15 @@
 
 
                     <!-- my profile -->
-                    <ImageView
-                        android:id="@+id/viewoutfits_profile"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_baseline_account_circle_24" />
-
+<!--                    <ImageView-->
+<!--                        android:id="@+id/viewoutfits_profile"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_marginRight="10dp"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:src="@drawable/ic_baseline_account_circle_24" />-->
 
                 </RelativeLayout>
 

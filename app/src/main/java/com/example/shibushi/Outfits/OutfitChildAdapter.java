@@ -61,9 +61,6 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
         //todo: scale image to 150*150
         String name = this.datasource.get(position).getName();
         ArrayList<String> items =  this.datasource.get(position).getImg_names();
-        Log.i("caicai", String.valueOf(this.datasource.count()));
-        Log.i("caicai", String.valueOf(datasource.get(position).img_names));
-        //get imageuri and set to widges
 
         String cover = this.datasource.get(position).getImg_names().get(0);
         mStorageReference.child("images").child(cover).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>(
@@ -71,7 +68,7 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
             @Override
             public void onSuccess(Uri uri) {
                 Log.i("onBVH",cover);
-                Picasso.get().load(uri).resize(400,400).centerCrop().into(holder.outfitImageButton);
+                Picasso.get().load(uri).resize(600,600).centerCrop().into(holder.outfitImageButton);
             }
         });
 

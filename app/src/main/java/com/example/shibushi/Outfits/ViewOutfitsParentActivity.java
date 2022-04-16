@@ -149,13 +149,13 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
                     parentDataSource = new OutfitParentModel.ParentDataSource(all_outfit_data);
 
                     //set recycler view
-                    outfitRecyclerView = findViewById(R.id.outfitParentRecyclerView);
-                    outfitRecyclerView.setLayoutManager(new LinearLayoutManager(ViewOutfitsParentActivity.this));
                     outfitParentAdapter = new OutfitParentAdapter(ViewOutfitsParentActivity.this, parentDataSource);
-                    outfitRecyclerView.setAdapter(outfitParentAdapter);
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
+                outfitRecyclerView = findViewById(R.id.outfitParentRecyclerView);
+                outfitRecyclerView.setLayoutManager(new LinearLayoutManager(ViewOutfitsParentActivity.this));
+                outfitRecyclerView.setAdapter(outfitParentAdapter);
             }
         });
     }

@@ -34,7 +34,6 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
     ArrayList<Uri> datasource;
     int width;
 
-
     public SingleOutfitAdapter(Context context, ArrayList<Uri> datasource, int width) {
         this.context = context;
         this.datasource = datasource;
@@ -51,7 +50,6 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SingleOutfitViewHolder holder, int position) {
-        // imga_name -> uri
         String url_s = this.datasource.get(position).toString();
 
         // bind image
@@ -80,9 +78,6 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
                 }
             });
         });
-
-
-
     }
 
     @Override
