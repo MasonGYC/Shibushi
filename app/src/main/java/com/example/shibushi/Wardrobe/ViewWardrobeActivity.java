@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -203,8 +204,9 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                         for (cClothing c:imageAdapter.selectedItems){
                             String img_name = c.getImg_name();
                             FirestoreMethods.deleteClothes(img_name);
-                            dialog.hide();
                         }
+                        dialog.hide();
+                        Toast.makeText(this.mContext,"Clothes deleted. Deleted Clothes will not be shown in the wardrobe from the next time.",Toast.LENGTH_LONG).show();
                     });
                 }
                 else {

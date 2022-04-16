@@ -130,7 +130,6 @@ public class FirestoreMethods {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Log.d(TAG, "Clothes metadata was deleted!");
                 }
                 else{
                     Log.w(TAG, "Clothes metadata was not deleted!");
@@ -146,7 +145,6 @@ public class FirestoreMethods {
             @Override
             public void onSuccess(Void aVoid) {
                 // File deleted successfully
-                Log.d(TAG, "Image deleted successfully.");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
