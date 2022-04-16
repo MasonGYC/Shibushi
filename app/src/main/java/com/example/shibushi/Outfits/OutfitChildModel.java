@@ -7,7 +7,7 @@ import com.example.shibushi.Models.cOutfits;
 public class OutfitChildModel {
     // ArrayList<cOutfits>
     public static class ChildDataSource {
-        ArrayList<cOutfits> data = new ArrayList<cOutfits>();
+        ArrayList<cOutfits> data = new ArrayList<>();
         String category = null;
         public ChildDataSource() {
         }

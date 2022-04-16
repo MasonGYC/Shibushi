@@ -6,7 +6,7 @@ import java.util.List;
 public class OutfitParentModel {
     // list of arraylist of outfits
     public static class ParentDataSource {
-        List<OutfitChildModel.ChildDataSource> data = new ArrayList<OutfitChildModel.ChildDataSource>();
+        List<OutfitChildModel.ChildDataSource> data = new ArrayList<>();
         String category;
         public ParentDataSource() {
         }
