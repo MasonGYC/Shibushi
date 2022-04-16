@@ -5,9 +5,11 @@ import java.util.List;
 
 public class Model {
     public static class DataSource{
+        List<String> data_name = new ArrayList<>();
         List<Img> data = new ArrayList<>();
         public DataSource(){}
-        public DataSource(List<Img> data){
+        public DataSource(List<Img> data, List<String> data_name){
+            this.data_name = data_name;
             this.data = data;
         }
         public int count(){return this.data.size();}

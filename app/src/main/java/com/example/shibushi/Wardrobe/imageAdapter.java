@@ -4,24 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Models.cClothing;
@@ -29,7 +23,6 @@ import com.example.shibushi.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -60,63 +53,33 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
     @Override
     public void onBindViewHolder(@NonNull imageViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String url_s = this.dataSource.get(position).url;
-
-//        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                if (NotificationManagerCompat.from(view.getContext()).areNotificationsEnabled() ){
-//                    Toast.makeText(view.getContext(),"Selected",Toast.LENGTH_LONG).show();
-//                }
-//                else {
-//                    Log.i("noti","notification unabled");
-//                }
-//
-//                Log.i("onBindVH",view.getContext().toString());
-//                ViewWardrobeActivity.isChoosing = true;
-//                if (view.getTag(R.id.imageView_tag_uri) != null){
-//                    cClothing clothes =  (cClothing) view.getTag(R.id.imageView_tag_uri);
-//                    Log.i("selcted", String.valueOf(clothes));
-//                    selectedItems.add(clothes);
-//
-//                }
-//                return true;
-//            }
-//        });
+        String image_name = this.dataSource.data_name.get(position);
 
         ExecutorService executor;
         executor = Executors.newSingleThreadExecutor();
         final Handler handler = new Handler(Looper.myLooper());
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final Container<Bitmap> cBitmap = new Container<>();
-                final Container<String> cUri = new Container<>();
-                try {
-                    URL url = new URL(url_s);
-                    Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
-                    cBitmap.set(bitmap);
-                    cUri.set(url_s);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (cBitmap.get() != null) {
-                            Picasso.get().load(cUri.get()).resize(width, width).centerCrop().into(holder.imageView);
-//                            Picasso.get().load(cUri.get()).into(holder.imageView);
-//                            holder.imageView.setImageBitmap(cBitmap.get());
-                            holder.imageView.setMaxWidth(width);
-                            holder.imageView.setTag(R.id.imageView_tag_uri, new cClothing(cUri.get())); //todo: image_name string
-//                            holder.imageView.setMaxHeight(width);
-//                            holder.imageViewLayout.setMinimumHeight(width);
-//                            holder.imageViewLayout.setMinimumWidth(width);
-                            executor.shutdown();
-                        }
-                    }
-                });
+        executor.execute(() -> {
+            final Container<Bitmap> cBitmap = new Container<>();
+            final Container<String> cUri = new Container<>();
+            try {
+                URL url = new URL(url_s);
+                Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);
+                cBitmap.set(bitmap);
+                cUri.set(url_s);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            handler.post(() -> {
+                if (cBitmap.get() != null) {
+                    Picasso.get().load(cUri.get()).resize(width, width).centerCrop().into(holder.imageView);
+                    holder.imageView.setMaxWidth(width);
+                    cClothing new_cloth = new cClothing(image_name);
+                    new_cloth.setUrl(cUri.get());
+                    holder.imageView.setTag(R.id.imageView_tag_uri, new_cloth);
+                    executor.shutdown();
+                }
+            });
         });
     }
 
@@ -132,45 +95,36 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
             super(itemView);
             imageView = itemView.findViewById(R.id.wardrobe_image);
             imageView.setLongClickable(true);
-//            imageViewLayout = itemView.findViewById(R.id.wardrobe_image);
-//            imageView.setMinimumWidth(width);
-//            imageView.setMaxWidth(width);
-            imageView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
-                        return false;
-                    }
-                    else {
-                        ViewWardrobeActivity.isChoosing = true;
-                        cClothing clothes = (cClothing) view.getTag(R.id.imageView_tag_uri);
-                        Log.i("selcted", String.valueOf(clothes));
-                        selectedItems.add(clothes);
-                        Toast.makeText(imageView.getContext(), "Selected", Toast.LENGTH_SHORT).show();
+            imageView.setOnLongClickListener(view -> {
+                if (selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
+                    return false;
+                }
+                else {
+                    ViewWardrobeActivity.isChoosing = true;
+                    cClothing clothes = (cClothing) view.getTag(R.id.imageView_tag_uri);
+                    Log.i("selected", String.valueOf(clothes));
+                    selectedItems.add(clothes);
+                    Toast.makeText(imageView.getContext(), "Selected", Toast.LENGTH_SHORT).show();
 
-                        Drawable selected_clothes = imageView.getDrawable();
-                        selected_clothes.setColorFilter(Color.argb(180, 240, 240, 240), PorterDuff.Mode.MULTIPLY);
-                        return true;
-                    }
+                    Drawable selected_clothes = imageView.getDrawable();
+                    selected_clothes.setColorFilter(Color.argb(180, 240, 240, 240), PorterDuff.Mode.MULTIPLY);
+                    return true;
                 }
             });
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
-                        return;
-                    }
-                    else{
-                        cClothing clothes = (cClothing) view.getTag(R.id.imageView_tag_uri);
-                        selectedItems.remove(clothes);
-                        Drawable selected_clothes = imageView.getDrawable();
-                        selected_clothes.setColorFilter(null);
-                        Toast.makeText(imageView.getContext(), "Unselected", Toast.LENGTH_SHORT).show();
-                        Log.i("unselected", String.valueOf(clothes));
-                    }
-                    if (selectedItems.size()==0){
-                        ViewWardrobeActivity.isChoosing = false;
-                    }
+            imageView.setOnClickListener(view -> {
+                if (!selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
+                    return;
+                }
+                else{
+                    cClothing clothes = (cClothing) view.getTag(R.id.imageView_tag_uri);
+                    selectedItems.remove(clothes);
+                    Drawable selected_clothes = imageView.getDrawable();
+                    selected_clothes.setColorFilter(null);
+                    Toast.makeText(imageView.getContext(), "Unselected", Toast.LENGTH_SHORT).show();
+                    Log.i("unselected", String.valueOf(clothes));
+                }
+                if (selectedItems.size()==0){
+                    ViewWardrobeActivity.isChoosing = false;
                 }
             });
         }

@@ -39,14 +39,16 @@ public class WardrobeFragment extends Fragment {
     private static final String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
     private final HashMap<String, cClothing> wardrobeClothing = new HashMap<>();
     private final StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+    private final String type;
 
 
-    public WardrobeFragment() {
-        // Required empty public constructor
+    public WardrobeFragment(String type) {
+        this.type = type;
     }
 
-    public static WardrobeFragment newInstance(ArrayList<String> urls) {
-        WardrobeFragment fragment = new WardrobeFragment();
+    public static WardrobeFragment newInstance(ArrayList<String> urls, String type) {
+        // type: Top/Bottom/Accessories
+        WardrobeFragment fragment = new WardrobeFragment(type);
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_PARAM1, urls);
         fragment.setArguments(args);
@@ -87,14 +89,20 @@ public class WardrobeFragment extends Fragment {
                         }
                         Set<String> clothes = wardrobeClothing.keySet();
                         ArrayList<Model.Img> images = new ArrayList<>();
+                        ArrayList<String> image_name = new ArrayList<>();
 
                         for (String c: clothes){
                             cClothing cloth = wardrobeClothing.get(c);
                             assert cloth != null;
+                            if (!cloth.getCategory().equals(type)){
+                                continue;
+                            }
+
                             mStorageReference.child("images").child(cloth.getImg_name()).getDownloadUrl()
                                     .addOnSuccessListener(uri -> {
                                         images.add(new Model.Img(uri.toString()));
-                                        dataSource = new Model.DataSource(images);
+                                        image_name.add(cloth.getImg_name());
+                                        dataSource = new Model.DataSource(images, image_name);
                                         Log.i("Wardrobe", "get "+ dataSource.count() +" images");
                                         imageAdapter = new imageAdapter(recyclerView.getContext(), dataSource, Container.w);
                                         recyclerView.setAdapter(imageAdapter);

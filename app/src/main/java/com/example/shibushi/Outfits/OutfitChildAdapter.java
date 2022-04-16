@@ -59,7 +59,7 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
 
         //get imageuri and set to widges
 
-        String cover = this.datasource.get(position).getItems().get(0).getImg_name();
+        String cover = this.datasource.get(position).getItems().get(0).getUrl();
         Log.i("onBVH",cover);
         //Uri imageuri = Uri.parse(getDownloadUrlString(cover)); //real method
         //dummy method since the url is not from firebase

@@ -17,6 +17,7 @@ public class cClothing implements Serializable {
 
     public cClothing(Map clothing, String img_name){
         this.img_name = img_name;
+        this.category = clothing.get("category").toString();
         clothing.remove("img_name");
         userid = clothing.get("userid").toString();
         clothing.remove("userid");
