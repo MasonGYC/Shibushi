@@ -103,8 +103,12 @@ public class FeedActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 cOutfits user_i_cOutfit = document.toObject(cOutfits.class);
-                                // Store the outfit into an arraylist
-                                cOutfitsArrayList.add(user_i_cOutfit);
+                                // Store the outfit into an arraylist of max size 20
+                                if (cOutfitsArrayList.size() <= 20) {
+                                    cOutfitsArrayList.add(user_i_cOutfit);
+                                } else {
+                                    break;
+                                }
                             }
 
                             // Sort the outfits by timestamp
