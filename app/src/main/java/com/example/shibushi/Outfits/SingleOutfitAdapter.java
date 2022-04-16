@@ -51,7 +51,7 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
     @Override
     public void onBindViewHolder(@NonNull SingleOutfitViewHolder holder, int position) {
         // imga_name -> uri
-        String url_s = this.datasource.get(position).getImg_name();
+        String url_s = this.datasource.get(position).getUrl();
 
         // bind image
         Log.i("imgname",this.datasource.get(position).getImg_name());
