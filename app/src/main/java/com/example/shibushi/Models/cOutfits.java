@@ -16,7 +16,6 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
     public Timestamp timeStamp;
     public ArrayList<String> img_names;
 
-
     // empty constructor for recycler view
     public cOutfits(){}
 
@@ -28,17 +27,11 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
         this.name = name;
         this.items = items;
         this.category = category;
+        this.img_names = new ArrayList<>();
+        for (cClothing i: items){
+            this.img_names.add(i.getImg_name());
+        }
     }
-
-//    public cOutfits(String userID, String name, String category, ArrayList<String> image_names) {
-//        this.outfitID = UUID.randomUUID().toString();
-//        this.timeStamp = getTimeStamp();
-//        this.userID = userID;
-//        this.name = name;
-//        this.items = items;
-//        this.category = category;
-//        this.img_names = image_names;
-//    }
 
     // constructor for pull from firestore
     public cOutfits(String outfitID, Timestamp timeStamp, String userID, String name, String category , ArrayList<String> img_names) {
@@ -49,16 +42,6 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
         this.img_names = img_names;
         this.category = category;
     }
-
-    // constructor for new outfits (Samuel)
-//    public cOutfits(String userID, String name, String category, ArrayList<String> img_names) {
-//        this.outfitID = UUID.randomUUID().toString();
-//        this.timeStamp = Timestamp.now();
-//        this.userID = userID;
-//        this.name = name;
-//        this.img_names = img_names;
-//        this.category =category;
-//    }
 
     public String getOutfitID() {
         return outfitID;

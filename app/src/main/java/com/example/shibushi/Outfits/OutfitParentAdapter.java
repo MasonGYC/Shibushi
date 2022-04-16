@@ -1,7 +1,6 @@
 package com.example.shibushi.Outfits;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +42,6 @@ public class OutfitParentAdapter extends RecyclerView.Adapter<OutfitParentAdapte
 
         LinearLayoutManager parentlinearLayoutManager = new LinearLayoutManager(context);
         parentlinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        Log.i("onBindparentVH",holder.toString());
-//        Log.i("onBindparentVH",holder.outfitParentRV.toString());
         holder.outfitParentRV.setLayoutManager(parentlinearLayoutManager);
         holder.outfitParentRV.setAdapter(outfitChildAdapter);
         holder.outfitParentRV.setVisibility(View.VISIBLE);

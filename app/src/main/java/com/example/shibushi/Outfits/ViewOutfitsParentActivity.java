@@ -115,14 +115,12 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
                     }
 
                     // for new single outfit
-                    String category = "default_cat";
-                    String name = "default_name";
                     for (Map.Entry<String[],ArrayList<cClothing>> entry: outfitmap.entrySet()){
                         ArrayList<cClothing> clothings = entry.getValue();
-                        category = entry.getKey()[0];
-                        name = entry.getKey()[1];
+                        String category = entry.getKey()[0];
+                        String name = entry.getKey()[1];
                         if (name.equals("default_name")){
-                            continue;
+                            break;
                         }
                         cOutfits outfit = new cOutfits(userID,name,category,clothings);
                         // put into category map
@@ -177,11 +175,8 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
 
     public Map<String[],ArrayList<cClothing>> getNewOutfit(){
         //to get intent data to retrieve new created single outfit
-
         Map<String[],ArrayList<cClothing>> map = new HashMap<>(); //downloaded processed data from firebase
-        //default values
         ArrayList<cClothing> array_clothings = new ArrayList<>();
-//        array_clothings.add(new cClothing("userID", "Shirt", "red", "Formal", "XS", "7bd53aaf-7ecd-4f7a-b5cb-a91d3115d717", "com.google.android.gms.tasks.zzw@3971c6f"));
         String category = "default_cat";
         String name = "default_name";
         Intent intent = getIntent();
@@ -196,11 +191,9 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
             category = (String) intent.getStringExtra(KEY_OUTFIT_CAT);}
         if (intent.getStringExtra(KEY_OUTFIT_NAME)!=null){
             name = (String)intent.getStringExtra(KEY_OUTFIT_NAME);}
-
             String[] cat_name = {category,name};
             map.put(cat_name,array_clothings);
             Log.i(TAG,map.toString());
-
         return map;
     }
 }
