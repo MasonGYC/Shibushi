@@ -44,7 +44,6 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull OutfitChildViewHolder holder, int position) {
-        //todo: scale image to 150*150
         String name = this.datasource.get(position).getName();
         ArrayList<String> items =  this.datasource.get(position).getImg_names();
 

@@ -210,7 +210,6 @@ public class SelectedUserActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Log.d(TAG, "onClick: Follow/ Unfollow");
-                // TODO: FOLLOW / UNFOLLOW
                 if (mFollowStatus.getText().toString().equals("FOLLOWING")) {
                     // Unfollow - Remove userID from current user's following
                     Map<String, Object> remove_hashMap_following = new HashMap<>();

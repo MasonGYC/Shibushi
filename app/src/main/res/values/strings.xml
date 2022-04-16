@@ -58,12 +58,12 @@
     <string name="Occasion" translatable="false">OCCASION</string>
     <string name="Size" translatable="false">SIZE</string>
     <string name="create_new_tag" translatable="false">My tags</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="my_outfits" translatable="false">My Outfits</string>
     <string name="outfitimage" translatable="false">outfitimage</string>
     <string name="create_outfit" translatable="false">Create</string>
-    <string name="tagitimage">tagItImage</string>
+    <string name="tagitimage" translatable="false">tagItImage</string>
 
     <item name="imageView_tag_uri" type="id"></item>
 

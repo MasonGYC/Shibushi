@@ -327,7 +327,6 @@ public class FirestoreMethods {
         followers.put("followers", new ArrayList<>());
         mFirestoreDB.collection("cUsers").document(userID).update(followers);
 
-        // TODO: Update when url is working
         Map<String, Object> profile_photo = new HashMap<>();
         profile_photo.put("profile_photo", "d_profilepic.jfif");
         mFirestoreDB.collection("cUsers").document(userID).update(profile_photo);

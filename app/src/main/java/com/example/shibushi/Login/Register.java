@@ -95,7 +95,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    // TODO: 3/15/2022 refactor into a new java file
     private void registerUser() {
         String email = etEmailAddress.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -129,7 +128,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        //Todo Add username to user profile during registration.
 
         // Add the user to Firebase Auth
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -196,5 +194,3 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 * If they provide invalid details, they will stay on this page.
 * If details are valid they will be registered and sent back to the Login page instantly.
 * */
-
-//Todo May change toasts to snackbar

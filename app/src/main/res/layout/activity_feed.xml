@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Middle section (body) -->
         <RelativeLayout
             android:id="@+id/community_feed_relLayout1"
             android:layout_width="match_parent"
