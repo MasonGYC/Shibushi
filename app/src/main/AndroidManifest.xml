@@ -33,12 +33,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shibushi">
 
-        <activity
-            android:name=".Wardrobe.ViewWardrobeActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Wardrobe.TagIt"
-            android:exported="true" />
+        <!-- LOGIN & REGISTER -->
         <activity
             android:name=".Login.Login"
             android:exported="true">
@@ -48,72 +43,93 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity android:name=".testing.firestoreUpload" />
-        <activity
             android:name=".Login.Register"
             android:exported="true" />
 
         <!-- FEEDS -->
-        <activity android:name=".Feed.FeedActivity" />
+        <activity android:name=".Feed.FeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".Feed.SearchActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".Feed.FeedActivity"
             android:theme="@style/Theme.AppCompat.Light" />
-        <activity android:name=".Feed.ViewOutfitPostActivity" /> <!-- PROFILE -->
-        <activity android:name=".Feed.Profile.Profile"
+        <activity android:name=".Feed.SelectedUserActivity"
             android:parentActivityName=".Feed.FeedActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".Feed.SelectedUserActivity" /> <!-- ACCOUNT SETTINGS -->
+
+        <!-- PROFILE -->
+        <activity android:name=".Feed.Profile.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Feed.FeedActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <!-- ACCOUNT SETTINGS -->
         <activity
             android:name=".Feed.Profile.AccountSettingsActivity"
-            android:parentActivityName=".Feed.Profile.Profile"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Feed.Profile.ProfileActivity"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".Feed.Profile.EditProfileActivity"
-            android:parentActivityName=".Feed.Profile.Profile"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Feed.Profile.ProfileActivity"
             android:theme="@style/Theme.AppCompat.Light"
             android:exported="true"/>
         <activity
             android:name=".Feed.Profile.ChangePassword"
+            android:screenOrientation="portrait"
             android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
             android:theme="@style/Theme.AppCompat.Light" />
-
-
-
         <activity
             android:name=".Feed.Profile.SignOutActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+       <!-- Outfits-->
+        <activity
+            android:name=".Outfits.SingleOutfit"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+        <activity
+            android:name=".Outfits.ViewOutfitsParentActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+
+        <!-- WARDROBE -->
+        <activity
+            android:name=".Wardrobe.ViewWardrobeActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+        <activity
+            android:name=".Wardrobe.TagItActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+
+        <activity android:name=".testing.firestoreUpload" />
 
         <!--Photo Process-->
         <activity
             android:name=".PhotoProcess.CropActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".PhotoProcess.ResultActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".Feed.FeedActivity" />
         <activity
             android:name=".PhotoProcess.BaseActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
+
         <!-- crop -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- outfit -->
-       <!-- Outfits-->
-
-        <activity
-            android:name=".Outfits.SingleOutfit"
-            android:exported="true" />
-        <activity
-            android:name=".Outfits.ViewOutfitsParentActivity"
-            android:exported="true" />
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- File Providers-->
         <provider

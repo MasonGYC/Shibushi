@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.shibushi.Feed.FeedActivity;
-import com.example.shibushi.MainActivity;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.PhotoProcess.ResultActivity;
@@ -41,9 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.yalantis.ucrop.UCrop;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -238,7 +232,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         mFirestoreDB.collection("cUsers").document(userID).update(bio_map);
 
                         // Navigate back to user profile
-                        Intent intent = new Intent(mContext, Profile.class);
+                        Intent intent = new Intent(mContext, ProfileActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP); // Prevents going back to prev page when back button is pressed
                         startActivity(intent);
                     }

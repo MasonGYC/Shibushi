@@ -1,4 +1,4 @@
-package com.example.shibushi.Utils;
+package com.example.shibushi.Utils.Feed;
 
 import android.net.Uri;
 import android.view.LayoutInflater;

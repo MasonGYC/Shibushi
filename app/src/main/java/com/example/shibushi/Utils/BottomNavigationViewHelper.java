@@ -7,8 +7,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import com.example.shibushi.Feed.FeedActivity;
-import com.example.shibushi.Feed.Profile.Profile;
-import com.example.shibushi.MainActivity;
 import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Wardrobe.ViewWardrobeActivity;

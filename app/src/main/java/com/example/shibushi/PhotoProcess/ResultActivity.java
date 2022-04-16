@@ -31,7 +31,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.shibushi.Feed.Profile.EditProfileActivity;
-import com.example.shibushi.Wardrobe.TagIt;
+import com.example.shibushi.Wardrobe.TagItActivity;
 import com.yalantis.ucrop.view.UCropView;
 import com.example.shibushi.R;
 
@@ -141,7 +141,7 @@ public class ResultActivity extends BaseActivity {
                         editProfileIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
                         startActivity(editProfileIntent);
                     } else {
-                        Intent tagItIntent = new Intent(ResultActivity.this, TagIt.class);
+                        Intent tagItIntent = new Intent(ResultActivity.this, TagItActivity.class);
                         tagItIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
                         startActivity(tagItIntent);
                     }

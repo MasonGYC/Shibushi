@@ -25,7 +25,7 @@ import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 //import com.example.shibushi.Utils.GridImageAdapter;
-import com.example.shibushi.Utils.ProfileParentAdapter;
+import com.example.shibushi.Utils.Profile.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,10 +46,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
-    private Context mContext = Profile.this;
+    private Context mContext = ProfileActivity.this;
     private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number
     private TextView mFollowers;
     private TextView mFollowing;
@@ -136,7 +136,7 @@ public class Profile extends AppCompatActivity {
                             // Recycler Views and Adapters
                             parentRecyclerView = findViewById(R.id.profile_outfit_RV);
                             parentRecyclerView.setHasFixedSize(true);
-                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(Profile.this));
+                            parentRecyclerView.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
                             profileParentAdapter = new ProfileParentAdapter(cOutfitsArrayList);
                             parentRecyclerView.setAdapter(profileParentAdapter);
 

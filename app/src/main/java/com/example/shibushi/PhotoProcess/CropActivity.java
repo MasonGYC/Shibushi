@@ -28,7 +28,6 @@ import androidx.core.content.ContextCompat;
 
 import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.Feed.Profile.EditProfileActivity;
-import com.example.shibushi.MainActivity;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropFragment;
 import com.yalantis.ucrop.UCropFragmentCallback;

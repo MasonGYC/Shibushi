@@ -18,7 +18,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
- * To initialise the Universal Image Loader dependency
+ * To initialise the Universal Image Loader dependency to use together with progress bars
  * URL: https://github.com/nostra13/Android-Universal-Image-Loader
  */
 public class UniversalImageLoader {

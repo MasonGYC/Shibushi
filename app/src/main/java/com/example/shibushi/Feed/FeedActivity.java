@@ -12,19 +12,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shibushi.Feed.Profile.Profile;
+import com.example.shibushi.Feed.Profile.ProfileActivity;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
-import com.example.shibushi.Utils.FeedParentAdapter;
+import com.example.shibushi.Utils.Feed.FeedParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -174,7 +173,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Navigating to my profile");
-                Intent intent = new Intent(mContext, Profile.class);
+                Intent intent = new Intent(mContext, ProfileActivity.class);
                 startActivity(intent);
             }
         });

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.example.shibushi.MainActivity;
 import com.example.shibushi.PhotoProcess.ResultActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.FirestoreMethods;
@@ -25,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class TagIt extends AppCompatActivity {
+public class TagItActivity extends AppCompatActivity {
 
     ImageView imageViewBitmap;
     Button buttonTagIt;
@@ -106,8 +105,8 @@ public class TagIt extends AppCompatActivity {
                 FirestoreMethods.addClothes(map, photoURI);
                 // ^^ need to return img_name and userid, both add to the map.
                 // go back to MainActivity
-                Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(TagIt.this, ViewWardrobeActivity.class);
+                Toast.makeText(TagItActivity.this, "TAG IT", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(TagItActivity.this, ViewWardrobeActivity.class);
                 startActivity(intent);
             }
         });
