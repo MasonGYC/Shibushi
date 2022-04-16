@@ -26,7 +26,7 @@ public class cWardrobe {
         cClothing c = new cClothing(clothing_map, img_name);
         wardrobeClothing.put(img_name, c);
     }
-    // outfit-name get from userinput, img_names list of clothong to add in.
+    // outfit-name get from userinput, img_names list of clothing to add in.
     public void addOutfit(String userid, String outfit_name, String category, ArrayList<cClothing> img_names){
         // add string "/cOutfit/" + img_names, for each
         cOutfits o = new cOutfits(userid, outfit_name, category, img_names);
