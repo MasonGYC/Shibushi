@@ -25,6 +25,7 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
 
     private final String TAG = "FeedChildAdapter";
     private ArrayList<String> cClothesList;
+    private StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
     public void setChildItemList(ArrayList<String> cClothesList){
         this.cClothesList = cClothesList;
@@ -48,8 +49,6 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
     public void onBindViewHolder(@NonNull FeedChildViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: setting up viewholder on position " + position);
         String imageName = cClothesList.get(position);
-
-        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
         mStorageReference.child("images").child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

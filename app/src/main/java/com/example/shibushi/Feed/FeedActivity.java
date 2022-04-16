@@ -87,6 +87,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 cUsers cUser_current = task.getResult().toObject(cUsers.class);
+                // Get a list of userID that current user is following
                 ArrayList following = cUser_current.getFollowing();
 
                 setupRecyclerViews(following);
@@ -98,6 +99,7 @@ public class FeedActivity extends AppCompatActivity {
     private void setupRecyclerViews(ArrayList<String> current_UserID_ArrayList) {
         ArrayList<cOutfits> cOutfitsArrayList = new ArrayList<>();
 
+        // for every userID in current user's followings, find all their outfits by order
         for (String userID_i : current_UserID_ArrayList) {
             mDatabase.collection("cOutfits")
                     .orderBy("timeStamp", Query.Direction.ASCENDING)
@@ -110,9 +112,11 @@ public class FeedActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 cOutfits user_i_cOutfit = document.toObject(cOutfits.class);
+                                // Store the outfit into an arraylist
                                 cOutfitsArrayList.add(user_i_cOutfit);
                             }
 
+                            // Sort the outfits by timestamp
                             Collections.sort(cOutfitsArrayList);
 
                             // Recycler Views and Adapters

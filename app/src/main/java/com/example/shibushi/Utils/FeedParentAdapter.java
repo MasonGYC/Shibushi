@@ -36,6 +36,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.FeedParentViewHolder> {
 
     private final String TAG = "FeedParentAdapter";
+    private static final FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
+    private static final StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+
     ArrayList<cOutfits> cOutfitsList;
 
 
@@ -56,7 +59,6 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
         Log.d(TAG, "onBindViewHolder: setting up viewholder on position " + position);
         cOutfits cOutfit = cOutfitsList.get(position);
 
-        FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
         String userID = cOutfit.getUserID();
 
         mDatabase.collection("cUsers")
@@ -72,11 +74,9 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
                             String username = user.getUsername();
                             String profile_photo_name = user.getProfile_photo();
 
-                            StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
-
                             holder.outfitNameTV.setText(cOutfit.getName());
                             holder.usernameTV.setText(username);
-                            Log.d("FeedParentAdapter", cOutfit.toString());
+                            Log.d(TAG, cOutfit.toString());
 
                             // Set profile image
                             mStorageReference.child("images").child(profile_photo_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
