@@ -1,4 +1,4 @@
-package com.example.shibushi;
+package com.example.shibushi.Wardrobe;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,7 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.shibushi.MainActivity;
 import com.example.shibushi.PhotoProcess.ResultActivity;
+import com.example.shibushi.R;
 import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

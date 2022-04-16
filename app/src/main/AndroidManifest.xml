@@ -37,7 +37,7 @@
             android:name=".Wardrobe.ViewWardrobeActivity"
             android:exported="true" />
         <activity
-            android:name=".TagIt"
+            android:name=".Wardrobe.TagIt"
             android:exported="true" />
         <activity
             android:name=".Login.Login"

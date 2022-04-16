@@ -21,6 +21,7 @@ import com.example.shibushi.Feed.Profile.ChangePassword;
 import com.example.shibushi.Login.Login;
 import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
+import com.example.shibushi.Wardrobe.TagIt;
 import com.example.shibushi.testing.firestoreUpload;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;

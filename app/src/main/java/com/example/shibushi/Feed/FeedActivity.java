@@ -57,6 +57,7 @@ public class FeedActivity extends AppCompatActivity {
 
     public static final String TAG = "CommunityFeed";
     private Context mContext = FeedActivity.this;
+
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
 
@@ -66,6 +67,7 @@ public class FeedActivity extends AppCompatActivity {
 
     // For TagIt
     Uri imageUri;
+    public static final int PICK_IMAGE_REQUEST = 2;
 
     // Firestore
     public static final FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
@@ -232,7 +234,7 @@ public class FeedActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == MainActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == FeedActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (intent.getData() != null) {
                 imageUri = intent.getData();
                 /*

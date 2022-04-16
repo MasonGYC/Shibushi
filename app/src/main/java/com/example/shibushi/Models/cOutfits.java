@@ -3,11 +3,8 @@ package com.example.shibushi.Models;
 import java.io.Serializable;
 import com.google.firebase.Timestamp;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
-import java.util.Date;
 
 public class cOutfits implements Serializable, Comparable<cOutfits> {
 
@@ -19,10 +16,10 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
     // empty constructor for recycler view
     public cOutfits(){}
 
-    // constructor for new outfits (YC)
+    // constructor for new outfits
     public cOutfits(String userID, String name, String category, ArrayList<cClothing> items) {
         this.outfitID = UUID.randomUUID().toString();
-        this.timeStamp = getTimeStamp();
+        this.setTimeStamp(new Timestamp(Timestamp.now().toDate()));
         this.userID = userID;
         this.name = name;
         this.items = items;

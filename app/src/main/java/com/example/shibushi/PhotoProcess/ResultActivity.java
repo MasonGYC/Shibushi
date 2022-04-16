@@ -31,7 +31,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.shibushi.Feed.Profile.EditProfileActivity;
-import com.example.shibushi.TagIt;
+import com.example.shibushi.Wardrobe.TagIt;
 import com.yalantis.ucrop.view.UCropView;
 import com.example.shibushi.R;
 
@@ -41,8 +41,6 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
