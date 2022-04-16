@@ -179,50 +179,6 @@ public class FirestoreMethods {
         });
     }
 
-    /*
-    * Accessing image and metadata methods
-    * UPDATE - DELETE THIS METHOD
-    * */
-//    public static String getDownloadUrlString(String img_name){
-//        StorageReference imgRef = mStorageReference.child("images/" + img_name);
-//        final String[] url = {null};
-//        imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Log.d("success", uri.toString());
-//                url[0] = uri.toString();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle any errors
-//            }
-//        });
-//        return url[0];
-//    }
-//
-//    /**
-//     * Method that gets url from img_name
-//     * @param img_name
-//     * @return
-//     */
-//    public static void getDownloadURL(String img_name) {
-//        mStorageReference.child("images").child(img_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                // Got the download URL for 'users/me/profile.png'
-//                // Glide.with(context).load(uri.toString()).into(holder.clothingIV);
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle any errors
-//            }
-//        });
-//    }
-
-
     public static void editClothes(String img_name, HashMap<String, Object> map ){
         mDocRef = clothesRef.document(img_name);
         try{
@@ -238,39 +194,12 @@ public class FirestoreMethods {
         } catch (Exception e) {
             Log.d(TAG, "Clothes metadata was not updated!");
         }
-
-
     }
-
-
-
-    // Query clothes
-//    public static ArrayList<String> getmyClothes(String userID){
-//        ArrayList<String> clothes_Array = new ArrayList<>();
-//        Query myClothes = clothesRef.whereEqualTo("userid", userID);
-//        myClothes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        Object image_name = document.get("img_name");
-//                        clothes_Array.add(image_name.toString());
-//                        Log.d(TAG, document.getId() + " => " + clothes_Array);
-//                        //Bitmap image = Image.getBitmap(image_url.toString());
-//                    }
-//                } else {
-//                    Log.d(TAG, "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
-//        return clothes_Array;
-//    }
 
     /*
     * Create outfit
     * */
-    public static void addOutfit(cOutfits obj, String outfitID){
+    public static void addOutfit(cOutfits obj, String outfitName){
         ArrayList<String> img_names = obj.img_names;
         Timestamp timeStamp = obj.timeStamp;
         String userID = obj.userID;
@@ -286,7 +215,7 @@ public class FirestoreMethods {
             Log.d(TAG, "addOutfit(): map is empty");
             return ;
         }
-        mDocRef = outfitsRef.document(outfitID);
+        mDocRef = outfitsRef.document(obj.getOutfitID());
         mDocRef.set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -300,6 +229,8 @@ public class FirestoreMethods {
         });
 
     }
+
+
     /*
      * Delete outfit
      * */
@@ -309,10 +240,10 @@ public class FirestoreMethods {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Log.d(TAG, "addOutfit(): Outfit was deleted!");
+                    Log.d(TAG, "deleteOutfit(): Outfit was deleted!");
                 }
                 else{
-                    Log.w(TAG, "addOutfit(): Outfit was not deleted!");
+                    Log.w(TAG, "deleteOutfit(): Outfit was not deleted!");
                 }
             }
         });

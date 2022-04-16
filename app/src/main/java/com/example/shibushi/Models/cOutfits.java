@@ -18,7 +18,7 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
 
     // constructor for new outfits
     public cOutfits(String userID, String name, String category, ArrayList<cClothing> items) {
-        this.outfitID = UUID.randomUUID().toString();
+        this.setOutfitID(UUID.randomUUID().toString());
         this.setTimeStamp(new Timestamp(Timestamp.now().toDate()));
         this.userID = userID;
         this.name = name;

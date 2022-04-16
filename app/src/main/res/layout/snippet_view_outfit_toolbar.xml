@@ -32,8 +32,17 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/snippet_view_outfit_toolbar_back"
-                    android:text="Outfit"
+                    android:text="My Outfits"
                     android:textSize="20sp" />
+
+                <!-- tv delete outfit -->
+                <ImageView
+                    android:id="@+id/snippet_view_outfit_toolbar_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_baseline_delete_outline_24"
+                    android:paddingRight="20dp"
+                    android:layout_gravity="end"/>
 
             </androidx.appcompat.widget.Toolbar>
 
