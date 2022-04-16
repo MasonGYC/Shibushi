@@ -24,7 +24,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "AccountSettings";
     private final Context mContext = AccountSettingsActivity.this;
-    private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
+    private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number
 
     ListView settingsListView;
     ArrayList<String> settingsArrayList;

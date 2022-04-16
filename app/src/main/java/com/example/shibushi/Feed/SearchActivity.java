@@ -27,7 +27,7 @@ import com.google.firebase.firestore.Query;
 
 public class SearchActivity extends AppCompatActivity implements cUsersAdapter.UserClickListener {
     private static final String TAG = "SearchActivity";
-    private static final int b_menu_ACTIVTY_NUM = 1;
+    private static final int b_menu_ACTIVTY_NUM = 0;
     private Context mContext = SearchActivity.this;
 
     // Widgets

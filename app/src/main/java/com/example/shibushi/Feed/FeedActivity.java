@@ -12,46 +12,35 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shibushi.Feed.Profile.EditProfileActivity;
 import com.example.shibushi.Feed.Profile.Profile;
-import com.example.shibushi.MainActivity;
-import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.FeedParentAdapter;
-import com.example.shibushi.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.Nullable;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -59,7 +48,7 @@ public class FeedActivity extends AppCompatActivity {
     private Context mContext = FeedActivity.this;
 
     // Bottom navbar activity number
-    private static final int b_menu_ACTIVTY_NUM = 1;
+    private static final int b_menu_ACTIVTY_NUM = 0;
 
     // Feed
     private RecyclerView parentRecyclerView;
@@ -77,7 +66,7 @@ public class FeedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_feed);
+        setContentView(R.layout.activity_feed);
         Log.d(TAG, "onCreate: started");
 
         initImageLoader(); //Init Image Loader
@@ -142,31 +131,22 @@ public class FeedActivity extends AppCompatActivity {
         ImageLoader.getInstance().init(universalImageLoader.getConfig());
     }
 
-    // Floating action button
+    /**
+     * Floating action button setup
+     */
     private void setup_FAB() {
         Log.d(TAG, "setupFloatingActionButton: Setting up FAB menu");
+
+        // new clothing
+        FloatingActionButton fab_hanger = findViewById(R.id.community_feed_fab_hanger);
         // new outfit
         FloatingActionButton fab_outfit = findViewById(R.id.community_feed_fab_outfit);
-        //new clothing
-        FloatingActionButton fab_hanger = findViewById(R.id.community_feed_fab_hanger);
-        //share outfit
-        FloatingActionButton fab_share = findViewById(R.id.community_feed_fab_share);
 
-        fab_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Add new post page
-                Toast.makeText(mContext, "Creating new post...", Toast.LENGTH_SHORT).show();
-                // Intent intent = new Intent(mContext, NewPost.class);
-                // startActivity(intent);
-
-            }
-        });
-
+        // New Clothing
         fab_hanger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Adding new clothes...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Please select an image from gallery", Toast.LENGTH_SHORT).show();
                 importClothing();
             }
         });
@@ -174,7 +154,7 @@ public class FeedActivity extends AppCompatActivity {
         fab_outfit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(mContext, "Making new outfit...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "To select, long press on clothing and click add to basket/delete", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(mContext, ViewWardrobeActivity.class);
                 startActivity(intent);
             }
@@ -236,17 +216,8 @@ public class FeedActivity extends AppCompatActivity {
         if (requestCode == FeedActivity.PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (intent.getData() != null) {
                 imageUri = intent.getData();
-                /*
-                Intent cropIntent = new Intent(mContext, Crop.class);
-                cropIntent.putExtra(KEY_FEED_PHOTO, imageUri.toString());
-                startActivity(cropIntent);
-
-                 */
-
             }
-
         }
-
-        }
+    }
 
 }

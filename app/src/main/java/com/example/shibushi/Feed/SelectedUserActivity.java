@@ -53,7 +53,7 @@ public class SelectedUserActivity extends AppCompatActivity {
 
     private static final String TAG = "SelectedUserActivity";
     private Context mContext = SelectedUserActivity.this;
-    private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
+    private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number
 
     // Widgets
     private TextView mOutfits, mFollowers, mFollowing, mUsername, mBio;
@@ -196,12 +196,14 @@ public class SelectedUserActivity extends AppCompatActivity {
                 }
             }
         });
+
         // Updates selected user details
         getOutfitCount(user);
         mFollowers.setText(String.valueOf(user.getFollowers().size()));
         mFollowing.setText(String.valueOf(user.getFollowing().size()));
         mBio.setText(user.getBio());
         final int[] follower_count = {user.getFollowers().size()};
+
         // When current user clicks follow
         mFollowStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,10 +219,12 @@ public class SelectedUserActivity extends AppCompatActivity {
                     Map<String, Object> remove_hashMap_followers = new HashMap<>();
                     remove_hashMap_followers.put("followers", FieldValue.arrayRemove(selected_userID));
 
+                    // update on firestore
                     docRef.update(remove_hashMap_following);
                     docRef_selected_user.update(remove_hashMap_followers);
 
                     mFollowStatus.setText("FOLLOW");
+
                     // hardcoded method
                     follower_count[0]--;
                     mFollowers.setText(String.valueOf(follower_count[0]));

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import com.example.shibushi.Feed.FeedActivity;
+import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
 import com.example.shibushi.R;
@@ -31,27 +32,19 @@ public class BottomNavigationViewHelper {
 
                 switch (item.getItemId()) {
 
-                    // TODO: Remove and change home to feed
-                    case R.id.ic_home: // b_menu_ACTIVTY_NUM = 0
-                        if (view.getSelectedItemId()!=R.id.ic_home) {
-                            Intent intent_activity_home = new Intent(context, MainActivity.class);
-                            context.startActivity(intent_activity_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                        }
-                        break;
-
-                    case R.id.ic_community_feed: // b_menu_ACTIVTY_NUM = 1
+                    case R.id.ic_community_feed: // b_menu_ACTIVTY_NUM = 0
                         Intent intent_community_feed = new Intent(context, FeedActivity.class);
                         context.startActivity(intent_community_feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
 
-                    case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 2
+                    case R.id.ic_wardrobe: // b_menu_ACTIVTY_NUM = 1
                         if (view.getSelectedItemId()!=R.id.ic_wardrobe) {
                             Intent intent_wardrobe = new Intent(context, ViewWardrobeActivity.class);
                             context.startActivity(intent_wardrobe.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                         }
                         break;
 
-                    case R.id.ic_outfits: // b_menu_ACTIVTY_NUM = 3
+                    case R.id.ic_outfits: // b_menu_ACTIVTY_NUM = 2
                         if (view.getSelectedItemId()!=R.id.ic_outfits) {
                             Intent intent_outfits = new Intent(context, ViewOutfitsParentActivity.class);
                             context.startActivity(intent_outfits.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));

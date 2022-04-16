@@ -18,11 +18,23 @@
         android:id="@+id/profile_relLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/profile_relLayout3"
         android:layout_below="@id/profile_relLayout1"
         android:layout_marginTop="-2dp">
 
         <!-- Center -->
         <include layout="@layout/snippet_profile_center" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profile_relLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/bottom_navbar_height"
+        android:layout_alignParentBottom="true">
+
+        <!-- Bottom Navbar -->
+        <include layout="@layout/layout_navbar_bottom" />
 
     </RelativeLayout>
 
@@ -32,8 +44,5 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp" />
-
-    <!-- Bottom Navbar -->
-    <include layout="@layout/layout_navbar_bottom" />
 
 </RelativeLayout>

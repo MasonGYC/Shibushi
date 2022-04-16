@@ -41,7 +41,7 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
     private static final FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
 
     // Bottom navbar activity number
-    private static final int b_menu_ACTIVTY_NUM = 3;
+    private static final int b_menu_ACTIVTY_NUM = 2;
 
     RecyclerView outfitRecyclerView;
     OutfitParentAdapter outfitParentAdapter;

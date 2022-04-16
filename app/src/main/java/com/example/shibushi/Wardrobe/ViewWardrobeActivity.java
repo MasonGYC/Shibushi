@@ -33,7 +33,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     private static final String TAG = "ViewWardrobe";
     final private Context mContext = ViewWardrobeActivity.this;
     // Bottom navbar activity number
-    private static final int b_menu_ACTIVTY_NUM = 2;
+    private static final int b_menu_ACTIVTY_NUM = 1;
 
     // Left sidebar
     ImageView side_bar_clothes;
@@ -140,7 +140,9 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    // BottomNavigationView setup
+    /**
+     * Bottom Navigation Bar setup
+     */
     private void setupBottomNavigationView() {
         Log.d(TAG, "setupBottomNavigationView: Setting up BottomNavigationView");
         BottomNavigationView bottom_navbar_view = findViewById(R.id.bottom_navbar_view);
@@ -206,7 +208,8 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                             FirestoreMethods.deleteClothes(img_name);
                         }
                         dialog.hide();
-                        Toast.makeText(this.mContext,"Clothes deleted. Deleted Clothes will not be shown in the wardrobe from the next time.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(this.mContext,"Clothes deleted from my wardrobe and all associated outfits.",Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(mContext, ViewWardrobeActivity.class));
                     });
                 }
                 else {
@@ -257,6 +260,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
             isChoosing = true;
             setState(isChoosing);
         });
+
         setState(isChoosing);
     }
 }

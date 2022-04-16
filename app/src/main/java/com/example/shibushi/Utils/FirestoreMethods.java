@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -123,13 +124,16 @@ public class FirestoreMethods {
     public static void deleteClothes(String img_name){
         deleteImage(img_name);
         deleteMetadata(img_name);
+
     }
-    private static void deleteMetadata(String name){
-        mDocRef = clothesRef.document(name);
+
+    private static void deleteMetadata(String img_name){
+        mDocRef = clothesRef.document(img_name);
         mDocRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
+                    deleteImgInOutfits(img_name);
                 }
                 else{
                     Log.w(TAG, "Clothes metadata was not deleted!");
@@ -138,6 +142,7 @@ public class FirestoreMethods {
         });
 
     }
+
     private static void deleteImage(String img_name){
         StorageReference imgRef = mStorageReference.child("images/" + img_name);
         // Delete the file
@@ -151,6 +156,25 @@ public class FirestoreMethods {
             public void onFailure(@NonNull Exception exception) {
                 // Uh-oh, an error occurred!
                 Log.d(TAG, "Image was not deleted!");
+            }
+        });
+    }
+
+    private static void deleteImgInOutfits(String img_name) {
+        mFirestoreDB.collection("cOutfits")
+                .whereEqualTo("userID", userID)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                // iterate through user's outfit
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+
+                    Map<String, Object> remove_img_name = new HashMap<>();
+                    remove_img_name.put("img_names", FieldValue.arrayRemove(img_name));
+                    document.getReference().update(remove_img_name);
+                    Log.d(TAG, "deleteImgInOutfits successful!");
+                }
             }
         });
     }

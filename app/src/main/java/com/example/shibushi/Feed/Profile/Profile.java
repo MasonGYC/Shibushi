@@ -50,7 +50,7 @@ public class Profile extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
     private Context mContext = Profile.this;
-    private static final int b_menu_ACTIVTY_NUM = 1; // Bottom navbar activity number
+    private static final int b_menu_ACTIVTY_NUM = 0; // Bottom navbar activity number
     private TextView mFollowers;
     private TextView mFollowing;
     private TextView mUsername;
@@ -75,7 +75,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_profile);
+        setContentView(R.layout.activity_profile);
         Log.d(TAG, "onCreate: started");
 
         setupActivityWidgets();
