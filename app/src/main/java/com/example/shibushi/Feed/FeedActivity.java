@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shibushi.Feed.Profile.EditProfileActivity;
 import com.example.shibushi.Feed.Profile.Profile;
 import com.example.shibushi.MainActivity;
 import com.example.shibushi.Models.cClothing;
@@ -54,7 +55,7 @@ import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
 
-    private static final String TAG = "CommunityFeed";
+    public static final String TAG = "CommunityFeed";
     private Context mContext = FeedActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
@@ -224,6 +225,7 @@ public class FeedActivity extends AppCompatActivity {
         // Defining Implicit Intent to mobile gallery
         CropActivity.isTakingPhoto = false;
         Intent selectIntent = new Intent(FeedActivity.this, CropActivity.class);
+        selectIntent.putExtra("startingClass", FeedActivity.TAG);
         startActivity(selectIntent);
    }
 

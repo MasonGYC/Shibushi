@@ -102,6 +102,7 @@ public class EditProfileActivity extends AppCompatActivity {
             Log.d(TAG, "Intent from Profile");
             initProfileImage();
         }
+
         // If user comes from Change profile picture
         if (!getIntent().toString().equals("Intent { cmp=com.example.shibushi/.Feed.Profile.EditProfileActivity }")){
             Log.d(TAG, "Intent from edit profile Photo");

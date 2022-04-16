@@ -26,6 +26,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.Feed.Profile.EditProfileActivity;
 import com.example.shibushi.MainActivity;
 import com.yalantis.ucrop.UCrop;
@@ -74,6 +75,7 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
             Intent intent = getIntent();
             Uri selectedUri = Uri.parse(intent.getStringExtra(MainActivity.PHOTO_TAKEN));
             if (selectedUri != null) {
+                Log.d(TAG, "onCreate... working until startCrop");
                 startCrop(selectedUri);
             } else {
                 Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_selected_image, Toast.LENGTH_SHORT).show();
@@ -121,6 +123,7 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
 
     private void startCrop(@NonNull Uri uri) {
         String destinationFileName = SAMPLE_CROPPED_IMAGE_NAME;
+        Log.d(TAG, "startCrop: starting...");
 
         //MODIFIED: CHANGE TO JPG
         destinationFileName += ".jpg";
@@ -189,7 +192,7 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
             if (startingClass.equals(EditProfileActivity.TAG)) {
                 ResultActivity.startWithUri(CropActivity.this, resultUri, startingClass);
             } else {
-                ResultActivity.startWithUri(CropActivity.this, resultUri, "others");
+                ResultActivity.startWithUri(CropActivity.this, resultUri, FeedActivity.TAG);
             }
         } else {
             Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_cropped_image, Toast.LENGTH_SHORT).show();
