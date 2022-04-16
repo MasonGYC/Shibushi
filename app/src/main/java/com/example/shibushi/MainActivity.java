@@ -115,12 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changePassword();
                 break;
             case R.id.bImportClothing:
-                CropActivity.isTakingPhoto = false;
                 Intent cropIntent = new Intent(MainActivity.this, CropActivity.class);
                 startActivity(cropIntent);
                 break;
             case R.id.bTakePhoto:
-                CropActivity.isTakingPhoto = true;
                 dispatchTakePictureIntent(REQUEST_IMAGE_CAPTURE);
                 break;
             case R.id.bFirestore:

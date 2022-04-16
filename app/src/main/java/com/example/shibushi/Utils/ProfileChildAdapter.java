@@ -30,7 +30,6 @@ public class ProfileChildAdapter extends RecyclerView.Adapter<ProfileChildAdapte
     public void setChildItemList(ArrayList<String> cClothesList){
         this.cClothesList = cClothesList;
 
-        // this.cClothesList.removeAll(Collections.singleton(null));
     }
 
     public ProfileChildAdapter(ArrayList<String> cClothesArrayList) {

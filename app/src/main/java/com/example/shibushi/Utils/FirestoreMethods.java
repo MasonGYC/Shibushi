@@ -245,7 +245,6 @@ public class FirestoreMethods {
 
     /*
     * Create outfit
-    * TODO: FIx bug - Creates a hashmap for timestamp instead of a Timestamp Datatype
     * */
     public static void addOutfit(cOutfits obj, String outfitID){
         ArrayList<String> img_names = obj.img_names;

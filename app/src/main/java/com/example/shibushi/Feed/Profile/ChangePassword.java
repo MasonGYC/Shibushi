@@ -75,7 +75,7 @@ public class ChangePassword extends AppCompatActivity {
                                         }
                                         else{
                                             Toast.makeText(ChangePassword.this, "Password updated successfully!", Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(ChangePassword.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                            startActivity(new Intent(ChangePassword.this, EditProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                         }
                                     }
                                 });

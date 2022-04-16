@@ -107,7 +107,7 @@ public class TagIt extends AppCompatActivity {
                 // ^^ need to return img_name and userid, both add to the map.
                 // go back to MainActivity
                 Toast.makeText(TagIt.this, "TAG IT", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(TagIt.this, MainActivity.class);
+                Intent intent = new Intent(TagIt.this, ViewWardrobeActivity.class);
                 startActivity(intent);
             }
         });

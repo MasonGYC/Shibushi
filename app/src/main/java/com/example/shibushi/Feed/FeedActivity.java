@@ -105,7 +105,7 @@ public class FeedActivity extends AppCompatActivity {
         // for every userID in current user's followings, find all their outfits by order
         for (String userID_i : current_UserID_ArrayList) {
             mDatabase.collection("cOutfits")
-                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+                    // .orderBy("timeStamp", Query.Direction.ASCENDING)
                     .whereEqualTo("userID", userID_i)
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -225,7 +225,6 @@ public class FeedActivity extends AppCompatActivity {
     // Select Image method
     public void importClothing() {
         // Defining Implicit Intent to mobile gallery
-        CropActivity.isTakingPhoto = false;
         Intent selectIntent = new Intent(FeedActivity.this, CropActivity.class);
         selectIntent.putExtra("startingClass", FeedActivity.TAG);
         startActivity(selectIntent);

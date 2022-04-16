@@ -193,7 +193,6 @@ public class EditProfileActivity extends AppCompatActivity {
         edit_profile_TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropActivity.isTakingPhoto = false;
                 Intent selectIntent = new Intent(mContext, CropActivity.class);
                 selectIntent.putExtra("startingClass", EditProfileActivity.TAG);
                 startActivity(selectIntent);

@@ -45,7 +45,6 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
 
     private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage";
 
-    public static boolean isTakingPhoto = false;
 
     private Toolbar toolbar;
     private ScrollView settingsView;
@@ -68,20 +67,8 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_sample);
         //setupUI();
-        if (!isTakingPhoto){
-            pickFromGallery();
-        }
-        else{
-            Intent intent = getIntent();
-            Uri selectedUri = Uri.parse(intent.getStringExtra(MainActivity.PHOTO_TAKEN));
-            if (selectedUri != null) {
-                Log.d(TAG, "onCreate... working until startCrop");
-                startCrop(selectedUri);
-            } else {
-                Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_selected_image, Toast.LENGTH_SHORT).show();
-            }
 
-        }
+        pickFromGallery();
 
     }
 
