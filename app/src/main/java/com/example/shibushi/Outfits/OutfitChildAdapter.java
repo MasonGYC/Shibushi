@@ -55,7 +55,7 @@ public class OutfitChildAdapter extends RecyclerView.Adapter<OutfitChildAdapter.
 
         holder.outfitName.setText(this.datasource.get(position).getName());
         holder.outfitImageButton.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), SingleOutfit.class);
+            Intent intent = new Intent(view.getContext(), SingleOutfitActivity.class);
             intent.putExtra(KEY_SINGLE_OUTFIT_VIEW_ITEMS,items);
             intent.putExtra(KEY_SINGLE_OUTFIT_VIEW_NAME,name);
             context.startActivity(intent);

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,19 +16,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.R;
+import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class SingleOutfit extends AppCompatActivity {
+public class SingleOutfitActivity extends AppCompatActivity {
 
     TextView outfitNameText;
     RecyclerView singleoutfitRecyclerView;
     SingleOutfitAdapter singleOutfitAdapter;
     ImageView backArrow;
+    ImageView deleteOutfit;
     private static final StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
     @Override
@@ -53,7 +57,18 @@ public class SingleOutfit extends AppCompatActivity {
 
                     backArrow = findViewById(R.id.snippet_view_outfit_toolbar_back);
                     backArrow.setOnClickListener(view -> {
-                        SingleOutfit.this.finish();
+                        SingleOutfitActivity.this.finish();
+                    });
+
+                    deleteOutfit = findViewById(R.id.snippet_view_outfit_toolbar_delete);
+                    deleteOutfit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FirestoreMethods.deleteOutfit(outfitname);
+                            Intent intent_back = new Intent(SingleOutfitActivity.this, ViewOutfitsParentActivity.class);
+                            startActivity(intent_back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+
+                        }
                     });
 
                     singleoutfitRecyclerView = findViewById(R.id.layout_single_outfit_recyclerView);
@@ -67,7 +82,7 @@ public class SingleOutfit extends AppCompatActivity {
                             }
                             singleOutfitAdapter = new SingleOutfitAdapter(singleoutfitRecyclerView.getContext(), targeted_images, Container.w);
                             singleoutfitRecyclerView.setAdapter(singleOutfitAdapter);
-                            singleoutfitRecyclerView.setLayoutManager(new LinearLayoutManager(SingleOutfit.this));
+                            singleoutfitRecyclerView.setLayoutManager(new LinearLayoutManager(SingleOutfitActivity.this));
                         }
                     });
                 }

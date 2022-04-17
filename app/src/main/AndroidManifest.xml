@@ -90,7 +90,7 @@
 
        <!-- Outfits-->
         <activity
-            android:name=".Outfits.SingleOutfit"
+            android:name=".Outfits.SingleOutfitActivity"
             android:screenOrientation="portrait"
             android:exported="true" />
         <activity

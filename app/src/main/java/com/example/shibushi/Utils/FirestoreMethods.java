@@ -235,6 +235,31 @@ public class FirestoreMethods {
      * Delete outfit
      * */
     public static void deleteOutfit(String outfitName){
+        mFirestoreDB.collection("cOutfits")
+                .whereEqualTo("name", outfitName)
+                .whereEqualTo("userID", userID)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    cOutfits outfit = document.toObject(cOutfits.class);
+                    if (outfit.getName().equals(outfitName)) {
+                        document.getReference().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    Log.d(TAG, "deleteOutfit(): Outfit was deleted!");
+                                }
+                                else{
+                                    Log.w(TAG, "deleteOutfit(): Outfit was not deleted!");
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
         mDocRef = outfitsRef.document(outfitName);
         mDocRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -249,59 +274,62 @@ public class FirestoreMethods {
         });
     }
 
-    public static void editOutfit(String outfitName, HashMap<String, Object> map ){
-        mDocRef = outfitsRef.document(outfitName);
-        try{
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                mDocRef.update(entry.getKey(), entry.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "1/? Outfit metadata was updated!");
-                    }
-                });
-                Log.d(TAG, "All outfit metadata was updated!");
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "Outfit metadata was not updated!");
-        }
-    }
+//    public static void editOutfit(String outfitName, HashMap<String, Object> map ){
+//        mDocRef = outfitsRef.document(outfitName);
+//        try{
+//            for (Map.Entry<String, Object> entry : map.entrySet()) {
+//                mDocRef.update(entry.getKey(), entry.getValue()).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Log.d(TAG, "1/? Outfit metadata was updated!");
+//                    }
+//                });
+//                Log.d(TAG, "All outfit metadata was updated!");
+//            }
+//        } catch (Exception e) {
+//            Log.d(TAG, "Outfit metadata was not updated!");
+//        }
+//    }
 
 
-    // For User followers and followings
-    public static void getAllFollow(String userID){
+//    // For User followers and followings
+//    public static void getAllFollow(String userID){
+//        getmyFollowers(userID);
+//    }
+//
+//    private static void getmyFollowers(String userID){
+//        DocumentReference docRef = mUsersRef.document(userID);
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                        // DocumentSnapshot data: {following=[user1, user2], followers=[user0]} , is returned
+//                        Map<String, Object> map = document.getData();
+//                        for (Map.Entry<String, Object> entry : map.entrySet()) {
+//                            int followers_count = 0;
+//                            if (entry.getKey().equals("followers")) {
+//                                followers_count +=1;
+//                                Log.d("TAG", entry.getValue().toString());
+//                            }
+//                            // later return count
+//                        }
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
+//    }
 
-        getmyFollowers(userID);
-    }
-    private static void getmyFollowers(String userID){
-        DocumentReference docRef = mUsersRef.document(userID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        // DocumentSnapshot data: {following=[user1, user2], followers=[user0]} , is returned
-                        Map<String, Object> map = document.getData();
-                        for (Map.Entry<String, Object> entry : map.entrySet()) {
-                            int followers_count = 0;
-                            if (entry.getKey().equals("followers")) {
-                                followers_count +=1;
-                                Log.d("TAG", entry.getValue().toString());
-                            }
-                            // later return count
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
-// register
+    /**
+     * Adds new user to firestore when register
+     * @param currentUser A new FirebaseUser created when user registers
+     */
     public static void initialise_cUser(FirebaseUser currentUser) {
         String userID = currentUser.getUid();
         String username = currentUser.getDisplayName();
