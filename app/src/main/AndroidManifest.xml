@@ -117,7 +117,7 @@
             android:name=".PhotoProcess.ResultActivity"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:parentActivityName=".Feed.FeedActivity" />
+            android:parentActivityName=".Wardrobe.ViewWardrobeActivity" />
         <activity
             android:name=".PhotoProcess.BaseActivity"
             android:screenOrientation="portrait"

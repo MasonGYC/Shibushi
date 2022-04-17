@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.Feed.Profile.EditProfileActivity;
+import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropFragment;
 import com.yalantis.ucrop.UCropFragmentCallback;
@@ -177,8 +178,10 @@ public class CropActivity extends BaseActivity implements UCropFragmentCallback 
 
             if (startingClass.equals(EditProfileActivity.TAG)) {
                 ResultActivity.startWithUri(CropActivity.this, resultUri, startingClass);
-            } else {
+            } else if (startingClass.equals(FeedActivity.TAG)){
                 ResultActivity.startWithUri(CropActivity.this, resultUri, FeedActivity.TAG);
+            } else {
+                ResultActivity.startWithUri(CropActivity.this, resultUri, ViewWardrobeActivity.TAG);
             }
         } else {
             Toast.makeText(CropActivity.this, R.string.toast_cannot_retrieve_cropped_image, Toast.LENGTH_SHORT).show();

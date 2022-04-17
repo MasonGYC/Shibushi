@@ -139,7 +139,7 @@ public class ResultActivity extends BaseActivity {
                     if (startingClass.equals(EditProfileActivity.TAG)) {
                         Intent editProfileIntent = new Intent(ResultActivity.this, EditProfileActivity.class);
                         editProfileIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());
-                        startActivity(editProfileIntent);
+                        startActivity(editProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     } else {
                         Intent tagItIntent = new Intent(ResultActivity.this, TagItActivity.class);
                         tagItIntent.putExtra(KEY_PHOTO, getIntent().getData().toString());

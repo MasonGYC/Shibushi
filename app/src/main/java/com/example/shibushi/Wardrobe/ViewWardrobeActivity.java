@@ -19,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
+import com.example.shibushi.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.FirestoreMethods;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 
 public class ViewWardrobeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "ViewWardrobe";
+    public static final String TAG = "ViewWardrobe";
     final private Context mContext = ViewWardrobeActivity.this;
     // Bottom navbar activity number
     private static final int b_menu_ACTIVTY_NUM = 1;
@@ -47,8 +49,11 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     TextView create_outfit_name;
     TextView create_outfit_category;
     public static boolean isChoosing = false;
+
+    // Top Toolbar
     ImageView basket;
     ImageView delete_cloth_button;
+    ImageView add_new_clothing;
 
     AlertDialog dialog;
 
@@ -63,6 +68,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         isChoosing = false;
         // Set up bottom navigation bar
         setupBottomNavigationView();
+        setupAddImportNewClothingButton();
         initDeleteClothFunction();
         initCreateOutfitFunction();
         initPage();
@@ -138,6 +144,30 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
             case 2: // R.id.id_wd_clothes
                 break;
         }
+    }
+
+    /**
+     * Setup import clothing button
+     */
+    private void setupAddImportNewClothingButton() {
+        add_new_clothing = findViewById(R.id.wardrobe_add);
+        add_new_clothing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Please select an image from gallery", Toast.LENGTH_SHORT).show();
+                importClothing();
+            }
+        });
+    }
+
+    /**
+     * Import Clothing from user's gallery
+     */
+    public void importClothing() {
+        // Defining Implicit Intent to mobile gallery
+        Intent selectIntent = new Intent(mContext, CropActivity.class);
+        selectIntent.putExtra("startingClass", ViewWardrobeActivity.TAG);
+        startActivity(selectIntent);
     }
 
     /**

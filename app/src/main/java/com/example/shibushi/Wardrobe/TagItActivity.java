@@ -107,7 +107,7 @@ public class TagItActivity extends AppCompatActivity {
                 // go back to MainActivity
                 Toast.makeText(TagItActivity.this, "TAG IT", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TagItActivity.this, ViewWardrobeActivity.class);
-                startActivity(intent);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 

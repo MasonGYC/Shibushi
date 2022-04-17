@@ -19,7 +19,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <!-- following -->
+                    <!-- Wardrobe TextView -->
                     <TextView
                         android:id="@+id/wardrobe_top_toolbar"
                         android:layout_width="wrap_content"
@@ -31,7 +31,17 @@
                         android:textSize="20sp"
                         android:textStyle="italic"/>
 
-                    <!-- basket -->
+                    <!-- Add -->
+                    <ImageView
+                        android:id="@+id/wardrobe_add"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toLeftOf="@+id/wardrobe_delete"
+                        android:src="@drawable/ic_baseline_add_24" />
+
+                    <!-- Delete -->
                     <ImageView
                         android:id="@+id/wardrobe_delete"
                         android:layout_width="30dp"
@@ -41,6 +51,7 @@
                         android:layout_toLeftOf="@+id/wardrobe_basket"
                         android:src="@drawable/ic_baseline_delete_outline_24" />
 
+                    <!-- Basket -->
                     <ImageView
                         android:id="@+id/wardrobe_basket"
                         android:layout_width="30dp"
