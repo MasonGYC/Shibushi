@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/ic_wardrobe"
-        android:title="Closet"
+        android:title="Wardrobe"
         android:icon="@drawable/ic_baseline_door_sliding_24"
         app:showAsAction="always"/>
 

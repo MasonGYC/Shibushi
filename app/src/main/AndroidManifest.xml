@@ -108,8 +108,6 @@
             android:screenOrientation="portrait"
             android:exported="true" />
 
-        <activity android:name=".testing.firestoreUpload" />
-
         <!--Photo Process-->
         <activity
             android:name=".PhotoProcess.CropActivity"
