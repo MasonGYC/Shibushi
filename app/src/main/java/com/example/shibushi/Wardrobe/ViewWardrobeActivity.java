@@ -170,7 +170,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
      */
     public void importClothing() {
         // Defining Implicit Intent to mobile gallery
-        Intent selectIntent = new Intent(mContext, CropActivity.class);
+        Intent selectIntent = new Intent(mContext, CropActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         selectIntent.putExtra("startingClass", ViewWardrobeActivity.TAG);
         startActivity(selectIntent);
     }
@@ -245,7 +245,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                         }
                         dialog.hide();
                         Toast.makeText(this.mContext,"Clothes deleted from my wardrobe and all associated outfits.",Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(mContext, ViewWardrobeActivity.class));
+                        startActivity(new Intent(mContext, ViewWardrobeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     });
                 }
                 else {
