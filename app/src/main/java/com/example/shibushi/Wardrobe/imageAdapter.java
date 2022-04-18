@@ -72,6 +72,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
 
             handler.post(() -> {
                 if (cBitmap.get() != null) {
+                    // Load images and resize them into squares
                     Picasso.get().load(cUri.get()).resize(width, width).centerCrop().into(holder.imageView);
                     holder.imageView.setMaxWidth(width);
                     cClothing new_cloth = new cClothing(image_name);
@@ -95,6 +96,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
             super(itemView);
             imageView = itemView.findViewById(R.id.wardrobe_image);
             imageView.setLongClickable(true);
+            // Set LongClickListener for images
             imageView.setOnLongClickListener(view -> {
                 if (selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
                     return false;
@@ -111,6 +113,8 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHol
                     return true;
                 }
             });
+
+            // Set onClickListener for images
             imageView.setOnClickListener(view -> {
                 if (!selectedItems.contains((cClothing) view.getTag(R.id.imageView_tag_uri))){
                     return;

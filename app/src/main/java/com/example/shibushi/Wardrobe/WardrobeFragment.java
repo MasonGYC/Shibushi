@@ -97,7 +97,6 @@ public class WardrobeFragment extends Fragment {
                             if (!cloth.getCategory().equals(type)){
                                 continue;
                             }
-
                             mStorageReference.child("images").child(cloth.getImg_name()).getDownloadUrl()
                                     .addOnSuccessListener(uri -> {
                                         images.add(new Model.Img(uri.toString()));
@@ -106,6 +105,7 @@ public class WardrobeFragment extends Fragment {
                                         Log.i("Wardrobe", "get "+ dataSource.count() +" images");
                                         imageAdapter = new imageAdapter(recyclerView.getContext(), dataSource, Container.w);
                                         recyclerView.setAdapter(imageAdapter);
+                                        // set GridLayoutManager to show content in two columns
                                         recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
                                     });
                         }

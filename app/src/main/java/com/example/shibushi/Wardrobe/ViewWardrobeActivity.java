@@ -55,6 +55,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     ImageView delete_cloth_button;
     ImageView add_new_clothing;
 
+    // Alert Dialog for deleting clothes
     AlertDialog dialog;
 
     // Fragment & ViewPage
@@ -118,6 +119,10 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    /*
+    * Change current fragment
+    * Highlight the corresponding fragment icon
+    * */
     private void changeTab(int position) {
         current_view.setBackgroundColor(Color.parseColor("#eeeeee"));
         current_view.setSelected(false);
@@ -165,7 +170,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
      */
     public void importClothing() {
         // Defining Implicit Intent to mobile gallery
-        Intent selectIntent = new Intent(mContext, CropActivity.class);
+        Intent selectIntent = new Intent(mContext, CropActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         selectIntent.putExtra("startingClass", ViewWardrobeActivity.TAG);
         startActivity(selectIntent);
     }
@@ -193,6 +198,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onDestroy(){
         if (dialog!=null){
+            // destroy dialog
             dialog.cancel();
         }
         super.onDestroy();
@@ -239,10 +245,11 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                         }
                         dialog.hide();
                         Toast.makeText(this.mContext,"Clothes deleted from my wardrobe and all associated outfits.",Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(mContext, ViewWardrobeActivity.class));
+                        startActivity(new Intent(mContext, ViewWardrobeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     });
                 }
                 else {
+                    // show dialog alert
                     dialog.show();
                 }
             }
