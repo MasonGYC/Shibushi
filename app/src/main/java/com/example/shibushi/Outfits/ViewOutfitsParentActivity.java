@@ -150,7 +150,7 @@ public class ViewOutfitsParentActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(b_menu_ACTIVTY_NUM);
         menuItem.setChecked(true);
     }
-
+    // Create new outfit
     public Map<String[],ArrayList<cClothing>> getNewOutfit(){
         //to get intent data to retrieve new created single outfit
         Map<String[],ArrayList<cClothing>> map = new HashMap<>(); //downloaded processed data from firebase
