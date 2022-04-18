@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+// Adapter for recycler view for SingleOutfitActivity
 public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapter.SingleOutfitViewHolder>{
 
     Context context;
