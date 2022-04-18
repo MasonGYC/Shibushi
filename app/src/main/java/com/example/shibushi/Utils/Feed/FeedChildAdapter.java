@@ -26,12 +26,6 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
     private ArrayList<String> cClothesList;
     private StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
-    public void setChildItemList(ArrayList<String> cClothesList){
-        this.cClothesList = cClothesList;
-
-        this.cClothesList.removeAll(Collections.singleton(null));
-    }
-
     public FeedChildAdapter(ArrayList<String> cClothesArrayList) {
         this.cClothesList = cClothesArrayList;
     }
@@ -52,7 +46,7 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
         mStorageReference.child("images").child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
+                // Populate the clothings
                 String imageURL = uri.toString();
                 Glide.with(holder.itemView.getContext()).load(imageURL).into(holder.clothingIV);
 

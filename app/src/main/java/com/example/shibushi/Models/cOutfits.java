@@ -96,11 +96,6 @@ public class cOutfits implements Serializable, Comparable<cOutfits> {
         this.img_names = img_names;
     }
 
-    /**
-     * Sorts outfits according to timestamp in descending order
-     * @param cOutfits
-     * @return
-     */
     @Override
     public int compareTo(cOutfits cOutfits) {
         return cOutfits.getTimeStamp().compareTo(this.getTimeStamp());
