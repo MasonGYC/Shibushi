@@ -55,6 +55,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     ImageView delete_cloth_button;
     ImageView add_new_clothing;
 
+    // Alert Dialog for deleting clothes
     AlertDialog dialog;
 
     // Fragment & ViewPage
@@ -118,6 +119,10 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    /*
+    * Change current fragment
+    * Highlight the corresponding fragment icon
+    * */
     private void changeTab(int position) {
         current_view.setBackgroundColor(Color.parseColor("#eeeeee"));
         current_view.setSelected(false);
@@ -193,6 +198,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onDestroy(){
         if (dialog!=null){
+            // destroy dialog
             dialog.cancel();
         }
         super.onDestroy();
@@ -243,6 +249,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                     });
                 }
                 else {
+                    // show dialog alert
                     dialog.show();
                 }
             }
