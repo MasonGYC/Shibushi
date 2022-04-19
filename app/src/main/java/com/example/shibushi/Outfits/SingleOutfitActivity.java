@@ -61,29 +61,23 @@ public class SingleOutfitActivity extends AppCompatActivity {
                     });
 
                     deleteOutfit = findViewById(R.id.snippet_view_outfit_toolbar_delete);
-                    deleteOutfit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            FirestoreMethods.deleteOutfit(outfitname);
-                            Intent intent_back = new Intent(SingleOutfitActivity.this, ViewOutfitsParentActivity.class);
-                            startActivity(intent_back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    deleteOutfit.setOnClickListener(view -> {
+                        FirestoreMethods.deleteOutfit(outfitname);
+                        Intent intent_back = new Intent(SingleOutfitActivity.this, ViewOutfitsParentActivity.class);
+                        startActivity(intent_back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                        }
                     });
 
                     singleoutfitRecyclerView = findViewById(R.id.layout_single_outfit_recyclerView);
                     //set recycler view
-                    singleoutfitRecyclerView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(singleoutfitRecyclerView.getWidth()!=0){
-                                Container.w = singleoutfitRecyclerView.getWidth();
-                                Log.i("SingleOutfit width", String.valueOf(Container.w));
-                            }
-                            singleOutfitAdapter = new SingleOutfitAdapter(singleoutfitRecyclerView.getContext(), targeted_images, Container.w);
-                            singleoutfitRecyclerView.setAdapter(singleOutfitAdapter);
-                            singleoutfitRecyclerView.setLayoutManager(new LinearLayoutManager(SingleOutfitActivity.this));
+                    singleoutfitRecyclerView.post(() -> {
+                        if(singleoutfitRecyclerView.getWidth()!=0){
+                            Container.w = singleoutfitRecyclerView.getWidth();
+                            Log.i("SingleOutfit width", String.valueOf(Container.w));
                         }
+                        singleOutfitAdapter = new SingleOutfitAdapter(singleoutfitRecyclerView.getContext(), targeted_images, Container.w);
+                        singleoutfitRecyclerView.setAdapter(singleOutfitAdapter);
+                        singleoutfitRecyclerView.setLayoutManager(new LinearLayoutManager(SingleOutfitActivity.this));
                     });
                 }
             });

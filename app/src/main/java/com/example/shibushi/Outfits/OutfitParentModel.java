@@ -12,7 +12,6 @@ public class OutfitParentModel {
         }
         public ParentDataSource(List<OutfitChildModel.ChildDataSource> data) {
             this.data = data;
-            this.category = category;
         }
         public int count() { return this.data.size(); }
         public OutfitChildModel.ChildDataSource get(int i) { return this.data.get(i); }
