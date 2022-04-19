@@ -56,6 +56,7 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
 
         String userID = cOutfit.getUserID();
 
+        // Get the document of the owner of the current outfit
         mDatabase.collection("cUsers")
                 .whereEqualTo("userID", userID)
                 .get()
@@ -73,12 +74,12 @@ public class FeedParentAdapter extends RecyclerView.Adapter<FeedParentAdapter.Fe
                             holder.usernameTV.setText(username);
                             Log.d(TAG, cOutfit.toString());
 
-                            // Set profile image
                             mStorageReference.child("images").child(profile_photo_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    String imageURL = uri.toString();
 
+                                    // Set profile photo
+                                    String imageURL = uri.toString();
                                     Glide.with(holder.itemView.getContext()).load(imageURL).into(holder.profilePhotoCIV);
 
                                     holder.clothesRecyclerView.setHasFixedSize(true);

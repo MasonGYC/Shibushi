@@ -51,7 +51,7 @@ public class SearchActivity extends AppCompatActivity implements cUsersAdapter.U
 
         setupBottomNavigationView(); //Setup bottom navigation bar
 
-        // Search stuffs
+        // Search
         Query query = mDatabase.collection("cUsers");
         FirestoreRecyclerOptions<cUsers> options = new FirestoreRecyclerOptions.Builder<cUsers>()
                 .setQuery(query, cUsers.class)
