@@ -14,7 +14,8 @@ import android.view.ViewGroup;
 
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
-import com.example.shibushi.Utils.Wardrobe.WardrobeAdapter;
+import com.example.shibushi.Wardrobe.Utils.Model;
+import com.example.shibushi.Wardrobe.Utils.WardrobeAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +35,7 @@ public class WardrobeFragment extends Fragment {
     View rootView;
     private Model.DataSource dataSource;
     private RecyclerView recyclerView;
-    private com.example.shibushi.Utils.Wardrobe.WardrobeAdapter WardrobeAdapter;
+    private com.example.shibushi.Wardrobe.Utils.WardrobeAdapter WardrobeAdapter;
     private static final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public static final FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
     private static final String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();

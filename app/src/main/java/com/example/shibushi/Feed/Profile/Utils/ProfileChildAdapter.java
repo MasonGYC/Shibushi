@@ -1,4 +1,4 @@
-package com.example.shibushi.Utils.Feed;
+package com.example.shibushi.Feed.Profile.Utils;
 
 import android.net.Uri;
 import android.util.Log;
@@ -18,35 +18,40 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.FeedChildViewHolder> {
+public class ProfileChildAdapter extends RecyclerView.Adapter<ProfileChildAdapter.ProfileChildViewHolder> {
 
-    private final String TAG = "FeedChildAdapter";
+    private final String TAG = "ProfileChildAdapter";
     private ArrayList<String> cClothesList;
-    private StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
-    public FeedChildAdapter(ArrayList<String> cClothesArrayList) {
+    public void setChildItemList(ArrayList<String> cClothesList){
+        this.cClothesList = cClothesList;
+
+    }
+
+    public ProfileChildAdapter(ArrayList<String> cClothesArrayList) {
         this.cClothesList = cClothesArrayList;
     }
 
     @NonNull
     @Override
-    public FeedChildViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProfileChildViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.snippet_feed_each_child_clothing, null, false);
-        return new FeedChildViewHolder(view);
+                .inflate(R.layout.snippet_profile_each_child_clothing, null, false);
+        return new ProfileChildViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeedChildViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProfileChildViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: setting up viewholder on position " + position);
         String imageName = cClothesList.get(position);
+
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
         mStorageReference.child("images").child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                // Populate the clothings
+                // Got the download URL for 'users/me/profile.png'
                 String imageURL = uri.toString();
                 Glide.with(holder.itemView.getContext()).load(imageURL).into(holder.clothingIV);
 
@@ -64,14 +69,14 @@ public class FeedChildAdapter extends RecyclerView.Adapter<FeedChildAdapter.Feed
         return cClothesList.size();
     }
 
-    public class FeedChildViewHolder extends RecyclerView.ViewHolder {
+    public class ProfileChildViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView clothingIV;
 
-        public FeedChildViewHolder(@NonNull View itemView) {
+        public ProfileChildViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            clothingIV = itemView.findViewById(R.id.feed_each_child_clothing_IV);
+            clothingIV = itemView.findViewById(R.id.profile_each_child_clothing_IV);
         }
     }
 }

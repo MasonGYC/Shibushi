@@ -1,4 +1,4 @@
-package com.example.shibushi.Utils.Wardrobe;
+package com.example.shibushi.Wardrobe.Utils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

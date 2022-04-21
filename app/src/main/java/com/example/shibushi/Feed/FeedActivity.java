@@ -23,7 +23,7 @@ import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.Utils.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
-import com.example.shibushi.Utils.Feed.FeedParentAdapter;
+import com.example.shibushi.Feed.Utils.FeedParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;

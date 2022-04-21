@@ -1,4 +1,4 @@
-package com.example.shibushi.Utils.Profile;
+package com.example.shibushi.Feed.Profile.Utils;
 
 import android.util.Log;
 import android.view.LayoutInflater;

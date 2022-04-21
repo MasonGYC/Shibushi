@@ -25,7 +25,7 @@ import com.example.shibushi.Models.cUsers;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 //import com.example.shibushi.Utils.GridImageAdapter;
-import com.example.shibushi.Utils.Profile.ProfileParentAdapter;
+import com.example.shibushi.Feed.Profile.Utils.ProfileParentAdapter;
 import com.example.shibushi.Utils.UniversalImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

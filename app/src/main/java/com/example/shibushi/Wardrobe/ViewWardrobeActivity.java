@@ -25,8 +25,8 @@ import com.example.shibushi.Utils.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.FirestoreMethods;
-import com.example.shibushi.Utils.Wardrobe.WardrobeAdapter;
-import com.example.shibushi.Utils.Wardrobe.WardrobeFragmentPageAdapter;
+import com.example.shibushi.Wardrobe.Utils.WardrobeAdapter;
+import com.example.shibushi.Wardrobe.Utils.WardrobeFragmentPageAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

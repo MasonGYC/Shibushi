@@ -1,4 +1,4 @@
-package com.example.shibushi.Outfits;
+package com.example.shibushi.Outfits.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.R;
-import com.example.shibushi.Utils.Wardrobe.UtilsFetchBitmap;
-import com.example.shibushi.Utils.Wardrobe.WardrobeAdapter;
+import com.example.shibushi.Wardrobe.Utils.UtilsFetchBitmap;
+import com.example.shibushi.Wardrobe.Utils.WardrobeAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;

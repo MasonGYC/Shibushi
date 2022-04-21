@@ -1,4 +1,4 @@
-package com.example.shibushi.Outfits;
+package com.example.shibushi.Outfits.Adapters;
 
 import java.util.ArrayList;
 import java.util.List;

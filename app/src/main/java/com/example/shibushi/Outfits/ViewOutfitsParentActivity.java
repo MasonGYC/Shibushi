@@ -20,6 +20,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.example.shibushi.Models.cClothing;
+import com.example.shibushi.Outfits.Adapters.OutfitChildModel;
+import com.example.shibushi.Outfits.Adapters.OutfitParentAdapter;
+import com.example.shibushi.Outfits.Adapters.OutfitParentModel;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Models.cOutfits;

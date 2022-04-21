@@ -1,4 +1,4 @@
-package com.example.shibushi.Utils.Feed;
+package com.example.shibushi.Feed.Utils;
 
 import android.net.Uri;
 import android.util.Log;

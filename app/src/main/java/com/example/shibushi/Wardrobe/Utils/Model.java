@@ -1,12 +1,12 @@
-package com.example.shibushi.Wardrobe;
+package com.example.shibushi.Wardrobe.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
     public static class DataSource{
-        public List<String> data_name = new ArrayList<>();
-        public List<Img> data = new ArrayList<>();
+        List<String> data_name = new ArrayList<>();
+        List<Img> data = new ArrayList<>();
         public DataSource(){}
         public DataSource(List<Img> data, List<String> data_name){
             this.data_name = data_name;

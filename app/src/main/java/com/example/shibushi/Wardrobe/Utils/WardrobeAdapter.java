@@ -1,4 +1,4 @@
-package com.example.shibushi.Utils.Wardrobe;
+package com.example.shibushi.Wardrobe.Utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
-import com.example.shibushi.Wardrobe.Model;
 import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.squareup.picasso.Picasso;
 

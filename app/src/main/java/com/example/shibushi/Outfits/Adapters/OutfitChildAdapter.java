@@ -1,4 +1,4 @@
-package com.example.shibushi.Outfits;
+package com.example.shibushi.Outfits.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.shibushi.Outfits.SingleOutfitActivity;
 import com.example.shibushi.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

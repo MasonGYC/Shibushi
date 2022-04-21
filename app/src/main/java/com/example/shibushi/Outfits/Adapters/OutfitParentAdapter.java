@@ -1,4 +1,4 @@
-package com.example.shibushi.Outfits;
+package com.example.shibushi.Outfits.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

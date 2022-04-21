@@ -1,13 +1,12 @@
 package com.example.shibushi.Outfits;
 
-import static com.example.shibushi.Outfits.OutfitChildAdapter.KEY_SINGLE_OUTFIT_VIEW_ITEMS;
-import static com.example.shibushi.Outfits.OutfitChildAdapter.KEY_SINGLE_OUTFIT_VIEW_NAME;
+import static com.example.shibushi.Outfits.Adapters.OutfitChildAdapter.KEY_SINGLE_OUTFIT_VIEW_ITEMS;
+import static com.example.shibushi.Outfits.Adapters.OutfitChildAdapter.KEY_SINGLE_OUTFIT_VIEW_NAME;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shibushi.Feed.FeedActivity;
+import com.example.shibushi.Outfits.Adapters.SingleOutfitAdapter;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.FirestoreMethods;
 import com.google.android.gms.tasks.OnSuccessListener;
