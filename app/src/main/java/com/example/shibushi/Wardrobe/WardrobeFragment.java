@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
+import com.example.shibushi.Utils.Wardrobe.WardrobeAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,7 +34,7 @@ public class WardrobeFragment extends Fragment {
     View rootView;
     private Model.DataSource dataSource;
     private RecyclerView recyclerView;
-    private imageAdapter imageAdapter;
+    private com.example.shibushi.Utils.Wardrobe.WardrobeAdapter WardrobeAdapter;
     private static final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public static final FirebaseFirestore mFirestoreDB = FirebaseFirestore.getInstance();
     private static final String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
@@ -103,8 +104,8 @@ public class WardrobeFragment extends Fragment {
                                         image_name.add(cloth.getImg_name());
                                         dataSource = new Model.DataSource(images, image_name);
                                         Log.i("Wardrobe", "get "+ dataSource.count() +" images");
-                                        imageAdapter = new imageAdapter(recyclerView.getContext(), dataSource, Container.w);
-                                        recyclerView.setAdapter(imageAdapter);
+                                        WardrobeAdapter = new WardrobeAdapter(recyclerView.getContext(), dataSource, Container.w);
+                                        recyclerView.setAdapter(WardrobeAdapter);
                                         // set GridLayoutManager to show content in two columns
                                         recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
                                     });

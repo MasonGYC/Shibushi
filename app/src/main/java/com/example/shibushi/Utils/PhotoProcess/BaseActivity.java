@@ -1,4 +1,4 @@
-package com.example.shibushi.PhotoProcess;
+package com.example.shibushi.Utils.PhotoProcess;
 
 import android.content.DialogInterface;
 

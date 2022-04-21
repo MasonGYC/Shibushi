@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Model {
     public static class DataSource{
-        List<String> data_name = new ArrayList<>();
-        List<Img> data = new ArrayList<>();
+        public List<String> data_name = new ArrayList<>();
+        public List<Img> data = new ArrayList<>();
         public DataSource(){}
         public DataSource(List<Img> data, List<String> data_name){
             this.data_name = data_name;

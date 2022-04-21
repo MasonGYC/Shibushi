@@ -1,4 +1,4 @@
-package com.example.shibushi.Wardrobe;
+package com.example.shibushi.Utils.Wardrobe;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.R;
+import com.example.shibushi.Wardrobe.Model;
+import com.example.shibushi.Wardrobe.ViewWardrobeActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -28,14 +30,14 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class imageAdapter extends RecyclerView.Adapter<imageAdapter.imageViewHolder> {
+public class WardrobeAdapter extends RecyclerView.Adapter<WardrobeAdapter.imageViewHolder> {
     Context context;
     LayoutInflater inflater;
     Model.DataSource dataSource;
     int width;
     public static ArrayList<cClothing> selectedItems = new ArrayList<>();
 
-    public imageAdapter(Context context, Model.DataSource dataSource, int width){
+    public WardrobeAdapter(Context context, Model.DataSource dataSource, int width){
         this.width = width;
         this.context = context;
         this.dataSource = dataSource;

@@ -1,4 +1,4 @@
-package com.example.shibushi.Wardrobe;
+package com.example.shibushi.Utils.Wardrobe;
 
 import android.content.Context;
 import android.graphics.Bitmap;

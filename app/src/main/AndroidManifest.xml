@@ -78,7 +78,7 @@
             android:theme="@style/Theme.AppCompat.Light"
             android:exported="true"/>
         <activity
-            android:name=".Feed.Profile.ChangePassword"
+            android:name=".Feed.Profile.ChangePasswordActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".Feed.Profile.AccountSettingsActivity"
             android:theme="@style/Theme.AppCompat.Light" />
@@ -110,16 +110,16 @@
 
         <!--Photo Process-->
         <activity
-            android:name=".PhotoProcess.CropActivity"
+            android:name=".Utils.PhotoProcess.CropActivity"
             android:screenOrientation="portrait"
             android:exported="true" />
         <activity
-            android:name=".PhotoProcess.ResultActivity"
+            android:name=".Utils.PhotoProcess.ResultActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:parentActivityName=".Wardrobe.ViewWardrobeActivity" />
         <activity
-            android:name=".PhotoProcess.BaseActivity"
+            android:name=".Utils.PhotoProcess.BaseActivity"
             android:screenOrientation="portrait"
             android:exported="true" />
 

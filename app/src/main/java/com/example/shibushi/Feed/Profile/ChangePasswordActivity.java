@@ -19,7 +19,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ChangePassword extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
     TextView passwordOld;
     TextView password1;
     TextView password2;
@@ -40,14 +40,14 @@ public class ChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (password1.getText().toString().length() < 6){
-                    Toast.makeText(ChangePassword.this,"Fail: password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangePasswordActivity.this,"Fail: password must be at least 6 characters", Toast.LENGTH_SHORT).show();
                     Log.i("CHANGE PASSWORD", "Fail: password too short");
                     password1.requestFocus();
                     password1.setError("password must be at least 6 characters");
                 }
 
                 else if (!password1.getText().toString().equals(password2.getText().toString())){
-                    Toast.makeText(ChangePassword.this,"Fail: password doesn't match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangePasswordActivity.this,"Fail: password doesn't match", Toast.LENGTH_SHORT).show();
                     Log.i("CHANGE PASSWORD", "Fail: password doesn't match");
                     password2.requestFocus();
                     password2.setError("two new passwords must be the same!");
@@ -70,18 +70,18 @@ public class ChangePassword extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (!task.isSuccessful()){
                                             Log.i("CHANGE PASSWORD", "Fail: unknown failure");
-                                            Toast.makeText(ChangePassword.this, "Fail to change password. Please try again later.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ChangePasswordActivity.this, "Fail to change password. Please try again later.", Toast.LENGTH_LONG).show();
                                         }
                                         else{
-                                            Toast.makeText(ChangePassword.this, "Password updated successfully!", Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(ChangePassword.this, EditProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                            Toast.makeText(ChangePasswordActivity.this, "Password updated successfully!", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(ChangePasswordActivity.this, EditProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                         }
                                     }
                                 });
                             }
                             else{
                                 Log.i("CHANGE PASSWORD", "Fail: old password invalid");
-                                Toast.makeText(ChangePassword.this, "Fail to change password. Please ensure that you input the correct old password", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ChangePasswordActivity.this, "Fail to change password. Please ensure that you input the correct old password", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

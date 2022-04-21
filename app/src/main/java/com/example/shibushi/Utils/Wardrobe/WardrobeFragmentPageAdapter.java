@@ -1,4 +1,4 @@
-package com.example.shibushi.Wardrobe;
+package com.example.shibushi.Utils.Wardrobe;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,9 +8,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
 
-public class FragmentPageAdapter extends FragmentStateAdapter {
+public class WardrobeFragmentPageAdapter extends FragmentStateAdapter {
     List<Fragment> fragmentList;
-    public FragmentPageAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, List<Fragment> fragments) {
+    public WardrobeFragmentPageAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, List<Fragment> fragments) {
         super(fragmentManager, lifecycle);
         fragmentList = fragments;
     }

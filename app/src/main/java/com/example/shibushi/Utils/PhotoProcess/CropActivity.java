@@ -1,6 +1,5 @@
-package com.example.shibushi.PhotoProcess;
+package com.example.shibushi.Utils.PhotoProcess;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -13,16 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 

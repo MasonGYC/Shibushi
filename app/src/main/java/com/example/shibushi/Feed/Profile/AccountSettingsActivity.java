@@ -56,7 +56,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else if (i == 1) {
                     // Change Password
-                    Intent intent = new Intent(AccountSettingsActivity.this, ChangePassword.class);
+                    Intent intent = new Intent(AccountSettingsActivity.this, ChangePasswordActivity.class);
                     startActivity(intent);
                 } else {
                     // Sign Out

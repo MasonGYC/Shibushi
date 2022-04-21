@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shibushi.R;
-import com.example.shibushi.Wardrobe.UtilsFetchBitmap;
-import com.example.shibushi.Wardrobe.imageAdapter;
+import com.example.shibushi.Utils.Wardrobe.UtilsFetchBitmap;
+import com.example.shibushi.Utils.Wardrobe.WardrobeAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -56,8 +56,8 @@ public class SingleOutfitAdapter extends RecyclerView.Adapter<SingleOutfitAdapte
         executor = Executors.newSingleThreadExecutor();
         final Handler handler = new Handler(Looper.myLooper());
         executor.execute(() -> {
-            final imageAdapter.Container<Bitmap> cBitmap = new imageAdapter.Container<>();
-            final imageAdapter.Container<String> cUri = new imageAdapter.Container<>();
+            final WardrobeAdapter.Container<Bitmap> cBitmap = new WardrobeAdapter.Container<>();
+            final WardrobeAdapter.Container<String> cUri = new WardrobeAdapter.Container<>();
             try {
                 URL url = new URL(url_s);
                 Bitmap bitmap = UtilsFetchBitmap.getBitmap(url);

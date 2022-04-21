@@ -20,8 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shibushi.Models.cUsers;
-import com.example.shibushi.PhotoProcess.CropActivity;
-import com.example.shibushi.PhotoProcess.ResultActivity;
+import com.example.shibushi.Utils.PhotoProcess.CropActivity;
+import com.example.shibushi.Utils.PhotoProcess.ResultActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.FirestoreMethods;
 import com.example.shibushi.Utils.UniversalImageLoader;

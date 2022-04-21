@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shibushi.Feed.Profile.ProfileActivity;
 import com.example.shibushi.Models.cOutfits;
 import com.example.shibushi.Models.cUsers;
-import com.example.shibushi.PhotoProcess.CropActivity;
+import com.example.shibushi.Utils.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.Feed.FeedParentAdapter;

@@ -19,13 +19,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.shibushi.Feed.FeedActivity;
 import com.example.shibushi.Models.cClothing;
 import com.example.shibushi.Outfits.ViewOutfitsParentActivity;
-import com.example.shibushi.PhotoProcess.CropActivity;
+import com.example.shibushi.Utils.PhotoProcess.CropActivity;
 import com.example.shibushi.R;
 import com.example.shibushi.Utils.BottomNavigationViewHelper;
 import com.example.shibushi.Utils.FirestoreMethods;
+import com.example.shibushi.Utils.Wardrobe.WardrobeAdapter;
+import com.example.shibushi.Utils.Wardrobe.WardrobeFragmentPageAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
         fragments.add(WardrobeFragment.newInstance(clothes, "Top"));    // clothes
         fragments.add(WardrobeFragment.newInstance(bottoms, "Bottom"));    // bottoms
         fragments.add(WardrobeFragment.newInstance(accessories, "Accessories"));    // accessories
-        FragmentPageAdapter pageAdapter = new FragmentPageAdapter(getSupportFragmentManager(), getLifecycle(), fragments);
+        WardrobeFragmentPageAdapter pageAdapter = new WardrobeFragmentPageAdapter(getSupportFragmentManager(), getLifecycle(), fragments);
         viewPager.setAdapter(pageAdapter);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -223,7 +224,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
     public void initDeleteClothFunction(){
         delete_cloth_button = findViewById(R.id.wardrobe_delete);
         delete_cloth_button.setOnClickListener(view -> {
-            if (imageAdapter.selectedItems.size()!=0){
+            if (WardrobeAdapter.selectedItems.size()!=0){
                 if (dialog==null) {
                     LayoutInflater inflater = LayoutInflater.from(getApplication());
                     View view_pop_out = inflater.inflate(R.layout.pop_out_delete_clothes, null);
@@ -239,7 +240,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                     cancel_delete.setOnClickListener(view1 -> dialog.hide());
                     assert confirm_delete != null;
                     confirm_delete.setOnClickListener(view12 -> {
-                        for (cClothing c:imageAdapter.selectedItems){
+                        for (cClothing c: WardrobeAdapter.selectedItems){
                             String img_name = c.getImg_name();
                             FirestoreMethods.deleteClothes(img_name);
                         }
@@ -277,7 +278,7 @@ public class ViewWardrobeActivity extends AppCompatActivity implements View.OnCl
                 String name = create_outfit_name.getText().toString();
                 isChoosing = false;
                 // process data
-                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CREATE, imageAdapter.selectedItems);
+                intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CREATE, WardrobeAdapter.selectedItems);
                 intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_CAT, category);
                 intent.putExtra(ViewOutfitsParentActivity.KEY_OUTFIT_NAME, name);
                 startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
