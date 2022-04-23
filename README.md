@@ -19,8 +19,7 @@ Unleash your creativity. Make a moodboard for every vibe!
 
 Browse and share outfits with friends!  
 
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/feed.png" width="200">
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/popup.png" width="200">  
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/feed.png" width="200"><img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/popup.png" width="200">  
 
 ## Design and Structure
 <img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/datapath_android.jpg">
