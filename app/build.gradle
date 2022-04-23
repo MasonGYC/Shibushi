@@ -47,9 +47,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:29.2.1')
-    //MLKit
-    implementation 'com.google.mlkit:image-labeling:17.0.7'
-    implementation 'com.google.android.gms:play-services-mlkit-image-labeling:16.0.7'
 
     // Add the dependency for the Firebase SDK for Google Analytics
     // When using the BoM, don't specify versions in Firebase dependencies
@@ -80,7 +77,6 @@ dependencies {
     //crop
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
 
-    //implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
     implementation 'com.google.firebase:firebase-core:20.1.2'
     //jackson
