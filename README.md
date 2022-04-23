@@ -7,23 +7,23 @@ Shibushi (试不试) is a virtual wardrobe app designed to help you organise you
 #### Tag It
 Upload, tag and organise your wardrobe.  
 
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/joshua-test-branch/README_img/tag_it.png" width="200">
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/tag_it.png" width="200">
 
 #### Build Your Fit
 
 Unleash your creativity. Make a moodboard for every vibe!  
 
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/joshua-test-branch/README_img/outfit.png" width="200">
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/outfit.png" width="200">
 
 #### Community 
 
 Browse and share outfits with friends!  
 
 <img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/feed.png" width="200">
-
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/popup.png" width="200">  
 
 ## Design and Structure
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/datapath_android.jpg" width="200">
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/datapath_android.jpg">
 
 ### Cloud Data Structure
 We used two databases from Firebase - **Cloud Storage** and **Cloud Firestore**. The reason was that Cloud Storage was better suited for image storage with higher storage capacity and could natively handle JPEG and PNG images. Clothing metadata was stored on Cloud Firestore due to more comprehensive queries, and to consolidate with user and outfits metadata.  
