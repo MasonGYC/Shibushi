@@ -72,6 +72,7 @@ Since processing and loading photos takes time, we added ExecutorService to load
 - Java
 
 ## Contributors
+TEAM 3B
 - Guo Yuchen 1004885
 - Jolin Teo Hui Lyn 1005344
 - Joshua Ng Tze Wee 1005285
