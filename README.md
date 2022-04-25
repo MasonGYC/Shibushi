@@ -2,15 +2,6 @@
 
 Shibushi (试不试) is a virtual wardrobe app designed to help you organise your wardrobe, plan your fits and share them with a like-minded community! This app was submitted for the 1D project during the 50.001 Information Systems & Programming course in SUTD, Spring 2022.  
 
-## Contributors
-TEAM 3B
-- Guo Yuchen 1004885
-- Jolin Teo Hui Lyn 1005344
-- Joshua Ng Tze Wee 1005285
-- Samuel Chiang Wenbin 1005142
-- Xiang Siqi 1004875
-- Wang Yueheng 1004866
-- Wang Zhao 1005460
 
 ## Features
 
@@ -83,14 +74,23 @@ Since processing and loading photos takes time, we added ExecutorService to load
 
 
 ## External Libraries
-1. uCrop module https://github.com/Yalantis/uCrop 
-2. uCrop sample activities  https://github.com/Yalantis/uCrop  
-3. Interactive floating action button https://github.com/zendesk/android-floating-action-button  
-4. Universal Image Loader https://github.com/nostra13/Android-Universal-Image-Loader  
-5. Glide https://github.com/bumptech/glide  
-6. Circle Image View https://github.com/hdodenhof/CircleImageView  
-7. Jackson Object Mapper https://github.com/FasterXML/jackson  
-8. Picasso Picasso (square.github.io)  
+1. uCrop module and sample activities https://github.com/Yalantis/uCrop  
+2. Interactive floating action button https://github.com/zendesk/android-floating-action-button  
+3. Universal Image Loader https://github.com/nostra13/Android-Universal-Image-Loader  
+4. Glide https://github.com/bumptech/glide  
+5. Circle Image View https://github.com/hdodenhof/CircleImageView  
+6. Jackson Object Mapper https://github.com/FasterXML/jackson  
+7. Picasso https://square.github.io/ 
+
+## Contributors
+TEAM 3B
+- Guo Yuchen 1004885
+- Jolin Teo Hui Lyn 1005344
+- Joshua Ng Tze Wee 1005285
+- Samuel Chiang Wenbin 1005142
+- Xiang Siqi 1004875
+- Wang Yueheng 1004866
+- Wang Zhao 1005460
 
 ## License
 
