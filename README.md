@@ -2,6 +2,8 @@
 
 Shibushi (试不试) is a virtual wardrobe app designed to help you organise your wardrobe, plan your fits and share them with a like-minded community! This app was submitted for the 1D project during the 50.001 Information Systems & Programming course in SUTD, Spring 2022.  
 
+[![50.001 Shibushi 试不试?](https://img.youtube.com/vi/DHQ5yMLG0yE/0.jpg)](https://www.youtube.com/watch?v=DHQ5yMLG0yE "50.001 Shibushi 试不试? - Click to Watch!")
+
 
 ## Features
 
