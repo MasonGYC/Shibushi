@@ -2,7 +2,17 @@
 
 Shibushi (试不试) is a virtual wardrobe app designed to help you organise your wardrobe, plan your fits and share them with a like-minded community! This app was submitted for the 1D project during the 50.001 Information Systems & Programming course in SUTD, Spring 2022.  
 
-### Features
+## Contributors
+TEAM 3B
+- Guo Yuchen 1004885
+- Jolin Teo Hui Lyn 1005344
+- Joshua Ng Tze Wee 1005285
+- Samuel Chiang Wenbin 1005142
+- Xiang Siqi 1004875
+- Wang Yueheng 1004866
+- Wang Zhao 1005460
+
+## Features
 
 #### Tag It
 Upload, tag and organise your wardrobe.  
@@ -71,15 +81,6 @@ Since processing and loading photos takes time, we added ExecutorService to load
 - Firebase Authentication
 - Java
 
-## Contributors
-TEAM 3B
-- Guo Yuchen 1004885
-- Jolin Teo Hui Lyn 1005344
-- Joshua Ng Tze Wee 1005285
-- Samuel Chiang Wenbin 1005142
-- Xiang Siqi 1004875
-- Wang Yue Heng 1004866
-- Wang Zhao 1005460
 
 ## External Libraries
 1. uCrop module https://github.com/Yalantis/uCrop 
