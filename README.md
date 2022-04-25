@@ -7,20 +7,21 @@ Shibushi (试不试) is a virtual wardrobe app designed to help you organise you
 
 #### Tag It
 Upload, tag and organise your wardrobe.  
-
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/tag_it.png" width="200">
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/tagit_720.gif?raw=true" width="300">
 
 #### Build Your Fit
 
 Unleash your creativity. Make a moodboard for every vibe!  
-
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/outfit.png" width="200">
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/outfit.gif?raw=true" width="300">
 
 #### Community 
 
 Browse and share outfits with friends!  
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/community.gif?raw=true" width="300">  
 
-<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/feed.png" width="200"><img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/popup.png" width="200">  
+Customise your profile!  
+<img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/edit_profile.gif?raw=true" width="300">  
+
 
 ## Design and Structure
 <img src="https://github.com/MasonGYC/50.001-info-sys/blob/main/images/datapath_android.jpg">
