@@ -34,7 +34,7 @@ We used two databases from Firebase - **Cloud Storage** and **Cloud Firestore**.
 For Cloud Firestore, we have 3 collections: **cUsers**, **cClothes** and **cOutfits** which holds the metadata for a user, clothing and outfit respectively. All images are stored under the images folder in Firebase Storage.  
 
 #### cClothes
-Each clothing is stored as a document containing its metadata such as _colour_, _category_, _size_ and _occasion_. The field “userid'' helps us identify the owner of that clothing. _Creation time_ as a timestamp object for tracking purposes, and most importantly the _img_name_ which is used as a reference to the image of the clothing stored in cloud storage.  
+Each clothing is stored as a document containing its metadata such as _colour_, _category_, _size_ and _occasion_. The field _userid_ helps us identify the owner of that clothing. _Creation time_ as a timestamp object for tracking purposes, and most importantly the _img_name_ which is used as a reference to the image of the clothing stored in cloud storage.  
 
 #### cOutfits
 Each outfit is stored as a document containing its _name_, _userid_ of the owner, _timestamp_ of its creation time, unique _outfitID_ which is used to reference the outfit document, and _category_. For fast referencing to the images in cloud storage, we also stored an _img_names_ array containing the image names of all clothing in a single outfit. Furthermore, under _item_ is an array of all the clothing documents that are part of the outfit which could be used for outfit classifications.  
